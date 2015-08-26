@@ -1,0 +1,8 @@
+//not used right now....
+.modal-header
+    h4.modal-title #{text.newMerchantInflow}
+.modal-body
+    merchant-inflow(inflow="inflow", form="inflowForm")
+.modal-footer
+    button.btn.btn-success(ng-disabled="inflowForm.$invalid || saveButtonDisabled",spinner="save()") #{text.save}
+    button.btn.btn-danger(ng-click="close()") #{text.cancel}

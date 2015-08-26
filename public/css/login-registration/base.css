@@ -1,0 +1,47 @@
+html{
+    min-height:100%;
+}
+body {
+    background: url('/images/login.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.credentials-form {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.credentials-form .credentials-form-heading,
+.credentials-form .checkbox {
+    margin-bottom: 10px;
+}
+.credentials-form .checkbox {
+    font-weight: normal;
+}
+.credentials-form .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+.credentials-form .form-control:focus {
+    z-index: 2;
+}
+.credentials-form input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.credentials-form input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}

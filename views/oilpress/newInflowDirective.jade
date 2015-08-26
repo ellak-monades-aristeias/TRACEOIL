@@ -1,0 +1,81 @@
+.hidden {{getMessages(#{JSON.stringify(text.inflowJS)})}}
+//new inflow panel form
+#newInflowFormPanel.panel.panel-success(ng-show="newInflowFormActive",class="ng-hide")
+    .panel-heading
+        h4#newInflowHeader.panel-title #{text.newProducerInflow}
+    .panel-body
+        p.help-block #{text.newInflowInstructions}
+        p.help-block #{text.requiredFields}
+        form#newInflowForm.form-horizontal(role="form", name="newInflowForm", novalidate)
+            .form-group(ng-class="{'has-error' : newInflowForm.producer_afm.$invalid && !newInflowForm.producer_afm.$pristine,'has-warning':newInflowForm.producer_afm.$pristine}")
+                label.col-sm-3.control-label(for="newInflowProducer") #{text.producer}
+                .col-sm-9
+                    input#newInflowProducer.form-control(type="text",name="producer_afm", ng-minlength="9",ng-maxlength="9", maxlength="9",required, ng-model="newInflow.producer_afm", placeholder=text.inflowProducerPlaceholder, ng-change="showProducerLands=false")
+                    p(ng-show="newInflowForm.producer_afm.$invalid && !newInflowForm.producer_afm.$pristine",class="help-block") #{text.producerAFMError}
+                //input#newInflowProducerID.form-control(type="hidden", name="producer_id", ng-model="newInflow.producer_id")
+            .form-group
+                label(for="newInflowDescription").col-sm-3.control-label #{text.description}
+                .col-sm-9
+                    input#newInflowDescription.form-control(type="text", name="description",ng-model="newInflow.description")
+            .form-group
+                label.col-sm-3.control-label(for="newInflowInvoiceNo") #{text.invoice_no}
+                .col-sm-9
+                    input#newInflowInvoiceNo.form-control(type="text",name="invoice_no",ng-model="newInflow.invoice_no")
+            .form-group(ng-class="{'has-error' : newInflowForm.land_osde.$invalid && !newInflowForm.land_osde.$pristine}")
+                label.col-sm-3.control-label(for="newInflowLandOsdeText") #{text.newInflowOSDE}
+                .col-sm-9
+                    .input-group
+                        input#newInflowLandOsdeText.form-control(type="text",name="land_osde",ng-minlength="13", ng-maxlength="13",ng-model="newInflow.land_osde")
+                        span.input-group-btn
+                            button#searchProducerLands.btn.btn-default(type="button", ng-click="searchOSDE();showProducerLands=true", ng-disabled="newInflowForm.producer_afm.$invalid", title = text.searchProducerLands)
+                                span.glyphicon.glyphicon-search
+                    #producerLands(ng-show="!newInflowForm.producer_afm.$invalid && showProducerLands")
+                        .alert-warning(role="alert", ng-show="producer_lands.length <=0") #{text.noProducerLands}
+                        table.table(ng-show="producer_lands.length > 0")
+                            thead
+                                th #{text.availableOSDE}
+                            tbody
+                                tr(ng-repeat="producer_land in producer_lands")
+                                    td
+                                        a(href ="#", ng-click="newInflow.land_osde=producer_land") {{producer_land}}
+                    p.help-block(ng-show="newInflowForm.land_osde.$invalid && !newInflowForm.land_osde.$pristine") #{text.invalidOSDE}
+                //input#newInflowLandOsde.form-control(type="hidden",name="land_id",ng-model="newInflow.land_id")
+            .form-group(ng-class="{'has-error' : newInflowForm.inflow_date.$invalid && !newInflowForm.inflow_date.$pristine}")
+                date-time-picker(date-model="newInflow.inflow_date", element-name="inflow_date", date-format="dd/MM/yyyy",max-date="maxDate",date-label-text=text.date,time-label-text=text.time,is-required="true",form-name="newInflowForm",missing-date-text=text.noDate)
+            .form-group
+                label(for="newInflowQuantityReceived").col-sm-3.control-label #{text.quantity_received}
+                .col-sm-9
+                    .input-group
+                        input#newInflowQuantityReceived.form-control(type="number", name="quantity_received",ng-model="newInflow.quantity_received",min=0)
+                        span.input-group-addon kg
+            .form-group(ng-class="{'has-error' : newInflowForm.quantity_produced.$invalid && !newInflowForm.quantity_produced.$pristine,'has-warning':newInflowForm.quantity_produced.$pristine}")
+                label(for="newInflowQuantityProduced").col-sm-3.control-label #{text.quantity_produced}
+                .col-sm-9
+                    .input-group
+                        input#newInflowQuantityProduced.form-control(type="number", name="quantity_produced",min=0, required, ng-model="newInflow.quantity_produced")
+                        span.input-group-addon kg
+                    p(ng-show="newInflowForm.quantity_produced.$invalid && !newInflowForm.quantity_produced.$pristine",class="help-block") #{text.missingInflowQuantityProduced}
+            .form-group(ng-class="{'has-error' : ((newInflowForm.tank_id.$invalid && !newInflowForm.tank_id.$pristine)||oilpressTanks.length === 0),'has-warning':newInflowForm.tank_id.$pristine}")
+                label(for="newInflowDestinationTank").col-sm-3.control-label #{text.destinationTank}
+                .col-sm-9
+                    select#newInflowDestinationTank.form-control(ng-options="tank.tank_id as (tank.tank_no +(tank.description?' - '+tank.description:'')) for tank in oilpressTanks",name="tank_id", required, ng-model="newInflow.tank_id")
+                    p.help-block(ng-show="newInflowForm.tank_id.$invalid && !newInflowForm.tank_id.$pristine") #{text.missingInflowTank}
+                    p.help-block(ng-show="oilpressTanks.length === 0") #{text.noTanksInOilpress}
+            .form-group
+                label(for="newInflowSustainability").col-sm-3.control-label #{text.sustainability}
+                .col-sm-9
+                    .input-group
+                        input#newInflowSustainability.form-control(type="number", name="sustainability",min=0,max=100, ng-model="newInflow.sustainability")
+                        span.input-group-addon %
+                    progressbar.progress-striped.active(value="newInflow.sustainability", max="100") {{newInflow.sustainability}}%
+            .form-group
+                label(for="newInflowAcidity").col-sm-3.control-label #{text.acidity}
+                .col-sm-9
+                    input#newInflowAcidity.form-control(type="number",name="acidity",min=0, ng-model="newInflow.acidity")
+    .panel-footer.clearfix
+        button#closeNewInflowForm.btn.btn-danger.pull-right(type="button",ng-click="toggleNewInflowForm(false)") #{text.cancel}
+        button#saveNewInflowForm.btn.btn-success.pull-right(type="button", spinner="processNewInflow()", ng-disabled="newInflowForm.$invalid") #{text.save}
+
+button#newInflowReceive.btn.btn-success(type="button", ng-click="toggleNewInflowForm(true)")
+    span.glyphicon.glyphicon-plus
+    |#{text.newInflow}

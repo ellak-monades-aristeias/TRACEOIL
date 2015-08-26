@@ -1,0 +1,26 @@
+#changePasswordForm{
+    margin-top:10px;
+}
+
+span.glyphicon{
+    margin-right:5px;
+}
+
+#changePasswordContainer.ng-hide{
+    line-height:0;
+    opacity:0;
+    padding:0;
+}
+
+#changePasswordContainer.ng-hide-add.ng-hide-add-active,
+#changePasswordContainer.ng-hide-remove.ng-hide-remove-active{
+    -webkit-transition: all linear 0.2s;
+    -moz-transition: all linear 0.2s;
+    -ms-transition: all linear 0.2s;
+    -o-transition: all linear 0.2s;
+    transition: all linear 0.2s;
+}
+
+#changePasswordButtons button{
+    margin-top:10px;
+}

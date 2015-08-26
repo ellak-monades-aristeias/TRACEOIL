@@ -1,0 +1,17 @@
+span.outflow-sustainability{
+    font-weight:bold;
+    color:green;
+}
+span.outflow-acidity{
+    font-weight:bold;
+    color: #576a08;
+}
+span.oilpress-quantity{
+    font-weight:bold;
+    color: blue;
+}
+
+#outflowContentDetails{
+    font-weight: bold;
+    margin-top:10px;
+}

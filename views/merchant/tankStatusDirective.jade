@@ -1,0 +1,17 @@
+ul#tankTotalStatus.list-group.col-xs-8
+    li.list-group-item
+        .row
+            .col-xs-8 #{text.tankQuantity}: <span class="tank-quantity">{{tank.total_quantity.toFixed(2)}} kg</span>
+            .col-xs-4
+                progressbar.progress-striped.active(type="success", value="tank.total_quantity", max="tank.capacity")
+    li.list-group-item
+        .row
+            .col-xs-8 #{text.tankSustainability}: <span class="tank-sustainability">{{tank.total_sustainability | number:0}}%</span>
+            .col-xs-4
+                progressbar.progress-striped.active(value="tank.total_sustainability", max="100", type="success")
+    li.list-group-item #{text.tankAcidity}: <span class="tank-acidity">{{tank.total_acidity.toFixed(2)}}%</span>
+.tankWrapper.col-xs-4
+    //.tankPercentage {{(tank.total_quantity/tank.capacity*100).toFixed(2)}}%
+    .tankContainer
+        .tankAmount {{(tank.total_quantity/tank.capacity*100).toFixed(2)}}%
+        .content(ng-style="{height:tank.total_quantity/tank.capacity*100+'%'}")

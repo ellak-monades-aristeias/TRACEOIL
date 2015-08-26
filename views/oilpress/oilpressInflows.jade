@@ -1,0 +1,105 @@
+.container(ng-controller="inflowsCtrl")
+    #new-content.row
+        #newInflowSection.col-xs-12.col-md-6
+            new-inflow
+            |&nbsp;
+            button.btn.btn-default(ng-click="toggleSearch()")
+                span.glyphicon.glyphicon-search #{text.search}
+            |&nbsp;
+            button.btn.btn-default(ng-click="restoreInflows()")
+                span.glyphicon.glyphicon-refresh #{text.reset}
+        #searchInflowSection.col-xs-12.col-md-6(ng-show="searchVisible")
+            .panel
+                .panel-heading
+                    h4.panel-title #{text.search}
+                .panel-body
+                    form#searchInflowForm.form-horizontal(role="form",name="searchInflowForm",novalidate)
+                        .form-group
+                            label.col-md-2.control-label(for="searchID") ID
+                            .col-md-4
+                                input#searchID.form-control(type="number", name="searchID", ng-model="searchID")
+                        .form-group
+                            label.col-md-2.control-label(for="searchFirstName") #{text.name}
+                            .col-md-10
+                                input#searchFirstName.form-control(type="text",name="searchFirstName",ng-model="searchFirstName")
+                        .form-group
+                            label.col-md-2.control-label(for="searchLastName") #{text.surname}
+                            .col-md-10
+                                input#searchLastName.form-control(type="text",name="searchLastName",ng-model="searchLastName")
+                        .form-group
+                            label.col-md-2.control-label(for="searchAFM") #{text.afm}
+                            .col-md-10
+                                input#searchAFM.form-control(type="text",name="searchAFM",ng-model="searchAFM",maxlength=9)
+                        .form-group
+                            label.col-md-2.control-label(for="searchInvoiceNo") #{text.invoice_no}
+                            .col-md-10
+                                input#searchInvoiceNo.form-control(type="text",name="searchInvoiceNo", ng-model="searchInvoiceNo")
+                        //.form-group
+                            label.col-sm-2.control-label(for="searchOSDE") #{text.osde}
+                            .col-sm-10
+                                input#searchOSDE.form-control(type="text",name="searchOSDE",ng-model="searchOSDE", max-length=13)
+                        .form-group
+                            label.col-md-2.control-label(for="searchTank") #{text.tank}
+                            .col-md-10
+                                select#searchTank.form-control(name="searchTank",ng-model="searchTank", ng-options="tank.tank_id as (tank.tank_no+': '+tank.description) for tank in oilpressTanks")
+                        .form-group
+                            label.col-md-2.control-label(for="searchDescription") #{text.description}
+                            .col-md-10
+                                input#searchDescription.form-control(type="text",name="searchDescription",ng-model="searchDescription")
+                        .form-group
+                            label.col-md-2.control-label(for="searchFrom") #{text.fromDate}
+                            .col-md-10
+                                //input#searchFrom.form-control(type="date",name="searchFrom",ng-model="searchFrom")
+                                .input-group
+                                    input.form-control(ng-attr-id="searchFrom",type="text",readonly,is-open="datePopupOpenFrom",datepicker-popup="dd/MM/yyyy",format-month="MM",max-date="maxDate",close-text=text.close,current-text=text.today, clear-text=text.clear, ng-attr-name="searchFrom",ng-model="searchFrom")
+                                    span.input-group-btn
+                                        button.btn.btn-default(type="button",ng-click="openDatePopupFrom($event)")
+                                            i.glyphicon.glyphicon-calendar
+                        .form-group
+                            label.col-md-2.control-label(for="searchTo") #{text.toDate}
+                            .col-md-10
+                                //input#searchTo.form-control(type="date",name="searchTo",ng-model="searchTo")
+                                .input-group
+                                    input.form-control(ng-attr-id="searchTo",type="text",readonly,is-open="datePopupOpenTo",datepicker-popup="dd/MM/yyyy",format-month="MM",max-date="maxDate",close-text=text.close,current-text=text.today, clear-text=text.clear, ng-attr-name="searchTo",ng-model="searchTo")
+                                    span.input-group-btn
+                                        button.btn.btn-default(type="button",ng-click="openDatePopupTo($event)")
+                                            i.glyphicon.glyphicon-calendar
+                .panel-footer
+                    button.btn.btn-default(ng-click="searchInflows()")
+                        span.glyphicon.glyphicon-search #{text.find}
+                    button.btn.btn-danger(ng-click="toggleSearch(false)")
+                        span.glyphicon.glyphicon-remove #{text.cancel}
+
+    #existingContent.row
+        #existingInflowsContainer.col-md-12
+            //my-inflows
+            .panel
+                .alert.alert-warning(role="alert", ng-show="currentInflows.length<=0") #{text.noInflows}
+                #no-more-tables.panel-body.table-responsive
+                    table.table.table-striped
+                        thead
+                            tr
+                                th ID
+                                th #{text.producer}
+                                th #{text.quantity_received} kg
+                                th #{text.quantity_produced} kg
+                                th #{text.sustainability} %
+                                th #{text.date}
+                                th.text-center #{text.options}
+                        tbody
+                            tr.existingInflowRow(ng-repeat="inflow in currentInflows")
+                                td.inflowID(data-title="ID") {{inflow.inflow_id}}
+                                td.inflowProducerName(data-title=text.producer)
+                                    a(href="#",ng-click="viewProducer(inflow.producer_id)") {{inflow.Producer.first_name}} {{inflow.Producer.last_name}}
+                                td.inflowQuantityReceived(data-title=text.quantity_received) {{inflow.quantity_received}}
+                                td.inflowQuantityProduced(data-title=text.quantity_produced) {{inflow.quantity_produced}}
+                                td.inflowSustainability(data-title=text.sustainability)
+                                    progressbar.progress-striped.active(value="inflow.sustainability", max="100", type="success") {{inflow.sustainability}}%
+                                td.inflowDate(data-title=text.date)  {{inflow.inflow_date | date : 'dd/MM/yyyy HH:mm'}}
+                                td.inflowAction.text-center(data-title=text.options)
+                                    button.btn.btn-default(ng-click="viewInflow(inflow)",title=text.inflowDetails)
+                                        span.glyphicon.glyphicon-list
+                                    button.btn.btn-danger(spinner="deleteInflow(inflow.inflow_id)",title=text.deleteInflow)
+                                        span.glyphicon.glyphicon-remove
+            pagination.pagination-sm(total-items="currentInflowsCount",ng-model="currentInflowsCurrentPage",previous-text!="&lsaquo;", next-text!="&rsaquo;", ng-change="pageChanged()")
+    .hidden {{getMessages(#{JSON.stringify(text.inflowJS)})}}

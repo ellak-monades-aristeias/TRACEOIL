@@ -1,0 +1,24 @@
+html{
+    min-height:100%;
+}
+body {
+    background-image: url('/images/merchantBack.jpg');
+    background-repeat: no-repeat;
+    background-position: center 51px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+button.btn {
+    margin-left:5px;
+}
+
+button span.glyphicon{
+    margin-right:5px;
+}
+
+.progressbarValue{
+    color:black;
+}

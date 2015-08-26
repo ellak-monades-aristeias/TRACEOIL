@@ -1,0 +1,48 @@
+.container
+    .row
+        .col-xs-12
+            h1 #{text.h1Header}
+    .row
+        .col-xs-12.col-sm-4
+            .input-group
+                span.input-group-addon #{text.date}
+                input#currentDate.form-control(readonly,my-current-time)
+
+    .row(ng-controller="homeLatestActionsCtrl")
+        .col-xs-12.col-sm-8
+            .panel.panel-success
+                .panel-heading
+                    h3#lastTransactionsHeader.panel-title #{text.lastTransactionsHeader}
+                .alert.alert-warning(role="alert",ng-hide="oilpressActions.length>0") #{text.noActions}
+                #no-more-tables.panel-body.table-responsive
+                    table.table.table-striped
+                        thead
+                            tr
+                                th #{text.actionType}
+                                th #{text.actionDate}
+                                th #{text.actionTargetSource}
+                                th #{text.actionTank}
+                        tbody
+                            tr(ng-repeat="action in oilpressActions")
+                                td.actionType(data-title=text.actionType)
+                                    span(ng-class="getActionClass(action.action)")
+                                    |{{actionTypes[action.action]}}
+                                td.actionDate(data-title=text.actionDate) {{action.action_date | date :'MM/dd/yyyy'}}
+                                td.actionTargetSource(data-title=text.actionTargetSource) {{action.action_subject_name}}
+                                td.actionTank(data-title=text.actionTank) {{action.tank_no+(action.description?' - '+action.description:'')}}
+        .hidden {{getActionTypes(#{JSON.stringify(text.actionText)})}}
+    .row(ng-controller="homeTankStatusCtrl")
+        .col-xs-12
+            .panel.panel-success
+                .panel-heading
+                    h3#tanksOverview.panel-title #{text.tanksOverview}
+                .alert.alert-warning(role="alert",ng-hide="oilpressTanks.length>0") #{text.noTanks}
+                .panel-body
+                    .row
+                        .col-xs-12.col-sm-6.col-md-4(ng-repeat="tank in oilpressTanks")
+                            .panel.panel-warning
+                                .panel-heading
+                                    h4.panel-title {{tank.tank_no+(tank.description?' - '+tank.description:'')}}
+                                .panel.body
+                                    tank-status(tank="tank")
+

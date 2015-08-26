@@ -1,0 +1,35 @@
+
+#totalSustainability{
+    color:green;
+}
+#totalAcidity{
+    color: green;
+}
+#totalQuantity{
+    font-weight:bold;
+    color:#939927;
+}
+span.oilpress-quantity{
+    font-weight:bold;
+    color: blue;
+}
+
+span.created-at{
+    float:right;
+}
+button.btn {
+    margin-left:5px;
+}
+
+button span.glyphicon{
+    margin-right:5px;
+}
+
+#noProducerDetails{
+    color:red;
+}
+
+#producersTable thead{
+    display: table-row-group;
+}
+

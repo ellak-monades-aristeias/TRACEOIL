@@ -1,0 +1,97 @@
+.container(ng-controller="inflowsCtrl")
+    .row
+        .col-xs-12
+            button.btn.btn-default(ng-click="toggleSearch()")
+                span.glyphicon.glyphicon-search #{text.search}
+            |&nbsp;
+            button.btn.btn-default(ng-click="restoreInflows()")
+                span.glyphicon.glyphicon-refresh #{text.reset}
+            |&nbsp;
+            button.btn.btn-default(ng-click="exportInflows()")
+                span.glyphicon.glyphicon-save #{text.export}
+    .row
+        #searchInflowPlaceHolder.col-xs-12.col-sm-6(ng-show="searchInflowFormActive")
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.searchInflow}
+                .panel-body
+                    form#searchInflowForm.form-horizontal(role="form",name="searchInflowForm",novalidate)
+                        .form-group
+                            label.col-sm-2.control-label(for="searchFirstName") #{text.firstname}
+                            .col-sm-10
+                                input#searchName.form-control(type="text",name="searchFirstName",ng-model="searchFirstName")
+                        .form-group
+                            label.col-sm-2.control-label(for="searchLastName") #{text.lastname}
+                            .col-sm-10
+                                input#searchName.form-control(type="text",name="searchLastName",ng-model="searchLastName")
+                        .form-group
+                            label.col-sm-2.control-label(for="searchAFM") #{text.afm}
+                            .col-sm-10
+                                input#searchAFM.form-control(type="text",name="searchAFM",ng-model="searchAFM", maxlength=9)
+                        .form-group
+                            label.col-sm-2.control-label(for="searchInvoiceNo") #{text.invoice_no}
+                            .col-sm-10
+                                input#searchInvoiceNo.form-control(type="text",name="searchInvoiceNo", ng-model="searchInvoiceNo")
+                        .form-group
+                            label.col-sm-2.control-label(for="oilcompany_lot") #{text.oilcompany_lot}
+                            .col-sm-10
+                                input#oilcompany_lot.form-control(type="text",name="oilcompany_lot", ng-model="searchLot")
+                        .form-group
+                            label.col-sm-2.control-label(for="notes") #{text.notes}
+                            .col-sm-10
+                                input#notes.form-control(type="text",name="notes", ng-model="searchNotes")
+                        .form-group
+                            label.col-sm-2.control-label(for="searchFrom") #{text.fromDate}
+                            .col-sm-10
+                                //input#searchFrom.form-control(type="date",name="searchFrom",ng-model="searchFrom")
+                                .input-group
+                                    input.form-control(ng-attr-id="searchFrom",type="text",readonly,is-open="datePopupOpenFrom",datepicker-popup="dd/MM/yyyy",format-month="MM",max-date="maxDate",close-text=text.close,current-text=text.today, clear-text=text.clear, ng-attr-name="searchFrom",ng-model="searchFrom")
+                                    span.input-group-btn
+                                        button.btn.btn-default(type="button",ng-click="openDatePopupFrom($event)")
+                                            i.glyphicon.glyphicon-calendar
+                        .form-group
+                            label.col-sm-2.control-label(for="searchTo") #{text.toDate}
+                            .col-sm-10
+                                //input#searchTo.form-control(type="date",name="searchTo",ng-model="searchTo")
+                                .input-group
+                                    input.form-control(ng-attr-id="searchTo",type="text",readonly,is-open="datePopupOpenTo",datepicker-popup="dd/MM/yyyy",format-month="MM",max-date="maxDate",close-text=text.close,current-text=text.today, clear-text=text.clear, ng-attr-name="searchTo",ng-model="searchTo")
+                                    span.input-group-btn
+                                        button.btn.btn-default(type="button",ng-click="openDatePopupTo($event)")
+                                            i.glyphicon.glyphicon-calendar
+                .panel-footer
+                    button.btn.btn-default(ng-click="searchInflows()")
+                        span.glyphicon.glyphicon-search
+                        span #{text.search}
+                    button.btn.btn-danger(ng-click="toggleSearch(false)")
+                        span.glyphicon.glyphicon-remove
+                        span #{text.cancel}
+    .row
+        .cols-xs-12
+            .panel.panel-default
+                .alert.alert-warning(role="alert", ng-show="currentInflows.length<=0") #{text.noInflows}
+                #no-more-tables.panel-body
+                    table.table.table-striped
+                        thead
+                            tr
+                                th #{text.merchant_company_name}
+                                th #{text.merchant}
+                                th #{text.invoice_no}
+                                th #{text.oilcompany_lot}
+                                th #{text.date}
+                                th #{text.quantity}
+                                th #{text.options}
+                        tbody
+                            tr(ng-repeat="inflow in currentInflows")
+                                td.inflowMerchantName(data-title=text.merchant_company_name) {{inflow.Merchant.name}}
+                                td.inflowMerchant(data-title=text.merchant) {{inflow.Merchant.first_name + ' ' + inflow.Merchant.last_name}}
+                                td.inflowInvoiceNo(data-title=text.invoice_no) {{inflow.invoice_no}}
+                                td.inflowLot(data-title=text.oilcompany_lot) {{inflow.oilcompany_lot}}
+                                td.inflowDate(data-title=text.date) {{inflow.inflow_date|date: 'dd/MM/yyyy HH:mm:ss'}}
+                                td.inflowQuantity(data-title=text.quantity) {{inflow.quantity}}
+                                td.inflowActions(data-title=text.options)
+                                    button.btn.btn-default(type="button",title=text.inflowDetails,ui-sref="inflows.inflowDetails({inflowID:inflow.merchant_id + '-' + inflow.inflow_id})")
+                                        span.glyphicon.glyphicon-list
+                                    button.btn.btn-default(type="button",title=text.printReport,ng-click="printInflow(inflow.inflow_id)")
+                                        span.glyphicon.glyphicon-print
+            pagination.pagination-sm(total-items="currentInflowsCount",ng-model="currentInflowsCurrentPage",previous-text!="&lsaquo;", next-text!="&rsaquo;", ng-change="pageChanged()")
+        .hidden {{getMessages(#{JSON.stringify(text.pageJS)})}}

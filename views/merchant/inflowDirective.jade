@@ -1,0 +1,72 @@
+form.form-horizontal(name="merchantInflowForm",role="form",novalidate)
+    p.help-block #{text.requiredFieldWarning}
+    //.form-group(ng-show="inflow.hasOwnProperty('inflow_id')")
+        label.col-sm-3.control-label(for="ID") ID
+        .col-sm-9
+            input.form-control(type="number",name="ID",ng-model="inflow.inflow_id",readonly)
+    .form-group.has-warning
+        label.col-sm-3.control-label(for="trader_type_id") #{text.trader_type}
+        .col-sm-9
+            select#trader_type_id.form-control(name="trader_type_id",ng-model="inflow.trader_type_id",ng-options="type.id as type.name for type in [{id:1,name:'#{text.producer}'},{id:2,name:'#{text.oilpress}'}]" ,required,ng-disabled="inflow.hasOwnProperty('inflow_id')")
+    .form-group.has-feedback(ng-hide="inflow.hasOwnProperty('inflow_id')",ng-class="{'has-success':merchantInflowForm.trader_afm.$valid,'has-warning':merchantInflowForm.trader_afm.$pristine,'has-error':merchantInflowForm.trader_afm.$invalid && !merchantInflowForm.trader_afm.$pristine}")
+        label.col-sm-3.control-label(for="trader_afm") #{text.trader_afm}
+        .col-sm-9
+            input#trader_afm.form-control(type="text", name="trader_afm", ng-model="inflow.trader_afm",ng-required="!inflow.hasOwnProperty('inflow_id')", ng-minlength=9, ng-maxlength=9,maxlength=9,minlength = 9,afm-exists="{{inflow.hasOwnProperty(trader_type_id)}}",user-type="{{inflow.trader_type_id||0}}", init-value="{{inflow.trader_afm}}" ng-readonly="inflow.hasOwnProperty('inflow_id')", ng-change="showProducerLands=false")
+            span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="merchantInflowForm.trader_afm.$valid")
+            span.glyphicon.glyphicon-remove.form-control-feedback(ng-show="merchantInflowForm.trader_afm.$invalid")
+            p.help-block(ng-show="merchantInflowForm.trader_afm.$invalid && !merchantInflowForm.trader_afm.$pristine && !merchantInflowForm.trader_afm.$error.afmExists") #{text.wrongAFM}
+            p.help-block(ng-show="merchantInflowForm.trader_afm.$error.afmExists") #{text.afmNotExists}
+    .form-group(ng-show="inflow.hasOwnProperty('inflow_id')")
+        label.col-sm-3.control-label(for="trader_name") #{text.trader_name}
+        .col-sm-9
+            input#trader_name.form-control(type="text",name="trader_name",ng-model="inflow.trader_name",readonly)
+    .form-group(ng-class="{'has-error' : merchantInflowForm.inflow_date.$invalid && !merchantInflowForm.inflow_date.$pristine}", ng-hide="inflow.createdBy === 'oilpress'")
+            date-time-picker(date-model="inflow.inflow_date", element-name="inflow_date", date-format="dd/MM/yyyy",max-date="maxDate",date-label-text=text.inflow_date,time-label-text=text.inflow_time,is-required="true",form-name="merchantInflowForm",missing-date-text=text.noDate)
+    .form-group(ng-show="inflow.createdBy === 'oilpress'")
+            label.col-sm-3.control-label(for="inflow_date") #{text.inflow_date}
+            .col-sm-9
+                input#inflow_date.form-control(type="text",  ng-value="inflow.inflow_date | date:'MM/dd/yyyy HH:mm:ss'", readonly)
+    .form-group
+        label.col-sm-3.control-label(for="invoice_no") #{text.invoice_no}
+        .col-sm-9
+            input#invoice_no.form-control(type="text",name="invoice_no",ng-model="inflow.invoice_no",ng-disabled="inflow.createdBy === 'oilpress'")
+    .form-group.has-warning
+        label.col-sm-3.control-label(for="quantity") #{text.quantity}
+        .col-sm-9
+            .input-group
+                input#quantity.form-control(type="number", name="quantity",ng-model="inflow.quantity",min=0,required,ng-disabled="inflow.trader_type_id !== 1 && inflow.hasOwnProperty('inflow_id')")
+                span.input-group-addon kg
+    .form-group
+        label.col-sm-3.control-label(for="tank_id") #{text.tank_id}
+        .col-sm-9
+            select#tank_id.form-control(ng-options="tank.tank_id as (tank.tank_no+(tank.description?' - '+tank.description:'')) for tank in merchantTanks",name="tank_id", ng-model="inflow.tank_id")
+    .form-group(ng-show="inflow.trader_type_id === 1")
+        label.col-sm-3.control-label(for="landOSDE") #{text.landOSDE}
+        .col-sm-9
+            .input-group
+                input#landOSDE.form-control(type="text",ng-model="inflow.landOSDE",minlength=13,maxlength=13)
+                span.input-group-btn
+                    button#searchProducerLands.btn.btn-default(type="button", ng-click="searchOSDE();showProducerLands=true", ng-disabled="merchantInflowForm.trader_afm.$invalid", title = text.searchProducerLands)
+                        span.glyphicon.glyphicon-search
+            #producerLands(ng-show="!merchantInflowForm.trader_afm.$invalid && showProducerLands")
+                .alert-warning(role="alert", ng-show="producer_lands.length <=0") #{text.noProducerLands}
+                table.table(ng-show="producer_lands.length > 0")
+                    thead
+                        th #{text.availableOSDE}
+                    tbody
+                        tr(ng-repeat="producer_land in producer_lands")
+                            td
+                                a(href ="#", ng-click="inflow.landOSDE=producer_land") {{producer_land}}
+    .form-group(ng-show="inflow.trader_type_id === 1")
+        label.col-sm-3.control-label(for="sustainability") #{text.sustainability}
+        .col-sm-9
+            input#sustainability.form-control(type="number",ng-model="inflow.sustainability",min=0)
+            progressbar.progress-striped.active(value="inflow.sustainability", max="100", type="success") {{inflow.sustainability}}%
+    .form-group(ng-show="inflow.trader_type_id === 1")
+        label.col-sm-3.control-label(for="acidity") #{text.acidity}
+        .col-sm-9
+            input#acidity.form-control(type="number",ng-model="inflow.acidity",min=0,max=1)
+    .form-group
+        label.col-sm-3.control-label(for="notes") #{text.notes}
+        .col-sm-9
+            input#merchant_notes.form-control(type="text",name="notes",ng-model="inflow.notes")

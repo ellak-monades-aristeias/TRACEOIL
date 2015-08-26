@@ -1,0 +1,25 @@
+//get messages for javascrit alerts
+.hidden {{getMessages(#{JSON.stringify(text.pageJS)})}}
+.modal-header
+    h4.modal-title #{text.emptyTankHeader}
+.modal-body
+    form.form-horizontal(name="emptyTankForm", novalidate)
+        .form-group
+            label.col-sm-3.control-label(for="tank_no") #{text.tank_no}
+            .col-sm-9
+                input.form-control(type="number", name="tank_no", ng-model="tank.tank_no",readonly)
+        .form-group
+            label.col-sm-3.control-label(for="description") #{text.description}
+            .col-sm-9
+                input.form-control(type="text", name="description", ng-model="tank.description",readonly)
+        .form-group
+            label.col-sm-3.control-label(for="quantity") #{text.quantity}
+            .col-sm-9
+                .input-group
+                    input#quantity.form-control(type="number", name="quantity", ng-model="tank.total_quantity", required,min=0)
+                    span.input-group-addon kg
+        .form-group
+            date-time-picker(date-model="outflow.outflow_date", element-name="empty_date", date-format="dd/MM/yyyy",form-name="emptyTankForm", date-label-text=text.empty_date, max-date="maxDate")
+.modal-footer
+    button.btn.btn-success(spinner="save()", ng-disabled="emptyTankForm.$invalid") #{text.save}
+    button.btn.btn-danger(ng-click="close()") #{text.cancel}

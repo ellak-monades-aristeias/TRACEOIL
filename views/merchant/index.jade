@@ -1,0 +1,37 @@
+doctype html
+html(ng-app="merchantApp",ng-controller="mainController")
+    head(lang="el")
+        //meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
+        meta(charset="utf-8")
+        base(href="/")
+        meta(name="viewport", content="width=device-width, initial-scale=1")
+        title(idle-disabled="true") {{pageTitle}}
+        link(rel="stylesheet", type="text/css", href="/bs/css/bootstrap.min.css")
+        link(rel="stylesheet", type="text/css", href="/css/merchant/merchant.css")
+        link(rel="stylesheet", type="text/css", href="/libs/ladda.css")
+        link(rel="stylesheet",type="text/css",ng-href="{{pageCSS}}", ng-repeat="pageCSS in pageCSSArray")
+        | <!--[if !IE]><!-->
+        link(rel="stylesheet",type="text/css",ng-href="{{nonIEPageCSS}}", ng-repeat="nonIEPageCSS in nonIEPageCSSArray")
+        | <!--<![en  dif]-->
+    body
+        merchant-menu
+        alert(type="warning", close="closeAlert()", ng-show="showContactWarning") Για οποιαδήποτε απορία ή αναφορά προβλήματος επικοινωνήστε με mail στο <a href="mailto:info@farmer.gr" target="_top">info@farmer.gr</a>
+        div(ui-view)
+    include ../footer.jade
+    script(type="text/javascript", src="/libs/angular-animate.min.js")
+    script(type="text/javascript", src="/libs/ui-bootstrap-tpls-0.12.0.min.js")
+    //script(type="text/javascript", src="/libs/ocLazyLoad.min.js")
+    script(type="text/javascript", src="/libs/angular-resource.min.js")
+    script(type="text/javascript", src="/js/merchant/merchantApp.js")
+    script(type="text/javascript", src="/js/merchant/merchantDirectives.js")
+    script(type="text/javascript", src="/js/merchant/merchantControllers.js")
+    script(type="text/javascript", src="/js/merchant/merchantServices.js")
+    script(type="text/javascript", src="/js/shared/modals.js")
+    script(type="text/javascript", src="/js/shared/sharedDirectives.js")
+    script(type="text/javascript", src="/libs/ladda.js")
+    //script(type="text/javascript", src="/libs/angular-idle.js")
+
+    //page scripts
+    script(type="text/javascript",ng-src="{{pageScript}}" ng-repeat="pageScript in pageJSArray")
+    //create the page header functionality for dynamic language loading, and have it in the end of the page for avoiding showing it till angular gets loaded
+    .hidden {{setPageHeaders(#{JSON.stringify(pageHeaders)})}}

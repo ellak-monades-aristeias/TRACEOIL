@@ -1,0 +1,10 @@
+//get messages for javascrit alerts
+.hidden {{getMessages(#{JSON.stringify(text.pageJS)})}}
+.modal-header
+    h4.modal-title(ng-hide="tank.hasOwnProperty('tank_id')") #{text.newTankHeader}
+    h4.modal-title(ng-hide="!tank.hasOwnProperty('tank_id')") #{text.viewTankHeader}
+.modal-body
+    tank
+.modal-footer
+    button.btn.btn-success(ng-disabled="tankForm.$invalid",spinner="save()",ng-hide="tank.hasOwnProperty('tank_id') && tankForm.$pristine") #{text.save}
+    button.btn.btn-danger(ng-click="close()") #{text.cancel}

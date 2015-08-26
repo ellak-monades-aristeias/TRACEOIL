@@ -1,0 +1,160 @@
+.container(ng-controller="inflowsCtrl")
+    #alertsPlaceHolder.row
+        .alert.alert-success(role="alert",ng-show="successfulSave") #{text.successfulSave}
+        .alert.alert-success(role="alert",ng-show="successfulDelete") #{text.successfulDelete}
+        .alert.alert-danger(role="alert",ng-show="notCreatedByMerchant") #{text.notCreatedByMerchant}
+        .alert.alert-danger(role="alert",ng-show="undefinedError") #{text.undefinedError}
+        .alert.alert-warning(role="alert",ng-show="missingContentProducerAFM") #{text.missingContentProducerAFM}
+    .row
+        .col-xs-12
+            button#newInflow.btn.btn-success(type="button",ng-click="toggleNewInflowForm()")
+                span.glyphicon.glyphicon-plus
+                |#{text.newInflow}
+            |&nbsp;
+            button.btn.btn-default(ng-click="toggleSearch()")
+                span.glyphicon.glyphicon-search #{text.search}
+            |&nbsp;
+            button.btn.btn-default(ng-click="restoreInflows()")
+                span.glyphicon.glyphicon-refresh #{text.reset}
+            |&nbsp;
+            //button.btn.btn-default(ng-click="togglePrintInflow()")
+            //    span.glyphicon.glyphicon-print #{text.printReport}
+    .row
+        #newInflowPlaceHolder.col-xs-12.col-sm-6.ng-hide(ng-show="newInflowFormActive")
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.newInflow}
+                .panel-body
+                    merchant-inflow(inflow="newInflow", form="newInflowForm")
+                    .checkbox.pull-right(ng-show="newInflow.trader_type_id === 2")
+                        label
+                            input(type="checkbox",ng-model="newInflow.hasContents")
+                            |#{text.enterContent}
+                .panel-footer.text-right
+                    button.btn.btn-success(ng-disabled="newInflowForm.$invalid",spinner="saveNewInflow()")
+                        span.glyphicon.glyphicon-floppy-save
+                        span #{text.save}
+                    button.btn.btn-danger(ng-click="toggleNewInflowForm(false)")
+                        span.glyphicon.glyphicon-remove
+                        span #{text.cancel}
+        #newInflowContentsPlaceHolder.col-xs-12.col-sm-6(ng-show="newInflowFormActive && newInflow.hasContents && newInflow.trader_type_id === 2")
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.newInflowContents}
+                .panel-body
+                    .table-responsive
+                        table#newInflowContentTable.table.table-striped
+                            thead
+                                tr
+                                    th #{text.producerAFM}
+                                    th #{text.producerName}
+                                    th #{text.producerLastName}
+                                    th #{text.producerLandOSDE}
+                                    th #{text.quantity}
+                            tbody
+                                tr(ng-repeat="content in newInflow.contents")
+                                    td.producerAFM
+                                        input.form-control(type="text",ng-model="content.producerAFM",minlength=9,maxlength=9,required)
+                                    td.producerName
+                                        input.form-control(type="text",ng-model="content.producerName")
+                                    td.producerLastName
+                                        input.form-control(type="text",ng-model="content.producerLastName")
+                                    td.producerlandOSDE
+                                        input.form-control(type="text",ng-model="content.landOSDE",maxlength=13,minlength=13)
+                                    td.landQuantity
+                                        input.form-control(type="number",ng-model="content.quantity",min=0)
+                .panel-footer
+                    button.btn.btn-success(type="button",ng-click="addContentLine()")
+                        span.glyphicon.glyphicon-plus
+                        span #{text.addContentLine}
+
+        #searchInflowPlaceHolder.col-xs-12.col-sm-6(ng-show="searchInflowFormActive")
+            .panel.panel-default
+                .panel-heading
+                    //h4.panel-title(ng-show="printInflowActive") #{text.printReport}
+                    h4.panel-title(ng-show="searchInflowFormActive") #{text.search}
+                .panel-body
+                    form#searchInflowForm.form-horizontal(role="form",name="searchInflowForm",novalidate)
+                        .form-group
+                            label.col-sm-2.control-label(for="searchName") #{text.name}
+                            .col-sm-10
+                                input#searchName.form-control(type="text",name="searchName",ng-model="searchName")
+                        .form-group
+                            label.col-sm-2.control-label(for="searchAFM") #{text.afm}
+                            .col-sm-10
+                                input#searchAFM.form-control(type="text",name="searchAFM",ng-model="searchAFM",maxlength=9)
+                        .form-group
+                            label.col-sm-2.control-label(for="searchInvoiceNo") #{text.invoice_no}
+                            .col-sm-10
+                                input#searchInvoiceNo.form-control(type="text",name="searchInvoiceNo", ng-model="searchInvoiceNo")
+                        .form-group
+                            label.col-sm-2.control-label(for="searchNotes") #{text.notes}
+                            .col-sm-10
+                                input#searchNotes.form-control(type="text",name="searchNotes",ng-model="searchNotes")
+                        .form-group
+                            label.col-sm-2.control-label(for="searchFrom") #{text.fromDate}
+                            .col-sm-10
+                                //input#searchFrom.form-control(type="date",name="searchFrom",ng-model="searchFrom")
+                                .input-group
+                                    input.form-control(ng-attr-id="searchFrom",type="text",readonly,is-open="datePopupOpenFrom",datepicker-popup="dd/MM/yyyy",format-month="MM",max-date="maxDate",close-text=text.close,current-text=text.today, clear-text=text.clear, ng-attr-name="searchFrom",ng-model="searchFrom")
+                                    span.input-group-btn
+                                        button.btn.btn-default(type="button",ng-click="openDatePopupFrom($event)")
+                                            i.glyphicon.glyphicon-calendar
+                        .form-group
+                            label.col-sm-2.control-label(for="searchTo") #{text.toDate}
+                            .col-sm-10
+                                .input-group
+                                    input.form-control(ng-attr-id="searchTo",type="text",readonly,is-open="datePopupOpenTo",datepicker-popup="dd/MM/yyyy",format-month="MM",max-date="maxDate",close-text=text.close,current-text=text.today, clear-text=text.clear, ng-attr-name="searchTo",ng-model="searchTo")
+                                    span.input-group-btn
+                                        button.btn.btn-default(type="button",ng-click="openDatePopupTo($event)")
+                                            i.glyphicon.glyphicon-calendar
+                                //date-time-picker(date-model="searchTo", element-name="searchTo", date-format="dd/MM/yyyy",max-date="maxDate",form-name="searchInflowForm", hide-time="true")
+                .panel-footer
+                    #searchButtons(ng-show="searchInflowFormActive")
+                        button.btn.btn-default(ng-click="searchInflows()")
+                            span.glyphicon.glyphicon-search
+                            span #{text.find}
+                        button.btn.btn-danger(ng-click="toggleSearch(false)")
+                            span.glyphicon.glyphicon-remove
+                            span #{text.cancel}
+                    //#printButtons(ng-show="printInflowActive")
+                    //    button.btn.btn-default(ng-click="printInflows()")
+                    //        span.glyphicon.glyphicon-eye-open
+                    //        span #{text.preview}
+                    //    button.btn.btn-danger(ng-click="togglePrintInflow(false)")
+                    //        span.glyphicon.glyphicon-remove
+                    //        span #{text.cancel}
+    .row
+        .col-xs-12
+            .panel.panel-default
+                .alert.alert-warning(role="alert",ng-show="currentInflows.length<=0") #{text.noInflows}
+                #no-more-tables.panel-body
+                    table.table.table-striped
+                        thead
+                            tr
+                                th #{text.trader}
+                                th #{text.trader_type}
+                                th #{text.invoice_no}
+                                th #{text.quantity} kg
+                                th #{text.date}
+                                //th #{text.validated}
+                                th #{text.options}
+                        tbody
+                            tr(ng-repeat="inflow in currentInflows")
+                                td.inflowTrader(data-title=text.trader)
+                                    a(href="#",ng-click="viewTrader(inflow)") {{inflow.trader_name}}
+                                td.inflowTraderType(data-title=text.trader_type) {{getTraderType(inflow.trader_type_id)}}
+                                td.inflowInvoiceNo(data-title=text.invoice_no) {{inflow.invoice_no}}
+                                td.inflowQuabtity(data-title=text.quantity) {{inflow.quantity}} kg
+                                td.inflowDate(data-title=text.date) {{inflow.inflow_date | date:'dd/MM/yyyy HH:mm:ss'}}
+                                //td.inflowValidated(data-title=text.validated)
+                                    input(type="checkbox", ng-model="inflow.validated",readonly)
+                                td.inflowActions(data-title=text.options)
+                                    button.btn.btn-default(type="button",title=text.inflowDetails,ui-sref="inflows.inflowDetails({inflowID:inflow.trader_type_id+'-'+inflow.trader_id+'-'+inflow.inflow_id})")
+                                        span.glyphicon.glyphicon-list
+                                    button.btn.btn-default(type="button",title=text.printReport, ng-click="printInflows(inflow.inflow_id)")
+                                        span.glyphicon.glyphicon-print
+                                    button.btn.btn-danger(type="button",spinner="deleteInflow([inflow.trader_type_id,inflow.trader_id,inflow.inflow_id].join('-'))",title=text.deleteΙnflow)
+                                        span.glyphicon.glyphicon-remove
+            pagination.pagination-sm(total-items="currentInflowsCount",ng-model="currentInflowsCurrentPage",previous-text!="&lsaquo;", next-text!="&rsaquo;", ng-change="pageChanged()")
+    .hidden {{getMessages(#{JSON.stringify(text.pageJS)})}}

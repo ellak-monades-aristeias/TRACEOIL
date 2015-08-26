@@ -1,0 +1,47 @@
+.container(ng-controller="currentOilPressesCtrl")
+    .row
+        .col-xs-2
+            button#newOilpress.btn.btn-success(type="button",ng-click="newOilpress()")
+                span.glyphicon.glyphicon-plus
+                |#{text.newOilpress}
+    .row
+        .col-xs-12
+            .panel
+                .alert.alert-warning(role="alert",ng-hide="currentOilpresses.length>0") #{text.noOilpresses}
+                #operationAlert.alert(role="alert",ng-show="displayAlert")
+                #no-more-tables.panel-body
+                    table.table.table-striped
+                        thead
+                            tr
+                                th ID
+                                th #{text.name}
+                                th #{text.afm}
+                                th #{text.city}
+                                th.text-center #{text.options}
+                        tr.searchFieldsRow
+                            th.col-md-1(data-title="ID")
+                                input#searchID.form-control(type="number", ng-model="searchID")
+                            th.col-md-2(data-title=text.name)
+                                input#searchName.form-control(type="text", ng-model="searchName")
+                            th.col-md-2(data-title=text.afm)
+                                input#searchAFM.form-control(type="text", ng-model="searchAFM")
+                            th.col-md-2(data-title=text.city)
+                                input#searchCity.form-control(type="text",ng-model="searchCity")
+                            th.col-md-3.text-center(data-title=text.options)
+                                button#seacrhButton.btn.btn-default(type="button",ng-click="searchOilpress()")
+                                    span.glyphicon.glyphicon-search
+                                button#clearSearch.btn.btn-default(type="button",ng-click="clearSearch()")
+                                    span.glyphicon.glyphicon-refresh
+                        tbody
+                            tr.existingOilpresses(ng-repeat="oilpress in currentOilpresses")
+                                td.oilpressID(data-title="ID") {{oilpress.oilpress_id}}
+                                td.oilpressName(data-title=text.name) {{oilpress.name}}
+                                td.oilpressAFM(data-title=text.afm) {{oilpress.afm}}
+                                td.oilpressCity(data-title=text.city) {{oilpress.city}}
+                                td.oilpressAction.text-center(data-title=text.options)
+                                    button.btn.btn-default(type="button",ng-click="viewOilpress(oilpress)",title=text.oilpressDetails)
+                                        span.glyphicon.glyphicon-list
+                                    button#delete.btn.btn-danger(type="button",spinner="deleteOilpress(oilpress.oilpress_id)",title=text.deleteOilpress)
+                                        span.glyphicon.glyphicon-remove.ladda-label
+            pagination.pagination-sm(total-items="currentOilpressesCount",ng-model="currentOilpressesCurrentPage",previous-text!="&lsaquo;", next-text!="&rsaquo;", ng-change="pageChanged()")
+    .hidden {{getMessages(#{JSON.stringify(text.pageJS)})}}

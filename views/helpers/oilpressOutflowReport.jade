@@ -1,0 +1,80 @@
+doctype html
+html
+    head(lang="el")
+        meta(charset="utf-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1")
+        title #{text.outflowReportTitle}
+        if(print)
+            style
+                include ../../public/css/oilpress/oilpressOutflowReport.css
+                include ../../public/bs/css/bootstrap.min.print-color.css
+        else
+            link(rel="stylesheet", type="text/css", href="/bs/css/bootstrap.min.css")
+            link(rel="stylesheet", type="text/css", href="/css/merchant/merchantOutflowReport.css")
+
+    body
+        if(!print)
+            .row.text-center
+                .col-xs-12
+                    button.btn.btn-success(type="button", onclick = "window.location.assign(window.location.href+'&print=true')")
+                        span.glyphicon.glyphicon-save #{text.saveReport}
+                    button.btn.btn-danger(type="button", onclick= "window.close()")
+                        span.glyphicon.glyphicon-remove #{text.cancel}
+        .row
+            .col-xs-12
+                i
+                    p.text-left #{text.oilpress}: #{results.oilpress_name} <span class="created-at"> #{text.createdAt}: #{results.request_date} </span>
+        each outflow in results
+            .row
+                .panel.panel-default
+                    .panel-heading
+                        h1.panel-title.text-center #{text.outflowDetailsHeader} <span> #{outflow.outflow_id} </span>
+                    .panel-body
+                        .col-xs-7.col-md-6
+                            .row
+                                label.col-xs-5(for="merchant_name") #{text.merchant_name}:
+                                p#merchant_name.col-xs-7 #{outflow.dataValues.merchant_name}
+                            .row
+                                label.col-xs-5(for="notes") #{text.notes}:
+                                p#notes.col-xs-7 #{outflow.notes}
+                            .row
+                                label.col-xs-5(for="invoice_no") #{text.invoice_no}:
+                                p#invoice_no.col-xs-7 #{outflow.invoice_no}
+                            .row
+                                label.col-xs-5(for="outflow_date") #{text.outflow_date}:
+                                p#outflow_date.col-xs-7 #{outflow.outflow_date}
+                        .col-xs-5.col-md-6
+                            if(outflow.tank_id !== null && outflow.tank_id !==0)
+                                .row
+                                    label.col-xs-5(for="tank") #{text.tank}:
+                                    p#tank.col-xs-7 #{outflow.OilPress_Tank.tank_no + (outflow.OilPress_Tank.description?' - '+outflow.OilPress_Tank.description:'')}
+                            .row
+                                label.col-xs-5(for="quantity") #{text.quantity}:
+                                p#totalQuantity.col-xs-7 #{outflow.dataValues.quantity?outflow.dataValues.quantity.toFixed(2):0} kg
+                            if(outflow.createdBy == 'oilpress')
+                                .row
+                                    label.col-xs-5(for="acidity") #{text.acidity}:
+                                    p#totalAcidity.col-xs-7 #{outflow.dataValues.acidity?outflow.dataValues.acidity.toFixed(2):0} %
+                                .row
+                                    label.col-xs-5(for="sustainability") #{text.sustainability}:
+                                    p#totalSustainability.col-xs-7 #{outflow.dataValues.sustainability?outflow.dataValues.sustainability.toFixed(2):0} %
+            .row
+                if(outflow.dataValues.contents.count>0)
+                    .col-xs-12.col-md-12
+                        .panel.panel-default
+                            .panel-heading
+                                h4.panel-title #{text.outflowContentsHeader}
+                            .panel-body
+                                table#producersTable.table.table-striped
+                                    thead
+                                        tr
+                                            th #{text.producer}
+                                            th #{text.land}
+                                            th #{text.quantity} kg
+                                    tbody
+                                        each producer in outflow.dataValues.contents.rows
+                                            tr
+                                                td.producerName #{producer.Producer.first_name} #{producer.Producer.last_name}
+                                                td.landOSDE #{producer.Producer_Land?producer.Producer_Land.osde:''}
+                                                td.landQuantity #{producer.quantity?producer.quantity.toFixed(2):0} kg
+

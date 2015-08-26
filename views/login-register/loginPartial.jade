@@ -1,0 +1,27 @@
+.container
+    .row
+        p.totalTradeMsg #{text.totalTradeQuantity} <span class="totalTradeQuantity">{{login.total_sum | number}}</span> kg
+        p.lastTransaction #{text.lastTransaction} <span class="lastTransactionDate"> {{login.lastTransaction|date:'dd/MM/yyyy HH:mm:ss'}} </span>
+    .row
+        #headerContainer.text-center
+            h2 #{text.formHeader2}
+            h3 #{text.formHeader3}
+        //if error.length>0
+        .alert.alert-warning.alert-dismissable(role="alert", ng-show="login.hasError")
+            button.close(type="button", data-dismiss="alert")
+                span(aria-hidden="true") &times;
+                span.sr-only #{text.close}
+            strong {{login.errorMessage}}
+    .row
+        form.credentials-form(role="form", ng-submit="login.submitLogin()",name="loginForm", novalidate)
+            input#username.form-control(type="text", name="username",placeholder="Username", ng-model="login.username", required)
+            input#password.form-control(type="password",name="password",placeholder="Password", ng-model="login.password", required)
+            button.btn.btn-lg.btn-warning.btn-block(type="submit", ng-disabled="loginForm.$invalid") #{text.loginButton}
+            button#registerButton.btn.btn-lg.btn-success.btn-block(type="button", ng-click!="login.toggleRegisterOptions()") #{text.registerButton}
+            #userTypeRegistrationSelection.panel.panel-default(ng-class="{shown:login.showRegisterOptions}")
+                .panel-body
+                    .list-group
+                        //a.list-group-item(href="/register?registrationType=producer", data-registration="producer") #{text.producer}
+                        a.list-group-item(ui-sref="register.oilpress") #{text.oilpress}
+                        a.list-group-item(ui-sref="register.merchant") #{text.merchant}
+                        a.list-group-item(ui-sref="register.oilcompany") #{text.oilcompany}

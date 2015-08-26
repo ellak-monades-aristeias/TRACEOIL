@@ -1,0 +1,43 @@
+.container
+    .row
+        .col-xs-12
+            button#newTank.btn.btn-success(type="button",new-tank-button)
+                span.glyphicon.glyphicon-plus
+                |#{text.newTank}
+    .row
+        .col-xs-12(ng-controller="currentOilPressTanksCtrl")
+            .panel.panel-default
+                .alert.alert-warning(role="alert", ng-show="currentTanks.length <= 0") #{text.noTanks}
+                #no-more-tables.panel-body
+                    table.table.table-striped
+                        thead
+                            tr
+                                th #{text.tankNo}
+                                th #{text.description}
+                                th #{text.capacity} kg
+                                th #{text.quantity} kg
+                                th #{text.sustainability} %
+                                th #{text.options}
+                        tbody
+                            tr.existingTanksRow(ng-repeat="tank in currentTanks")
+                                td.tankNo(data-title=text.tankNo) {{tank.tank_no}}
+                                td.tankDescription(data-title=text.description) {{tank.description}}
+                                td.tankCapacity(data-title=text.capacity) {{tank.capacity}} kg
+                                td.tankQuantity(data-title=text.quantity)
+                                    progressbar.progress-striped.active(type="warning", value="tank.total_quantity", max="tank.capacity") {{tank.total_quantity.toFixed(2)}}
+                                td.tankSustainability(data-title=text.sustainability)
+                                    progressbar.progress-striped.active(value="tank.total_sustainability", max="100", type="success") {{tank.total_sustainability | number: 0}}%
+                                td.tankActions(data-title=text.options)
+                                    button.btn.btn-default(type="button", title=text.tankDetails, ui-sref="tanks.tankDetails({tankNo:tank.tank_no})")
+                                        span.glyphicon.glyphicon-list
+                                    button.btn.btn-warning(type="button", title=text.init_tank, ng-click="initTank(tank.tank_id)")
+                                        span.glyphicon.glyphicon-retweet
+                                    button.btn.btn-warning(type="button", title=text.empty_tank, ng-click="emptyTank(tank.tank_id)")
+                                        span.glyphicon.glyphicon-new-window
+                                    button.btn.btn-danger(type="button", spinner="deleteTank(tank.tank_id)", title=text.deleteTank)
+                                        span.glyphicon.glyphicon-remove
+            .hidden {{getMessages(#{JSON.stringify(text.pageJS)})}}
+style.
+    .progress-bar{
+        color:#2A2323
+    }

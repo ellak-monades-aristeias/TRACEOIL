@@ -1,0 +1,21 @@
+.panel-footer button{
+    margin-left:5px;
+}
+#searchOutflowSection.ng-hide{
+    line-height:0;
+    opacity:0;
+    padding:0;
+}
+
+#searchOutflowSection.ng-hide-add.ng-hide-add-active,
+#searchOutflowSection.ng-hide-remove.ng-hide-remove-active{
+    -webkit-transition: all linear 0.2s;
+    -moz-transition: all linear 0.2s;
+    -ms-transition: all linear 0.2s;
+    -o-transition: all linear 0.2s;
+    transition: all linear 0.2s;
+}
+
+.spillOutflow{
+    color:red;
+}

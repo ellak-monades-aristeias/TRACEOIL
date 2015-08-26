@@ -1,0 +1,50 @@
+.container(ng-controller="tankDetailCtrl")
+    #backButtonContainer.row
+        .col-xs-12
+            button.btn.btn-default(type="button",ui-sref="tanks.list")
+                span.glyphicon.glyphicon-arrow-left #{text.backToTankList}
+    .row
+        .col-xs-12.col-md-6
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.header}
+                .panel-body
+                    .tankInfo.col-xs-12
+                        #action-alert-placeholder
+                            alert(type="success",ng-show="showSuccess", close="hideAlert('success')") #{text.successfulSave}
+                            alert(type="warning",ng-show="showWarning", close="hideAlert('warning')") #{text.tankWithNoExists}
+                        tank
+                .panel-footer.text-right
+                    button.btn.btn-success(type="button", ng-show="tankForm.$dirty", spinner="saveTank()") #{text.tankSave}
+        .col-xs-12.col-md-6
+            .panel.panel-default
+                .panel-body
+                    .col-md-12
+                        tank-status(tank="tank")
+                    .col-xs-12
+                        h4 #{text.tankContentsHeader}
+                        b #{text.unknownQuantity}: <span class="unknown-quantity" ng-show="unknownQuantity > 0">{{unknownQuantity}} kg</span>
+                        br
+                        br
+                        accordion(close-others="true")
+                            accordion-group(is-open="status.open" ng-repeat="(oilpressID,oilpress) in tank.contents")
+                                accordion-heading
+                                    a(ng-click="viewOilpress($event, oilpressID)") {{oilpress.name.length<=0?'#{text.producersInflows}':oilpress.name}}
+                                    i.pull-right.glyphicon(ng-class="{'glyphicon-chevron-down':status.open,'glyphicon-chevron-right':!status.open}")
+                                    span.hidden-xs.pull-right #{text.contents}
+                                b #{text.totalQuantity}: <span class="oilpress-quantity">{{oilpress.quantity.toFixed(2)}} kg</span>
+                                #inflowContentDetails #{text.contentDetails}:
+                                hr
+                                .table-responsive
+                                    table.table.table-stripped
+                                        thead
+                                            tr
+                                                th #{text.producer}
+                                                th #{text.land}
+                                                th #{text.quantity} kg
+                                        tbody
+                                            tr(ng-repeat="producer in oilpress.contents")
+                                                td.producerName
+                                                    a(href="#",ng-click="viewProducer(producer.producer_id)") {{(producer.producer_name==="null null" || producer.producer_name==="")?'#{text.unknownProducer}':producer.producer_name.replace("null","")}}
+                                                td.landOSDE {{producer.osde}}
+                                                td.landQuantity {{producer.quantity.toFixed(2)}} kg

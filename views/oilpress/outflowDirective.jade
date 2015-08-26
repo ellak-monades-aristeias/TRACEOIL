@@ -1,0 +1,44 @@
+form.form-horizontal(role="form",name="outflowForm",novalidate)
+    .form-group(ng-show="!isNewOutflow()")
+        label.col-sm-3.control-label(for="merchant_name") #{text.merchant_name}
+        .col-sm-9
+            input#merchant_name.form-control(type="text", name="merchant_name", ng-value="outflow.Merchant.name+'-'+outflow.Merchant.first_name+' '+outflow.Merchant.last_name",readonly)
+    .form-group.has-feedback(ng-class="{'has-warning':outflowForm.merchant_afm.$pristine,'has-error':outflowForm.merchant_afm.$invalid && !outflowForm.merchant_afm.$pristine,'has-success':outflowForm.merchant_afm.$valid}", ng-show="isNewOutflow()")
+        label.col-sm-3.control-label(for="merchant_afm") #{text.merchant_afm}
+        .col-sm-9
+            input#merchant_afm.form-control(merchant-afm-exists,type="text", name="merchant_afm", ng-model="outflow.merchant_afm",ng-minlength=9,ng-maxlength=9,maxlength=9,ng-required="isNewOutflow()")
+            span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="outflowForm.merchant_afm.$valid")
+            span.glyphicon.glyphicon-remove.form-control-feedback(ng-show="outflowForm.merchant_afm.$invalid")
+            p.help-block(ng-show="outflowForm.merchant_afm.$invalid && !outflowForm.merchant_afm.$pristine") #{text.invalidMerchantAfm}
+            p.help-block(ng-show="outflowForm.merchant_afm.$error.merchantExists") #{text.noMerchantExists}
+    .form-group.has-warning(ng-class="{'has-error':outflowForm.tank_id.$invalid && !outflowForm.tank_id.$pristine}")
+        label.col-sm-3.control-label(for="tank_id") #{text.tank_id}
+        .col-sm-9
+            select#tank_id.form-control(name="tank_id",ng-model="outflow.tank_id",required,ng-options="tank.tank_id as (tank.tank_no + (tank.description?' - '+tank.description:'')) for tank in oilpressTanks")
+            p.help-block(ng-show="outflowForm.tank_id.$invalid && !outflowForm.tank_id.$pristine") #{text.missingTank}
+    .form-group
+        label.col-sm-3.control-label(for="description") #{text.description}
+        .col-sm-9
+            input#description.form-control(type="text", name="description", ng-model="outflow.description")
+    .form-group
+        label.col-sm-3.control-label(for="invoice_no") #{text.invoice_no}
+        .col-sm-9
+            input#invoice_no.form-control(type="text",name="invoice_no",ng-model="outflow.invoice_no")
+    .form-group(ng-class="{'has-error' : outflowForm.outflow_date.$invalid && !outflowForm.outflow_date.$pristine}")
+        date-time-picker(date-model="outflow.outflow_date", element-name="outflow_date", date-format="dd/MM/yyyy",max-date="maxDate",date-label-text=text.outflow_date,time-label-text=text.outflow_time,is-required="true",form-name="outflowForm",missing-date-text=text.noDate)
+    .form-group.has-warning(ng-class="{'has-error':outflowForm.quantity.$invalid && !outflowForm.quantity.$pristine}")
+        label.col-sm-3.control-label(for="quantity") #{text.quantity}
+        .col-sm-9
+            .input-group
+                input#quantity.form-control(type="number", name="quantity",min=0, ng-model="outflow.quantity",required)
+                span.input-group-addon kg
+            p.help-block(ng-show="outflowForm.quantity.$invalid && !outflowForm.quantity.$pristine") #{text.noQuantity}
+    .form-group(ng-show="!isNewOutflow()")
+        label.col-sm-3.control-label(for="createdAt") #{text.createdAt}
+        .col-sm-9
+            input#createdAt.form-control(type="text", ng-value="outflow.createdAt | date : 'dd/MM/yyyy HH:mm'", readonly)
+    .form-group(ng-show="!isNewOutflow()")
+        label.col-sm-3.control-label(for="updatedAt") #{text.updatedAt}
+        .col-sm-9
+            input#updatedAt.form-control(type="text", ng-value="outflow.updatedAt | date : 'dd/MM/yyyy HH:mm'", readonly)
+button.btn.btn-success.pull-right.ng-hide(type="button",ng-show="outflowForm.$dirty && !isNewOutflow()",ng-disabled="outflowForm.$invalid", spinner="save()") #{text.save}

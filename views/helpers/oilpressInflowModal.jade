@@ -1,0 +1,68 @@
+.modal-header
+    h4.modal-title #{text.inflowDetailHeader}
+.modal-body
+    form.inflowDetailForm.form-horizontal(name="inflowForm",role="form", novalidate)
+        .form-group
+            label.col-sm-3.control-label(for="inflow_id") ID
+            .col-sm-9
+                input#inflow_id.form-control(type="number",name="inflow_id", ng-model="inflow.inflow_id", readonly)
+        .form-group.has-warning
+            label.col-sm-3.control-label(for="inflow_producer") #{text.producer}
+            .col-sm-9
+                input#inflow_producer.form-control(type="text",name="inflow_producer", ng-model="inflowProducerFullName",ng-model-options="{getterSetter:true}", readonly)
+        .form-group.has-warning
+            date-time-picker(date-model="inflow.inflow_date", element-name="inflow_date", date-format="dd/MM/yyyy",max-date="maxDate",date-label-text=text.inflowDate,time-label-text=text.time,is-required="true",form-name="inflowForm",missing-date-text=text.noDate)
+        .form-group
+            label.col-sm-3.control-label(for="invoice_no") #{text.invoice_no}
+            .col-sm-9
+                input#invoice_no.form-control(type="text", name="invoice_no", ng-model="inflow.invoice_no")
+        .form-group
+            label.col-sm-3.control-label(for="inflow_description") #{text.description}
+            .col-sm-9
+                input#inflow_description.form-control(type="text",name="inflow_description",ng-model="inflow.description")
+        .form-group(ng-class="{'has-error':inflowForm.inflow_osde.$invalid && inflowForm.inflow_osde.$dirty}")
+            label.col-sm-3.control-label(for="inflow_osde") #{text.inflowOSDE}
+            .col-sm-9
+                input#inflow_osde.form-control(type="text",name="inflow_osde",ng-model="inflow.Producer_Land.osde",ng-minlength=13,ng-maxlength=13,minlength=13,maxlength=13)
+                p.help-block(ng-show="inflowForm.inflow_osde.$invalid && inflowForm.inflow_osde.$dirty") #{text.invalidOSDE}
+        .form-group
+            label.col-sm-3.control-label(for="inflow_quantity_received") #{text.quantity_received}
+            .col-sm-9
+                .input-group
+                    input#inflow_quantity_received.form-control(type="number",name="inflow_quantity_received", ng-model="inflow.quantity_received")
+                    span.input-group-addon kg
+        .form-group.has-warning
+            label.col-sm-3.control-label(for="inflow_quantity_produced") #{text.quantity_produced}
+            .col-sm-9
+                .input-group
+                    input#inflow_quantity_produced.form-control(type="number",name="inflow_quantity_produced", ng-model="inflow.quantity_produced")
+                    span.input-group-addon kg
+        .form-group.has-warning
+            label.col-sm-3.control-label(for="inflow_tank_id") #{text.tank}
+            .col-sm-9
+                select#inflow_tank_id.form-control(name="inflow_tank_id", ng-model="inflow.tank_id",required, ng-options="tank.tank_id as (tank.tank_no+(tank.description?' : '+tank.description:'')) for tank in tanks")
+        .form-group
+            label.col-sm-3.control-label(for="inflow_acidity") #{text.acidity}
+            .col-sm-9
+                input#inflow_acidity.form-control(type="number",name="inflow_acidity", ng-model="inflow.acidity")
+        .form-group
+            label.col-sm-3.control-label(for="inflow_sustainability") #{text.sustainability}
+            .col-sm-9
+                input#inflow_sustainability.form-control(type="number",name="inflow_sustainability", ng-model="inflow.sustainability")
+                progressbar.progress-striped.active(value="inflow.sustainability", max="100",type="success") {{inflow.sustainability}}%
+        .form-group
+            label.col-sm-3.control-label(for="inflow_validated") #{text.validated}
+            .col-sm-1
+                input#inflow_validated(type="checkbox",name="inflow_validated", ng-model="inflow.validated",disabled,style="margin-top:10px;")
+.modal-footer
+    .col-xs-12.text-center
+        button.btn.btn-success(spinner="save()", ng-disabled="inflowForm.$pristine || inflowForm.$invalid") #{text.save}
+        button.btn.btn-danger(type="button", ng-click="close()") #{text.close}
+
+.hidden {{getMessages(#{JSON.stringify(text.pageJS)})}}
+//link(rel="stylesheet", type="text/css", href="/css/oilpress/inflowDetail.css")
+style.
+    form.inflowDetailForm input.form-control[readonly]{
+        cursor:auto;
+        background-color:#ffffff;
+        }

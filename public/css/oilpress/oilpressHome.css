@@ -1,0 +1,82 @@
+td.actionType span{
+    margin-right:5px;
+}
+
+span.inflow{
+    color:blue;
+}
+
+span.outflow{
+    color:orange;
+}
+span.initialization{
+    color:green;
+}
+
+table td{
+    height:37px;
+}
+
+
+.tankContainer, .tankWrapper{
+    -webkit-border-bottom-right-radius: 70px;
+    -webkit-border-bottom-left-radius: 70px;
+    -moz-border-radius-bottomright: 70px;
+    -moz-border-radius-bottomleft: 70px;
+    border-bottom-right-radius: 70px;
+    border-bottom-left-radius: 70px;
+
+}
+
+.tankContainer{
+    height:150px;
+    border:2px solid #423f40;
+    overflow:hidden;
+    position:relative;
+}
+
+.content{
+    width:100%;
+    position:absolute;
+    bottom:0;
+    background-color: #426b08;
+}
+.tankWrapper{
+    overflow:hidden;
+    position:relative;
+    padding:0;
+}
+
+span.fieldHeader{
+    margin-right:10px;
+}
+.tankAmount{
+    position:relative;
+    color: blue;
+    font-size:15px;
+    font-weight:bold;
+    z-index:10;
+    text-align:center;
+    top:50%;
+}
+
+
+.tankPercentage{
+    color: green;
+    font-size:15px;
+    font-weight:bold;
+    text-align:center;
+}
+
+span.tank-quantity{
+    font-weight:bold;
+    color: blue;
+}
+span.tank-sustainability{
+    font-weight:bold;
+    color:green;
+}
+span.tank-acidity{
+    font_weight:bold;
+    color:brown;
+}

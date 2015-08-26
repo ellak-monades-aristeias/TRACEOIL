@@ -1,0 +1,14 @@
+/*New inflow - search form show/hide animations */
+#newInflowPlaceHolder.ng-hide, #searchInflowPlaceHolder.ng-hide{
+    line-height:0;
+    opacity:0;
+    padding:0;
+}
+
+#newInflowPlaceHolder, #searchInflowPlaceHolder{
+    -webkit-transition: all linear 0.2s;
+    -moz-transition: all linear 0.2s;
+    -ms-transition: all linear 0.2s;
+    -o-transition: all linear 0.2s;
+    transition: all linear 0.2s;
+}

@@ -1,0 +1,13 @@
+
+#registrationFormContainer{
+    max-width:750px;
+    margin:0 auto;
+}
+#registrationFormContainer h3{
+    max-width:500px;
+}
+.credentials-form {
+    max-width: 660px;
+    padding: 15px;
+    margin: 0 auto;
+}

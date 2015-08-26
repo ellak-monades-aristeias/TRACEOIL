@@ -1,0 +1,93 @@
+.container(ng-controller="producerDetailsCtrl")
+    #backButtonContainer.row
+        .col-xs-12
+            button.btn.btn-default(type="button",ui-sref="producers.list")
+                span.glyphicon.glyphicon-arrow-left #{text.backToProducers}
+    .row
+        .col-xs-5
+            .alert.alert-success(role="alert", ng-show="successfulSave") #{text.succesfulSave}
+            .alert.alert-danger(role="alert", ng-show="undefinedError") #{text.undefinedError}
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.producerDetails}
+                .panel-body
+                    form.form-horizontal(name="producerForm", novalidate)
+                        p.help-block #{text.requiredFieldWarning}
+                        .form-group.has-warning
+                            label.col-sm-3.control-label(for="first_name") #{text.first_name}
+                            .col-sm-9
+                                input.form-control(type="text", name="first_name", ng-model="producer.first_name",required)
+                        .form-group.has-warning
+                            label.col-sm-3.control-label(for="last_name") #{text.last_name}
+                            .col-sm-9
+                                input.form-control(type="text", name="last_name", ng-model="producer.last_name",required)
+                        .form-group.has-feedback(ng-class="{'has-success':producerForm.afm.$valid,'has-warning':producerForm.afm.$pristine,'has-error':producerForm.afm.$invalid && !producerForm.afm.$pristine}")
+                            label.col-sm-3.control-label(for="afm") #{text.afm}
+                            .col-sm-9
+                                input.form-control(type="text", name="afm", ng-model="producer.afm",required, ng-minlength="9", ng-maxlength="9",maxlength="9",producer-afm-unique)
+                                span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="producerForm.afm.$valid")
+                                span.glyphicon.glyphicon-remove.form-control-feedback(ng-show="producerForm.afm.$invalid")
+                                p.help-block(ng-show="producerForm.afm.$invalid && !producerForm.afm.$pristine && !producerForm.afm.$error.newAfm") #{text.wrongAFM}
+                                p.help-block(ng-show="producerForm.afm.$error.newAfm") #{text.afmExists}
+                        .form-group
+                            label.col-sm-3.control-label(for="sustainability") #{text.sustainability}
+                            .col-sm-9
+                                input.form-control(type="number", name="sustainability", ng-model="producer.sustainability",min=0,max=100)
+                                progressbar.progress-striped.active(value="producer.sustainability", max="100") {{producer.sustainability}}%
+                        .form-group
+                            label.col-sm-3.control-label(for="address") #{text.address}
+                            .col-sm-9
+                                input.form-control(type="text", name="address", ng-model="producer.address")
+                        .form-group
+                            label.col-sm-3.control-label(for="city") #{text.city}
+                            .col-sm-9
+                                input.form-control(type="text", name="city", ng-model="producer.city")
+                        .form-group
+                            label.col-sm-3.control-label(for="state") #{text.state}
+                            .col-sm-9
+                                input.form-control(type="text", name="state", ng-model="producer.state")
+                        .form-group(ng-class="{'has-error':producerForm.area_code.$invalid && !producerForm.area_code.$pristine}")
+                            label.col-sm-3.control-label(for="area_code") #{text.area_code}
+                            .col-sm-9
+                                input.form-control(type="text", name="area_code",ng-minlength="5",ng-maxlength="5",maxlength="5" ng-model="producer.area_code")
+                                p.help-block(ng-show="producerForm.area_code.$invalid && !producerForm.area_code.$pristine") #{text.invalidAreaCode}
+                        .form-group
+                            label.col-sm-3.control-label(for="landline_phone") #{text.landline_phone}
+                            .col-sm-9
+                                input.form-control(type="text", name="landline_phone", ng-model="producer.landline_phone")
+                        .form-group
+                            label.col-sm-3.control-label(for="mobile_phone") #{text.mobile_phone}
+                            .col-sm-9
+                                input.form-control(type="text", name="mobile_phone", ng-model="producer.mobile_phone")
+                        .form-group
+                            label.col-sm-3.control-label(for="createdAt") #{text.createdAt}
+                            .col-sm-9
+                                input.form-control(type="text", name="createdAt", ng-value="producer.createdAt |date:'MM/dd/yyyy HH:mm:ss'", readonly)
+                        .form-group
+                            label.col-sm-3.control-label(for="updatedAt") #{text.updatedAt}
+                            .col-sm-9
+                                input.form-control(type="text", name="updatedAt", ng-value="producer.updatedAt|date:'MM/dd/yyyy HH:mm:ss'", readonly)
+                .panel-footer
+                    button.btn.btn-success.ng-hide(ng-disabled="producerForm.$invalid",spinner="save()",ng-hide="producer.hasOwnProperty('producer_id') && producerForm.$pristine") #{text.save}
+        .col-xs-7
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.producerInflows}
+                .panel-body.table-responsive
+                    table.table.table-striped
+                        thead
+                            tr
+                                th ID
+                                th #{text.osde}
+                                th #{text.quantity} kg
+                                th #{text.sustainability} %
+                                th #{text.date}
+                        tbody
+                            tr.existingInflowRow(ng-repeat="inflow in currentInflows")
+                                td.inflowID(data-title="ID") {{inflow.inflow_id}}
+                                td.inflowOSDE(data-title=text.osde) {{inflow.Producer_Land.osde}}
+                                td.inflowQuantityProduced(data-title=text.quantity) {{inflow.quantity_produced}}
+                                td.inflowSustainability(data-title=text.sustainability)
+                                    progressbar.progress-striped.active(value="inflow.sustainability", max="100", type="success") {{inflow.sustainability}}%
+                                td.inflowDate(data-title=text.date)  {{inflow.inflow_date | date : 'dd/MM/yyyy HH:mm'}}
+            pagination.pagination-sm(total-items="currentInflowsCount",ng-model="currentInflowsCurrentPage",previous-text!="&lsaquo;", next-text!="&rsaquo;", ng-change="pageChanged()")

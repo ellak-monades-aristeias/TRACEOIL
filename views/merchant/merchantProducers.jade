@@ -1,0 +1,47 @@
+.container(ng-controller="currentProducersCtrl")
+    .row
+        .col-xs-2
+            button#newProducer.btn.btn-success(type="button",new-producer-button)
+                span.glyphicon.glyphicon-plus
+                |#{text.newProducer}
+    .row
+        .col-xs-12
+            .panel
+                .alert.alert-warning(role="alert", ng-show="currentProducers.length<=0") #{text.noProducers}
+                #no-more-tables.panel-body
+                    table.table.table-striped
+                        thead
+                            tr
+                                //th
+                                th ID
+                                th #{text.last_name}
+                                th #{text.first_name}
+                                th #{text.afm}
+                                th.text-center #{text.options}
+                        tr.searchFieldsRow
+                                th.col-md-1(data-title="ID")
+                                    input#searchID.form-control(type="number", ng-model="searchID")
+                                th.col-md-2(data-title=text.last_name)
+                                    input#searchLastName.form-control(type="text", ng-model="searchLastName")
+                                th.col-md-2(data-title=text.first_name)
+                                    input#searchFirstName.form-control(type="text", ng-model="searchFirstName")
+                                th.col-md-2(data-title=text.afm)
+                                    input#searchAFM.form-control(type="text", ng-model="searchAFM")
+                                th.col-md-3.text-center(data-title=text.options)
+                                    button#seacrhButton.btn.btn-default(type="button",ng-click="searchProducer()")
+                                        span.glyphicon.glyphicon-search
+                                    button#clearSearch.btn.btn-default(type="button",ng-click="clearSearch()")
+                                        span.glyphicon.glyphicon-refresh
+                        tbody
+                            tr.existingInflowRow(ng-repeat="producer in currentProducers")
+                                td.producerID(data-title="ID") {{producer.producer_id}}
+                                td.producerLastName(data-title=text.last_name) {{producer.last_name}}
+                                td.producerFirstName(data-title=text.first_name) {{producer.first_name}}
+                                td.producerAFM(data-title=text.afm) {{producer.afm}}
+                                td.producerAction.text-center(data-title=text.options)
+                                    button.btn.btn-default(type="button",ng-click="viewProducer(producer)",title=text.producerDetails)
+                                        span.glyphicon.glyphicon-list
+                                    button.btn.btn-danger(type="button",spinner="deleteProducer(producer.producer_id)",title=text.deleteProducer)
+                                        span.glyphicon.glyphicon-remove
+            pagination.pagination-sm(total-items="currentProducersCount",ng-model="currentProducersCurrentPage",previous-text!="&lsaquo;", next-text!="&rsaquo;", ng-change="pageChanged()")
+    .hidden {{getMessages(#{JSON.stringify(text.producerJS)})}}

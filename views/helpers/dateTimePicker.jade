@@ -1,0 +1,14 @@
+#dateContainer.has-warning
+    label(ng-attr-for="{{elementName}}").col-md-3.control-label {{dateLabelText}}
+    .col-md-4.dateInputContainer(style="margin-top:34px;")
+        .input-group
+            input.form-control(ng-attr-id="{{elementName}}",type="text",readonly,is-open="datePopupOpen",datepicker-popup="{{dateFormat}}",format-month="MM",max-date="maxDate",close-text=text.close,current-text=text.today, clear-text=text.clear, ng-attr-name="{{elementName}}",datepicker-options="dateOptions",ng-model="dateModel",ng-required="isRequired")
+            span.input-group-btn
+                button.btn.btn-default(type="button",ng-click="openDatePopup($event)")
+                    i.glyphicon.glyphicon-calendar
+        p(ng-show!="formName.{{elementName}}.$invalid && !formName.{{elementName}}.$pristine",class="help-block") {{missingDateText}}
+    .col-md-5
+        timepicker(ng-model="timePart", ng-change="updateDateTime()", show-meridian="false")
+    //label(for="timePart").col-md-1.control-label {{timeLabelText}}
+    //.col-md-4
+    //    input#timePart.form-control(type="time",ng-model="timePart",ng-change="updateDateTime()")

@@ -1,0 +1,39 @@
+.container(ng-controller="outflowDetailCtrl")
+    #backButtonContainer.row
+        .col-xs-12
+            button.btn.btn-default(type="button",ui-sref="outflows.list")
+                span.glyphicon.glyphicon-arrow-left #{text.backToOutflowList}
+    .row
+        .col-xs-12.col-md-6
+            alert(type="success",ng-show="showSuccess", close="hideAlert('success')") #{text.sucessfulUpdate}
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.outflowDetails}
+                .panel-body
+                    outflow(outflow="outflow",oilpress-tanks="oilpressTanks")
+        .col-xs-12.col-md-6
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.outflowContensHeader}
+                .panel-body
+                    ul#generalOutflowStats.list-group
+                        li.list-group-item
+                            |#{text.sustainability}: <span class="outflow-sustainability">{{outflow.sustainability | number : 0}}%</span>
+                            progressbar.progress-striped.active(value="outflow.sustainability", max=100, type="success")
+                        li.list-group-item
+                            |#{text.acidity} <span class="outflow-acidity">{{outflow.acidity?outflow.acidity.toFixed(2):'#{text.none}'}}</span>
+                    #outflowContentsContainer.table-responsive
+                        h4 #{text.outflowLandsHeader}
+                        table#outflowLandsTable.table.table-striped
+                            thead
+                                tr
+                                    th #{text.producerName}
+                                    th #{text.landOSDE}
+                                    th #{text.quantity} kg
+                            tbody
+                                tr(ng-repeat="content in outflowContents")
+                                    td
+                                        a(href="#", ng-click="viewProducer(content.producer_id)") {{content.Producer.first_name+' '+content.Producer.last_name}}
+                                    td {{content.Producer_Land.osde}}
+                                    td {{content.quantity.toFixed(2)}}
+                    pagination.pagination-sm(total-items="outflowContentsCount",ng-model="outflowContentsCurrentPage",previous-text!="&lsaquo;", next-text!="&rsaquo;", ng-change="pageChanged(outflowContentsCurrentPage)")

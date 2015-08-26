@@ -1,0 +1,58 @@
+//get messages for javascrit alerts
+.hidden {{getMessages(#{JSON.stringify(text.pageJS)})}}
+.modal-header
+    h4.modal-title(ng-hide="oilpress.hasOwnProperty('oilpress_id')") #{text.newOilpressHeader}
+    h4.modal-title(ng-hide="!oilpress.hasOwnProperty('oilpress_id')") #{text.viewOilpressHeader}
+.modal-body
+    form.form-horizontal(name="oilpressForm", role="form",novalidate)
+        p.help-block #{text.requiredFieldWarning}
+        .form-group(ng-show="oilpress.hasOwnProperty('oilpress_id')")
+            label.col-sm-3.control-label(for="ID") ID
+            .col-sm-9
+                input.form-control(type="number",name="ID",ng-model="oilpress.oilpress_id",readonly)
+        .form-group
+            label.col-sm-3.control-label(for="name") #{text.name}
+            .col-sm-9
+                input.form-control(type="text", name="name", ng-model="oilpress.name")
+        .form-group.has-feedback(ng-class="{'has-success':oilpressForm.afm.$valid,'has-warning':oilpressForm.afm.$pristine,'has-error':oilpressForm.afm.$invalid && !oilpressForm.afm.$pristine}")
+            label.col-sm-3.control-label(for="afm") #{text.afm}
+            .col-sm-9
+                input.form-control(type="text", name="afm", ng-model="oilpress.afm",required, ng-minlength="9", ng-maxlength="9",maxlength="9",afm-unique, table="oilpresses", init-value="{{oilpress.afm}}")
+                span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="oilpressForm.afm.$valid")
+                span.glyphicon.glyphicon-remove.form-control-feedback(ng-show="oilpressForm.afm.$invalid")
+                p.help-block(ng-show="oilpressForm.afm.$invalid && !oilpressForm.afm.$pristine && !oilpressForm.afm.$error.uniqueAfm") #{text.wrongAFM}
+                p.help-block(ng-show="oilpressForm.afm.$error.uniqueAfm") #{text.afmExists}
+        .form-group
+            label.col-sm-3.control-label(for="address") #{text.address}
+            .col-sm-9
+                input.form-control(type="text", name="address", ng-model="oilpress.address")
+        .form-group
+            label.col-sm-3.control-label(for="city") #{text.city}
+            .col-sm-9
+                input.form-control(type="text", name="city", ng-model="oilpress.city")
+        .form-group
+            label.col-sm-3.control-label(for="state") #{text.state}
+            .col-sm-9
+                input.form-control(type="text", name="state", ng-model="oilpress.state")
+        .form-group(ng-class="{'has-error':oilpressForm.area_code.$invalid && !oilpressForm.area_code.$pristine}")
+            label.col-sm-3.control-label(for="area_code") #{text.area_code}
+            .col-sm-9
+                input.form-control(type="text", name="area_code",ng-minlength="5",ng-maxlength="5",maxlength="5" ng-model="oilpress.area_code")
+                p.help-block(ng-show="oilpressForm.area_code.$invalid && !oilpressForm.area_code.$pristine") #{text.invalidAreaCode}
+        .form-group
+            label.col-sm-3.control-label(for="phone") #{text.phone}
+            .col-sm-9
+                input.form-control(type="text", name="phone", ng-model="oilpress.phone")
+        .form-group(ng-show="oilpress.hasOwnProperty('oilpress_id')")
+            label.col-sm-3.control-label(for="createdAt") #{text.createdAt}
+            .col-sm-9
+                input.form-control(type="text", name="createdAt", ng-value="oilpress.createdAt |date:'MM/dd/yyyy HH:mm:ss'", readonly)
+        .form-group(ng-show="oilpress.hasOwnProperty('oilpress_id')")
+            label.col-sm-3.control-label(for="updatedAt") #{text.updatedAt}
+            .col-sm-9
+                input.form-control(type="text", name="updatedAt", ng-value="oilpress.updatedAt|date:'MM/dd/yyyy HH:mm:ss'", readonly)        
+.modal-footer
+    if (userTypeID !== 4)
+        button.btn.btn-success.ng-hide(type="button",ng-disabled="oilpressForm.$invalid",spinner="save()",ng-hide="oilpress.hasOwnProperty('oilpress_id') && oilpressForm.$pristine")
+            span.ladda-label #{text.save}
+    button.btn.btn-danger(type="button",ng-click="close()") #{text.cancel}

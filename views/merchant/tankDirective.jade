@@ -1,0 +1,40 @@
+form.form-horizontal(name="tankForm", novalidate)
+    p.help-block #{text.requiredFieldWarning}
+    .form-group.has-feedback(ng-class="{'has-success':tankForm.tank_no.$valid,'has-warning':tankForm.tank_no.$pristine,'has-error':tankForm.tank_no.$invalid && !tankForm.tank_no.$pristine}")
+        label.col-sm-3.control-label(for="tank_no") #{text.tank_no}
+        .col-sm-9
+            input.form-control(type="number", name="tank_no", ng-model="tank.tank_no",required,tank-number-unique)
+            span.glyphicon.glyphicon-ok.form-control-feedback(ng-show="tankForm.tank_no.$valid")
+            span.glyphicon.glyphicon-remove.form-control-feedback(ng-show="tankForm.tank_no.$invalid")
+            p.help-block(ng-show="tankForm.tank_no.$invalid && !tankForm.tank_no.$pristine && !tankForm.tank_no.$error.unique") #{text.noTankNo}
+            p.help-block(ng-show="tankForm.tank_no.$error.unique") #{text.tankNoExists}
+    .form-group
+        label.col-sm-3.control-label(for="description") #{text.description}
+        .col-sm-9
+            input.form-control(type="text", name="description", ng-model="tank.description")
+    .form-group.has-warning(ng-class="{'has-error':tankForm.capacity.$invalid && !tankForm.capacity.$pristine}")
+        label.col-sm-3.control-label(for="capacity") #{text.capacity}
+        .col-sm-9
+            .input-group
+                input.form-control(type="number", name="capacity", ng-model="tank.capacity",min=0,required)
+                span.input-group-addon kg
+            p.help-block(ng-show="tankForm.capacity.$invalid && !tankForm.capacity.$pristine") #{text.noCapacity}
+    .form-group(ng-class="{'has-error' : tankForm.empty_date.$invalid && !tankForm.empty_date.$pristine}")
+        date-time-picker(date-model="tank.empty_date", element-name="empty_date", date-format="dd/MM/yyyy",form-name="tankForm", date-label-text=text.init_date, max-date="maxDate")
+        //label(for="empty_date").col-sm-3.control-label #{text.empty_date}
+        //.col-sm-9
+        //    .input-group
+        //        input#empty_date.form-control(type="text",readonly,datepicker-popup="dd/MM/yyyy",is-open="initDatePopupOpen",max-date="maxDate",close-text=text.close,current-text=text.today, clear-text=text.clear, name="empty_date",ng-model="tank.empty_date")
+        //        span.input-group-btn
+        //            button.btn.btn-default(type="button",ng-click="openInitDatePopup($event)")
+        //                i.glyphicon.glyphicon-calendar
+        //    //p.help-block(ng-show="tankForm.empty_date.$invalid && !tankForm.empty_date.$pristine") #{text.noInitDate}
+        p.help-block #{text.init_dateInstructions}
+    .form-group(ng-show="tank.hasOwnProperty('tank_id')")
+        label.col-sm-3.control-label(for="createdAt") #{text.createdAt}
+        .col-sm-9
+            input.form-control(type="text", name="createdAt", ng-value="tank.createdAt |date:'MM/dd/yyyy HH:mm:ss'", readonly)
+    .form-group(ng-show="tank.hasOwnProperty('tank_id')")
+        label.col-sm-3.control-label(for="updatedAt") #{text.updatedAt}
+        .col-sm-9
+            input.form-control(type="text", name="updatedAt", ng-value="tank.updatedAt|date:'MM/dd/yyyy HH:mm:ss'", readonly)

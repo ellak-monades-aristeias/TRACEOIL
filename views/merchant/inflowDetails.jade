@@ -1,0 +1,50 @@
+.container(ng-controller="inflowDetailsCtrl")
+    #backButtonContainer.row
+        .col-xs-12
+            button.btn.btn-default(type="button",ui-sref="inflows.list")
+                span.glyphicon.glyphicon-arrow-left
+                span #{text.backToInflowList}
+    #alertPlaceHolder.row
+        .col-xs-12.col-sm-6
+            .alert.alert-success(role="alert", ng-show="saveSuccessAlert") #{text.saveSuccess}
+            .alert.alert-danger(role="alert",ng-show="undefinedErrorAlert") #{text.undefinedError}
+            .alert.alert-warning(role="alert", ng-show="inflow.createdBy === 'oilpress'") #{text.notCreatedByMerchant}
+            .alert.alert-danger(role="alert",ng-show="tankCannotChangeAlert") #{text.tankCannotChange}
+    .row
+        #inflowPlaceHolder.col-xs-12.col-sm-6
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.inflowDetails}
+                .panel-body
+                    merchant-inflow(inflow="inflow", form="inflowForm")
+                .panel-footer.text-right
+                    button.btn.btn-success(ng-disabled="inflowForm.$invalid || inflowForm.$pristine",spinner="saveInflow()")
+                        span.glyphicon.glyphicon-floppy-save
+                        span #{text.save}
+        #inflowContentsHolder.col-xs-12.col-sm-6
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.inflowContents}
+                .panel-body
+                    ul#generalInflowStats.list-group
+                        li.list-group-item
+                            |#{text.sustainability}: <span class="inflow-sustainability">{{inflow.sustainability | number : 0}}%</span>
+                            progressbar.progress-striped.active(value="inflow.sustainability", max=100, type="success")
+                        li.list-group-item
+                            |#{text.acidity} <span class="inflow-acidity">{{inflow.acidity?inflow.acidity.toFixed(2)+" %":'#{text.none}'}}</span>
+                    h4 #{text.inflowContentsHeader}
+                    #inflowContentsHolder.table-responsive.col-xs-12.col-sm-6
+                    table#inflowLandsTable.table.table-striped
+                        thead
+                            tr
+                                th #{text.producerName}
+                                th #{text.landOSDE}
+                                th #{text.quantity} kg
+                        tbody
+                            tr(ng-repeat="content in inflow.contents.rows")
+                                td
+                                    a(href="#", ng-click="viewProducer(content.producer_id)") {{(!content.Producer.first_name && !content.Producer.last_name)?'#{text.unknownProducer}':((content.Producer.first_name?content.Producer.first_name:'') + ' ' + (content.Producer.last_name?content.Producer.last_name:''))}}
+                                td {{content.Producer_Land.osde}}
+                                td {{content.quantity.toFixed(2)}}
+            pagination.pagination-sm(total-items="contentsCount",ng-model="currentContentsPage",previous-text!="&lsaquo;", next-text!="&rsaquo;", ng-change="pageChanged(currentContentsPage)")
+    .hidden {{getMessages(#{JSON.stringify(text.pageJS)})}}

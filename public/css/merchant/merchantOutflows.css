@@ -1,0 +1,23 @@
+/*New outflow - search form show/hide animations */
+#newOutflowChoise.ng-hide, #directOutflowPlaceHolder.ng-hide, #searchOutflowSection.ng-hide{
+    line-height:0;
+    opacity:0;
+    padding:0;
+}
+
+#newOutflowChoise, #directOutflowPlaceHolder, #searchOutflowSection{
+    -webkit-transition: all linear 0.2s;
+    -moz-transition: all linear 0.2s;
+    -ms-transition: all linear 0.2s;
+    -o-transition: all linear 0.2s;
+    transition: all linear 0.2s;
+}
+
+#newOutflowChoise{
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.spillOutflow{
+    color:red;
+}

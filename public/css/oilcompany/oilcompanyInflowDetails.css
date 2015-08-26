@@ -1,0 +1,17 @@
+span.inflow-sustainability{
+    font-weight:bold;
+    color:green;
+}
+span.inflow-acidity{
+    font-weight:bold;
+    color: #576a08;
+}
+
+span.inflow-quantity{
+    font-weight:bold;
+    color:blue;
+}
+#inflowContentDetails{
+    font-weight: bold;
+    margin-top:10px;
+}

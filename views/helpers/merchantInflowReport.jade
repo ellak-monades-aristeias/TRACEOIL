@@ -1,0 +1,94 @@
+doctype html
+html
+    head(lang="el")
+        meta(charset="utf-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1")
+        title #{text.inflowReportTitle}
+        if(print)
+            style
+                include ../../public/css/merchant/merchantInflowReport.css
+                include ../../public/bs/css/bootstrap.min.print-color.css
+        else
+            link(rel="stylesheet", type="text/css", href="/bs/css/bootstrap.min.css")
+            link(rel="stylesheet", type="text/css", href="/css/merchant/merchantInflowReport.css")
+    body
+        if(!print)
+            .row.text-center
+                button.btn.btn-success(type="button", onclick = "window.location.assign(window.location.href+'&print=true')")
+                    span.glyphicon.glyphicon-save #{text.saveReport}
+                button.btn.btn-danger(type="button", onclick="window.close()")
+                    span.glyphicon.glyphicon-remove #{text.cancel}
+        .row
+            .col-xs-12
+                i
+                    p #{text.merchant}: #{results.merchant_name}<span class="created-at"> #{text.createdAt}: #{results.request_date} </span>
+        each inflow in results
+            .row
+                .panel.panel-default
+                    .panel-heading
+                        h1.panel-title.text-center #{text.inflowDetailsHeader} <span> #{inflow.inflow_id} </span>
+                    .panel-body
+                        .col-xs-7.col-md-6
+                            .row
+                                label.col-xs-5(for="trader_type") #{text.trader_type}:
+                                if(inflow.trader_type_id == 1)
+                                    p#trader_type.col-xs-7 #{text.producer}
+                                else
+                                    p#trader_type.col-xs-7 #{text.oilpress}
+                            .row
+                                label.col-xs-5(for="trader_name") #{text.trader_name}:
+                                p#trader_name.col-xs-7 #{inflow.trader_name}
+                            .row
+                                label.col-xs-5(for="trader_afm") #{text.trader_afm}:
+                                p#trader_afm.col-xs-7 #{inflow.trader_afm}
+                            .row
+                                label.col-xs-5(for="notes") #{text.notes}:
+                                p#notes.col-xs-7 #{inflow.notes}
+                            .row
+                                label.col-xs-5(for="invoice_no") #{text.invoice_no}:
+                                p#invoice_no.col-xs-7 #{inflow.invoice_no}
+                            .row
+                                label.col-xs-5(for="inflow_date") #{text.inflow_date}:
+                                p#inflow_date.col-xs-7 #{inflow.inflow_date}
+                        .col-xs-5.col-md-6
+                            if(inflow.tank_id !== null)
+                                .row
+                                    label.col-xs-6(for="tank_id") #{text.tank_id}:
+                                    p#tank_id.col-xs-6 #{inflow.Merchant_Tank.tank_no + (inflow.Merchant_Tank.description?' - '+inflow.Merchant_Tank.description:'')}
+                            .row
+                                label.col-xs-6(for="totalQuantity") #{text.quantity}:
+                                p#totalQuantity.col-xs-6 #{inflow.dataValues.quantity?inflow.dataValues.quantity.toFixed(2):0} kg
+                            .row
+                                label.col-xs-6(for="totalAcidity") #{text.acidity}:
+                                p#totalAcidity.col-xs-6 #{inflow.dataValues.acidity?inflow.dataValues.acidity.toFixed(2):0} %
+                            .row
+                                label.col-xs-6(for="totalSustainability") #{text.sustainability}:
+                                p#totalSustainability.col-xs-6 #{inflow.dataValues.sustainability?inflow.dataValues.sustainability.toFixed(2):0} %
+                            if(inflow.trader_type_id == 1 && inflow.dataValues.contents.rows[0].Producer_Land != null)
+                                .row
+                                    label.col-xs-6(for="land") #{text.land}:
+                                    p#land.col-xs-6 #{inflow.dataValues.contents.rows[0].Producer_Land.osde}
+            .row
+                if(inflow.trader_type_id !== 1)
+                    .col-xs-12.col-md-12
+                        .panel.panel-default
+                            .panel-heading
+                                h4.panel-title #{text.inflowContentsHeader}
+                            .panel-body
+                                if(inflow.dataValues.contents.count > 0)
+                                    .table-responsive
+                                        table#producersTable.table.table-striped
+                                            thead
+                                                tr
+                                                    th #{text.producer}
+                                                    th #{text.land}
+                                                    th #{text.quantity} kg
+                                            tbody
+                                                each producer in inflow.dataValues.contents.rows
+                                                    tr
+                                                        td.producerName #{(!producer.Producer.first_name && !producer.Producer.last_name)?text.unknownProducer:((producer.Producer.first_name?producer.Producer.first_name:'') + ' ' + (producer.Producer.last_name?producer.Producer.last_name:''))}
+                                                        td.landOSDE #{producer.Producer_Land?producer.Producer_Land.osde:''}
+                                                        td.landQuantity #{producer.quantity?producer.quantity.toFixed(2):0} kg
+                                else
+                                    p#noProducerDetails(type="warning") #{text.noProducerDetails}
+

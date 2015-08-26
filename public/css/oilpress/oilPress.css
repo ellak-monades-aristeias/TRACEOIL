@@ -1,0 +1,21 @@
+html{
+    min-height:100%;
+}
+body {
+    background: url('/images/oilpressBack.jpg');
+    background-repeat: no-repeat;
+    background-position: center 51px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.center-modal{
+    position:fixed;
+    top:20%;
+}
+
+.scanCardImg{
+    text-align:center;
+}

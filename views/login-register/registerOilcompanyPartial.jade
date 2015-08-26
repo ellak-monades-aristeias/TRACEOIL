@@ -1,0 +1,59 @@
+.hidden {{register.getMessages(#{JSON.stringify(text.pageJS)})}}
+.container
+    .row
+        h1 #{text.oilcompanyHeader}
+        #registrationFormContainer.panel.panel-default
+            .panel-heading
+                h3.panel-title #{text.oilcompanyPanelHeader}
+            .panel-body
+                .alert.alert-warning(role="alert",ng-show="register.registrationError")
+                    strong {{register.errorMessage}}
+                form#registrationForm.credentials-form.form-horizontal(role="form",name="registrationForm", novalidate)
+                    fieldset#userDetails
+                        legend #{text.userDetailsLegend}
+                        .help-block #{text.requiredFieldsWarning}
+                        //username
+                        .form-group.has-warning
+                            label.col-sm-2.control-label(for="username") #{text.usernameField}
+                            .col-sm-10
+                                input.form-control(id="username",name="username", type="text", ng-model="register.formData.username", required)
+                        //password
+                        .form-group.has-warning
+                            label.col-sm-2.control-label(for="password") #{text.passwordField}
+                            .col-sm-10
+                                input.form-control(id="password",name="password", type="password", ng-model="register.formData.password", required)
+                        //verifyPassword
+                        .form-group(ng-class="{'has-error':register.formData.password !== register.formData.verifyPassword && registrationForm.verifyPassword.$dirty}")
+                            label.col-sm-2.control-label(for="verifyPassword") #{text.verifyPasswordField}
+                            .col-sm-10
+                                input.form-control(id="verifyPassword",name="verifyPassword", type="password", ng-model="register.formData.verifyPassword", required)
+                                p.help-block(ng-show="register.formData.password !== register.formData.verifyPassword && registrationForm.verifyPassword.$dirty") #{text.passwordMismatch}
+                        //email
+                        .form-group.has-warning(ng-class="{'has-error':registrationForm.email.$invalid && registrationForm.email.$dirty}")
+                            label.col-sm-2.control-label(for="email") #{text.emailField}
+                            .col-sm-10
+                                input.form-control(id="email",name="email", type="email", ng-model="register.formData.email", required)
+                                p.help-block(ng-show="registrationForm.email.$invalid && registrationForm.email.$dirty") #{text.enterValidEmail}
+                    fieldset#personalDetails
+                        legend #{text.personalDetailsLegend}
+                        - var personalFields = [{id:"first_name"},{id:"last_name"}];
+                        - for (var i = 0, len = personalFields.length; i<len; i++)
+                            .form-group
+                                label.col-sm-2.control-label(for="#{personalFields[i].id}") #{text[personalFields[i].id+"Field"]}
+                                .col-sm-10
+                                    -var type = ((personalFields[i].hasOwnProperty('type'))?personalFields[i].type:'text');
+                                    input.form-control(id="#{personalFields[i].id}",name="#{personalFields[i].id}", type="#{type}", ng-model="register.formData.#{personalFields[i].id}")
+                        .form-group
+                            label.col-sm-2.control-label(for="oilcompany") #{text.oilcompany}
+                            .col-sm-10
+                                select#oilcompany.form-control(ng-model="register.formData.oilcompany_id", required)
+                                    each oilCompany in oilCompanies
+                                        option(value=oilCompany.oilcompany_id)= oilCompany.name
+                    br
+                    #alertPlaceholder
+                    .form-group
+                        .col-sm-offset-2.col-sm-5
+                            button#submitRegistration.btn.btn-primary.btn-lg(type="submit", ng-disabled="registrationForm.$invalid", register-user) #{text.submitButton}
+                        .col-sm-5
+                            a(ui-sref="login")
+                                button#cancelRegistration.btn.btn-warning.btn-lg(type="button") #{text.cancelButton}

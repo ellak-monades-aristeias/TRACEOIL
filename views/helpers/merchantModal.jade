@@ -1,0 +1,52 @@
+//get messages for javascrit alerts
+.hidden {{getMessages(#{JSON.stringify(text.pageJS)})}}
+.modal-header
+    h4.modal-title #{text.viewMerchantHeader}
+.modal-body
+    form.form-horizontal(name="merchantForm", novalidate)
+        .form-group
+            label.col-sm-3.control-label(for="name") #{text.name}
+            .col-sm-9
+                input.form-control(type="text", name="name", ng-model="merchant.name", readonly)
+        .form-group
+            label.col-sm-3.control-label(for="first_name") #{text.first_name}
+            .col-sm-9
+                input.form-control(type="text", name="first_name", ng-model="merchant.first_name", readonly)
+        .form-group
+            label.col-sm-3.control-label(for="last_name") #{text.last_name}
+            .col-sm-9
+                input.form-control(type="text", name="last_name", ng-model="merchant.last_name", readonly)
+        .form-group
+            label.col-sm-3.control-label(for="afm") #{text.afm}
+            .col-sm-9
+                input.form-control(type="text", name="afm", ng-model="merchant.afm", readonly)
+        .form-group
+            label.col-sm-3.control-label(for="address") #{text.address}
+            .col-sm-9
+                input.form-control(type="text", name="address", ng-model="merchant.address", readonly)
+        .form-group
+            label.col-sm-3.control-label(for="city") #{text.city}
+            .col-sm-9
+                input.form-control(type="text", name="city", ng-model="merchant.city", readonly)
+        .form-group
+            label.col-sm-3.control-label(for="state") #{text.state}
+            .col-sm-9
+                input.form-control(type="text", name="state", ng-model="merchant.state", readonly)
+        .form-group
+            label.col-sm-3.control-label(for="area_code") #{text.area_code}
+            .col-sm-9
+                input.form-control(type="text", name="area_code", ng-model="merchant.area_code", readonly)
+        .form-group
+            label.col-sm-3.control-label(for="phone") #{text.phone}
+            .col-sm-9
+                input.form-control(type="text", name="phone", ng-model="merchant.phone", readonly)
+        .form-group
+            label.col-sm-3.control-label(for="createdAt") #{text.createdAt}
+            .col-sm-9
+                input.form-control(type="text", name="createdAt", ng-value="merchant.createdAt |date:'MM/dd/yyyy HH:mm:ss'", readonly)
+        .form-group
+            label.col-sm-3.control-label(for="updatedAt") #{text.updatedAt}
+            .col-sm-9
+                input.form-control(type="text", name="updatedAt", ng-value="merchant.updatedAt|date:'MM/dd/yyyy HH:mm:ss'", readonly)
+.modal-footer
+    button.btn.btn-danger(ng-click="close()") #{text.cancel}

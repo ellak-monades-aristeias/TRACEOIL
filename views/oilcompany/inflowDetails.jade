@@ -1,0 +1,115 @@
+.container(ng-controller="inflowDetailsCtrl")
+    #backButtonContainer.row
+        .col-xs-12
+            button.btn.btn-default(type="button",ui-sref="inflows.list")
+                span.glyphicon.glyphicon-arrow-left #{text.backToInflowList}
+    .row
+        .alert.alert-success(role="alert",ng-show="saveSuccess") #{text.saveSuccess}
+        .alert.alert-danger(role="alert",ng-show="undefinedError") #{text.undefinedError}
+        .col-xs-12.col-md-4
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.merchantDetails}
+                .panel-body
+                    form.form-horizontal(name="merchantInflowForm",role="form",novalidate)
+                        .form-group
+                            label.col-sm-3.control-label(for="name") #{text.name}
+                            .col-sm-9
+                                input#name.form-control(type="text",name="name",ng-value="merchant.name",readonly)
+                        .form-group
+                            label.col-sm-3.control-label(for="first_name") #{text.first_name}
+                            .col-sm-9
+                                input#first_name.form-control(type="text",name="first_name",ng-value="merchant.first_name",readonly)
+                        .form-group
+                            label.col-sm-3.control-label(for="last_name") #{text.last_name}
+                            .col-sm-9
+                                input#last_name.form-control(type="text",name="last_name",ng-value="merchant.last_name",readonly)
+                        .form-group
+                            label.col-sm-3.control-label(for="afm") #{text.afm}
+                            .col-sm-9
+                                input#name.form-control(type="number",name="afm",ng-value="merchant.afm",readonly)
+                        .form-group
+                            label.col-sm-3.control-label(for="address") #{text.address}
+                            .col-sm-9
+                                input#address.form-control(type="text",name="address",ng-value="merchant.address",readonly)
+                        .form-group
+                            label.col-sm-3.control-label(for="city") #{text.city}
+                            .col-sm-9
+                                input#city.form-control(type="text", name="city",ng-value="merchant.city",readonly)
+                        .form-group
+                            label.col-sm-3.control-label(for="state") #{text.state}
+                            .col-sm-9
+                                input#state.form-control(type="text", name="state",ng-value="merchant.state",readonly)
+                        .form-group
+                            label.col-sm-3.control-label(for="area_code") #{text.area_code}
+                            .col-sm-9
+                                input#area_code.form-control(type="text", name="area_code",ng-value="merchant.area_code",readonly)
+                        .form-group
+                            label.col-sm-3.control-label(for="phone") #{text.phone}
+                            .col-sm-9
+                                input#phone_number.form-control(type="number", name="phone",ng-value="merchant.phone",readonly)
+        .col-xs-12.col-md-8
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.inflowDetailsHeader}
+                .panel-body
+                    form.form-horizontal(name="oilcompanyInflowForm")
+                        .form-group
+                            label.col-sm-3.control-label(for="oilcompany_lot") #{text.oilcompany_lot}
+                            .col-sm-9
+                                input#oilcompany_lot.form-control(type="text", name="oilcompany_lot",ng-model="inflow.oilcompany_lot")
+                        .form-group
+                            label.col-sm-3.control-label(for="oilcompany_notes") #{text.notes}
+                            .col-sm-9
+                                textarea#oilcompany_notes.form-control(type="text", name="oilcompany_notes",ng-model="inflow.oilcompany_notes")
+                        .pull-right(ng-hide="oilcompanyInflowForm.$pristine")
+                            button.btn.btn-success(spinner="saveInflow()")
+                                span.glyphicon.glyphicon-floppy-save
+                                span #{text.save}
+                            button.btn.btn-default(ng-click="restoreInflow()")
+                                span.glyphicon.glyphicon-refresh
+                                span #{text.restore}
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.inflowContentsHeader}
+                .panel-body
+                    ul#generalinflowStats.list-group
+                        li.list-group-item
+                            | #{text.invoice_no}: <span>{{inflow.invoice_no}}</span>
+                        li.list-group-item
+                            | #{text.inflow_date}: <span>{{inflow.inflow_date | date : 'dd/MM/yyyy HH:mm'}}</span>
+                        li.list-group-item
+                            |#{text.quantity}: <span class="inflow-quantity">{{inflow.quantity | number : 2}} kg</span>
+                        li.list-group-item
+                            |#{text.sustainability}: <span class="inflow-sustainability">{{inflow.sustainability | number : 0}}%</span>
+                            progressbar.progress-striped.active(value="inflow.sustainability", max=100, type="success")
+                        li.list-group-item
+                            |#{text.acidity} <span class="inflow-acidity">{{inflow.acidity?inflow.acidity.toFixed(2)+" %":'#{text.none}'}}</span>
+                    #inflowContentsContainer.table-responsive
+                        accordion(close-others="true")
+                            accordion-group(is-open="status.open", ng-repeat="(oilpressID,oilpress) in inflow.contents")
+                                accordion-heading
+                                    a(ng-click="viewOilpress($event, oilpressID)") {{oilpress.name.length<=0?'#{text.producersInflows}':oilpress.name}}
+                                    i.pull-right.glyphicon(ng-click="getProducerSustainabilityScore(oilpressID,status.open)", ng-class="{'glyphicon-chevron-down':status.open,'glyphicon-chevron-right':!status.open}")
+                                    span.hidden-xs.pull-right(ng-click="getProducerSustainabilityScore(oilpressID,status.open)") #{text.contents}
+                                b #{text.totalQuantity}: <span class="inflow-quantity">{{oilpress.quantity.toFixed(2)}} kg</span>
+                                #inflowContentDetails #{text.contentDetails}:
+                                hr
+                                .table-responsive
+                                    table.table.table-striped(ng-show="oilpress.contents.length>0")
+                                        thead
+                                            tr
+                                                th #{text.producer}
+                                                th #{text.producerSustainability}
+                                                th #{text.land}
+                                                th #{text.quantity} kg
+                                        tbody
+                                            tr(ng-repeat="producer in oilpress.contents")
+                                                td.producerName
+                                                    a(href="#",ng-click="viewProducer(producer.producer_id)") {{(producer.producer_name==="null null" || producer.producer_name==='')?'#{text.unknownProducer}':producer.producer_name.replace("null","")}}
+                                                td.producerSustainability
+                                                    progressbar(animate="false", value="producer.producerSustainability", max=100, type="success")
+                                                        b {{producer.producerSustainability | number:0}}%
+                                                td.landOSDE {{producer.osde}}
+                                                td.landQuantity {{producer.quantity.toFixed(2)}} kg
+                                    alert(type="warning", ng-show="oilpress.contents.length<=0") #{text.noProducerDetails}

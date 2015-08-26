@@ -1,0 +1,49 @@
+.container(ng-controller="outflowDetailCtrl")
+    #backButtonContainer.row
+        .col-xs-12
+            button.btn.btn-default(type="button",ui-sref="outflows.list")
+                span.glyphicon.glyphicon-arrow-left #{text.backToOutflowList}
+    .row
+        .col-xs-12.col-md-6
+            alert(type="success",ng-show="showSuccess", close="hideAlert('success')") #{text.sucessfulUpdate}
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.outflowDetails}
+                .panel-body
+                    outflow(outflow="outflow",merchant-tanks="merchantTanks", outflow-form="outflowForm")
+        .col-xs-12.col-md-6
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.outflowContentsHeader}
+                .panel-body
+                    ul#generalOutflowStats.list-group
+                        li.list-group-item
+                            |#{text.sustainability}: <span class="outflow-sustainability">{{outflow.sustainability | number : 0}}%</span>
+                            progressbar.progress-striped.active(value="outflow.sustainability", max=100, type="success")
+                        li.list-group-item
+                            |#{text.acidity} <span class="outflow-acidity">{{outflow.acidity?outflow.acidity.toFixed(2)+" %":'#{text.none}'}}</span>
+                    #outflowContentsContainer.table-responsive
+                        accordion(close-others="true")
+                            accordion-group(is-open="status.open", ng-repeat="(oilpressID,oilpress) in outflow.contents")
+                                accordion-heading
+                                    a(ng-click="viewOilpress($event, oilpressID)") {{oilpress.name.length<=0?'#{text.producersInflows}':oilpress.name}}
+                                    i.pull-right.glyphicon(ng-class="{'glyphicon-chevron-down':status.open,'glyphicon-chevron-right':!status.open}")
+                                    span.hidden-xs.pull-right #{text.contents}
+                                b #{text.totalQuantity}: <span class="oilpress-quantity">{{oilpress.quantity.toFixed(2)}} kg</span>
+                                #outflowContentDetails #{text.contentDetails}:
+                                hr
+                                .table-responsive
+                                    table.table.table-striped(ng-show="oilpress.contents.length>0")
+                                        thead
+                                            tr
+                                                th #{text.producer}
+                                                th #{text.land}
+                                                th #{text.quantity} kg
+                                        tbody
+                                            tr(ng-repeat="producer in oilpress.contents")
+                                                td.producerName
+                                                    a(href="#",ng-click="viewProducer(producer.producer_id)") {{(producer.producer_name==="null null" || producer.producer_name==='')?'#{text.unknownProducer}':producer.producer_name.replace("null","")}}
+                                                td.landOSDE {{producer.osde}}
+                                                td.landQuantity {{producer.quantity.toFixed(2)}} kg
+                                    alert(type="warning", ng-show="oilpress.contents.length<=0") #{text.noProducerDetails}
+                    //pagination.pagination-sm(total-items="outflowContentsCount",ng-model="outflowContentsCurrentPage",previous-text!="&lsaquo;", next-text!="&rsaquo;", ng-change="pageChanged(outflowContentsCurrentPage)")

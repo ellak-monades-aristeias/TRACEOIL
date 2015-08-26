@@ -1,0 +1,42 @@
+extends ../header
+    block pageCSS
+        link(rel="stylesheet", type="text/css", href="/css/registration/registration.css")
+    block content
+        body
+            script
+                |var messages = {};
+                each val,head in text.pageJS
+                    |messages.#{head} = '#{val}';
+            .container
+                h1 #{text.h1Header}
+                #registrationFormContainer.panel.panel-default
+                    .panel-heading
+                        h3.panel-title #{text.h3Header}
+                    .panel-body
+                        form#registrationForm.form-register.form-horizontal(role="form", action="/register", method="post")
+                            //input#userType(type="hidden",name="userType", value="producer")
+                            fieldset#userDetails
+                                legend #{text.userDetailsLegend}
+                                - var userFields = [{id:"username"},{id:"password",type:"password"},{id:"verifyPassword",type:"password"},{id:"email",type:"email"},{id:"afm"}];
+                                - for (var i = 0, len = userFields.length; i<len; i++)
+                                    .form-group
+                                        label.col-sm-2.control-label(for="#{userFields[i].id}") #{text[userFields[i].id+"Field"]}
+                                        .col-sm-10
+                                            -var type = ((userFields[i].hasOwnProperty('type'))?userFields[i].type:'text');
+                                            input.form-control(id="#{userFields[i].id}",name="#{userFields[i].id}", type="#{type}")
+                            fieldset#personalDetails
+                                legend #{text.personalDetailsLegend}
+                                - var personalFields = [{id:"firstName"},{id:"lastName"},{id:"address"},{id:"city"},{id:"state"},{id:"areacode"},{id:"landline"},{id:"mobile"}];
+                                - for (var i = 0, len = personalFields.length; i<len; i++)
+                                    .form-group
+                                        label.col-sm-2.control-label(for="#{personalFields[i].id}") #{text[personalFields[i].id+"Field"]}
+                                        .col-sm-10
+                                            -var type = ((personalFields[i].hasOwnProperty('type'))?personalFields[i].type:'text');
+                                            input.form-control(id="#{personalFields[i].id}",name="#{personalFields[i].id}", type="#{type}")
+                            br
+                            #alertPlaceholder
+                            .form-group
+                                .col-sm-offset-2.col-sm-10
+                                    button#submitRegistration.btn.btn-primary.btn-lg(type="button") #{text.submitButton}
+        include ../footer
+        script(type="text/javascript", src="/javascripts/registration/registerProducer.js")

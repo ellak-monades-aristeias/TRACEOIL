@@ -1,0 +1,11 @@
+//get messages for javascrit alerts
+.hidden {{getMessages(#{JSON.stringify(text.pageJS)})}}
+.modal-header
+    h4.modal-title #{text.newOutflowHeader}
+.modal-body
+    outflow(outflow="outflow",oilpress-tanks="oilpressTanks")
+.modal-footer
+    .row
+        .col-xs-12
+            button.btn.btn-success(ng-disabled="outflowForm.$invalid || saveButtonDisabled",spinner="save()") #{text.save}
+            button.btn.btn-danger(ng-click="close()") #{text.cancel}

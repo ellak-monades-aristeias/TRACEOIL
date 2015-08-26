@@ -1,0 +1,86 @@
+.container(ng-controller="myAccountCtrl")
+    .row
+        h3 #{text.myAccountHeader}
+    .row
+        .col-sm-6
+            .alert.alert-success(role="alert", ng-show="showSuccessAlert") #{text.successfulSaveAlert}
+            .alert.alert-danger(role="alert",ng-show="showErrorAlert") #{text.errorSaveAlert}
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.profilePanelHeader}
+                .panel-body
+                    form#profileForm.form-horizontal(role="form",name="profileForm",novalidate)
+                        .form-group
+                            label.col-sm-2.control-label(for="id") ID
+                            .col-sm-10
+                                input#id.form-control(name="id",type="number",readonly, ng-model="profile.oilpress_id")
+                        .form-group
+                            label.col-sm-2.control-label(for="name") #{text.name}
+                            .col-sm-10
+                                input#name.form-control(name="name",type="text", ng-model="profile.name")
+                        .form-group(ng-class="{'has-error':profileForm.afm.$invalid && profileForm.afm.$dirty}")
+                            label.col-sm-2.control-label(for="afm") #{text.afm}
+                            .col-sm-10
+                                input#afm.form-control(name="afm",type="text", ng-model="profile.afm",required,minlength=9,maxlength=9)
+                                p.help-block(ng-show="profileForm.afm.$invalid && profileForm.afm.$dirty") #{text.invalidAFM}
+                        .form-group
+                            label.col-sm-2.control-label(for="address") #{text.address}
+                            .col-sm-10
+                                input#address.form-control(name="address",type="text", ng-model="profile.address")
+                        .form-group
+                            label.col-sm-2.control-label(for="city") #{text.city}
+                            .col-sm-10
+                                input#city.form-control(name="city",type="text", ng-model="profile.city")
+                        .form-group
+                            label.col-sm-2.control-label(for="state") #{text.state}
+                            .col-sm-10
+                                input#state.form-control(name="state",type="text", ng-model="profile.state")
+                        .form-group
+                            label.col-sm-2.control-label(for="area_code") #{text.area_code}
+                            .col-sm-10
+                                input#area_code.form-control(name="area_code",type="text", ng-model="profile.area_code",minlength=5,maxlength=5)
+                        .form-group
+                            label.col-sm-2.control-label(for="phone") #{text.phone}
+                            .col-sm-10
+                                input#phone.form-control(name="phone",type="text", ng-model="profile.phone")
+                        .form-group
+                            label.col-sm-2.control-label(for="updatedAt") #{text.updatedAt}
+                            .col-sm-10
+                                input#updatedAt.form-control(name="updatedAt",type="text",readonly, ng-value="profile.updatedAt|date : 'medium'")
+                .panel-footer.text-center
+                    button.btn.btn-success(type="button",ng-show="profileForm.$dirty",ng-disabled="profileForm.$invalid",ng-click="saveUserInfo()")
+                        span.glyphicon.glyphicon-floppy-save
+                        span #{text.save}
+
+        .col-sm-6
+            .alert.alert-success(role="alert", ng-show="passwordChangeSuccess") #{text.passwordChangeSuccess}
+            .alert.alert-danger(role="alert", ng-show="passwordChangeError") #{text.passwordChangeError}
+            .alert.alert-danger(role="alert", ng-show="wrongPasswordError") #{text.wrongPassword}
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.userPanelHeader}
+                .panel-body
+                    button.btn.btn-default(type="button",ng-click="toggleChangePassword(true)") #{text.changePassword}
+                    #changePasswordContainer.row(ng-show="showChangePassword")
+                        .col-md-8
+                            form#changePasswordForm.form-horizontal(role="form", name="changePasswordForm", novalidate)
+                                .form-group(ng-class="{'has-error':changePasswordForm.currentPassword.$invalid && changePasswordForm.currentPassword.$dirty}")
+                                    label.col-md-4.control-label(for="currentPassword") #{text.currentPassword}
+                                    .col-md-8
+                                        input#currentPassword.form-control(name="currentPassword",type="password",ng-model="changePass.currentPassword",required)
+                                .form-group
+                                    label.col-md-4.control-label(for="newPassword") #{text.newPassword}
+                                    .col-md-8
+                                        input#newPassword.form-control(name="newPassword",type="password",ng-model="changePass.newPassword",required)
+                                .form-group(ng-class="{'has-warning':changePasswordForm.validatePassword.$invalid}")
+                                    label.col-md-4.control-label(for="validatePassword") #{text.validatePassword}
+                                    .col-md-8
+                                        input#validatePassword.form-control(name="validatePassword",type="password",ng-model="changePass.validatePassword", required,compare-to="changePass.newPassword")
+                                        p.help-block(ng-show="changePasswordForm.validatePassword.$invalid && changePasswordForm.validatePassword.$dirty && changePasswordForm.newPassword.$dirty") #{text.passwordsNoMatch}
+                        #changePasswordButtons.col-md-4
+                            button.btn.btn-default(type="button",ng-disabled="changePasswordForm.$invalid", ng-click="changePassword()")
+                                span.glyphicon.glyphicon-floppy-save
+                                span #{text.save}
+                            button.btn.btn-warning(type="button",ng-click="toggleChangePassword(false)")
+                                span.glyphicon.glyphicon-remove
+                                span #{text.cancel}

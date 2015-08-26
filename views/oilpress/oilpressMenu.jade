@@ -1,0 +1,28 @@
+//header navigation bar
+nav.navbar.navbar-default(role="navigation")
+    .container-fluid
+        .navbar-header
+            button.navbar-toggle.collapsed(type="button",ng-click="collapseMenu()")
+                span.sr-only #{menu.menuActivation}
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+            a.navbar-brand(href="#") #{menu.oilpress}
+        #oilpress-home-navbar-collapse.collapse.navbar-collapse(collapse="menuCollapsed")
+            ul.nav.navbar-nav
+                li(ui-sref-active="active")
+                    a(ui-sref='home') #{menu.main}
+                li(ui-sref-active="active")
+                    a(ui-sref='my-account') #{menu.myAccount}
+                li(ng-class="{active:$state.includes('producers')}")
+                    a(ui-sref='producers.list') #{menu.producers}
+                li(ng-class="{active:$state.includes('tanks')}")
+                    a(ui-sref='tanks.list') #{menu.tanks}
+                li(ui-sref-active="active")
+                    a(ui-sref='inflows') #{menu.inflows}
+                li(ng-class="{active:$state.includes('outflows')}")
+                    a(ui-sref='outflows.list') #{menu.outflows}
+                li
+                    a(href="/logout", target="_self")
+                        strong #{menu.logout}

@@ -1,0 +1,57 @@
+.container(ng-controller="tankDetailCtrl")
+    #backButtonContainer.row
+        .col-xs-12
+            button.btn.btn-default(type="button",ui-sref="tanks.list")
+                span.glyphicon.glyphicon-arrow-left #{text.backToTankList}
+    .row
+        .col-xs-12.col-md-6
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.header}
+                .panel-body
+                    .tankInfo.col-xs-12
+                        #action-alert-placeholder
+                            alert(type="success",ng-show="showSuccess", close="hideAlert('success')") #{text.successfulSave}
+                            alert(type="warning",ng-show="showWarning", close="hideAlert('warning')") #{text.tankWithNoExists}
+                        tank
+                .panel-footer.text-right
+                    button.btn.btn-success(type="button", ng-show="tankForm.$dirty", spinner="saveTank()") #{text.tankSave}
+        .col-xs-12.col-md-6
+            .panel.panel-default
+                .panel-body
+                    tabset
+                        tab.tankContents(heading=text.tankContents,select="getTankContents()")
+                            tank-status(tank="tank")
+                            #tankContentsTableContainer.table-responsive.col-xs-12
+                                h4 #{text.tankContentsHeader}
+                                table#tankContentsTable.table.table-striped
+                                    thead
+                                        tr
+                                            th #{text.producer}
+                                            th #{text.land}
+                                            th #{text.quantity} kg
+                                    tbody
+                                        tr(ng-repeat="content in tankContents")
+                                            td.producerName
+                                                a(href="#",ng-click="viewProducer(content.producer_id)") {{content.Producer.first_name+' '+content.Producer.last_name}}
+                                            td.landOSDE {{content.Producer_Land.osde}}
+                                            td.landQuantity {{content.quantity.toFixed(2)}} kg
+                                pagination.pagination-sm(total-items="tankContentsCount",ng-model="contentsCurrentPage",previous-text!="&lsaquo;", next-text!="&rsaquo;", ng-change="contentsPageChanged(contentsCurrentPage)")
+                        tab.tankActions(heading=text.tankActions, select="getTankActions()")
+                            #tankActionsTableContainer.table-responsive.col-xs-12
+                                h4 #{text.tankActionsHeader}
+                                table#tankActionsTable.table.table-striped
+                                    thead
+                                        tr
+                                            th #{text.actionType}
+                                            th #{text.actionDate}
+                                            th #{text.actionTargetSource}
+                                    tbody
+                                        tr.tankAction(ng-repeat="tankAction in tankActions", ng-click="viewAction(tankAction.action,tankAction.action_id)")
+                                            td.actionType
+                                                span(ng-class="getActionClass(tankAction.action)",style="margin-right:5px;")
+                                                |{{actionTypes[tankAction.action]}}
+                                            td.actionDate {{tankAction.action_date | date :'MM/dd/yyyy HH:mm:ss'}}
+                                            td.actionTargetSource {{tankAction.action_subject_name}}
+                                pagination.pagination-sm(total-items="tankActionsCount",ng-model="actionsCurrentPage",previous-text!="&lsaquo;", next-text!="&rsaquo;", ng-change="actionsPageChanged(actionsCurrentPage)")
+    .hidden {{getActionTypes(#{JSON.stringify(text.actionText)})}}

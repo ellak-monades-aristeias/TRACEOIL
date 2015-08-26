@@ -1,0 +1,44 @@
+.container(ng-controller="merchantsCtrl")
+    .row
+        .col-xs-12
+            .panel
+                .alert.alert-warning(role="alert", ng-show="currentMerchants.length<=0") #{text.noMerchants}
+                #no-more-tables.panel-body
+                    table.table.table-striped
+                        thead
+                            tr
+                                //th
+                                th ID
+                                th #{text.name}
+                                th #{text.last_name}
+                                th #{text.first_name}
+                                th #{text.afm}
+                                th.text-center #{text.options}
+                        tr.searchFieldsRow
+                            th.col-md-1(data-title="ID")
+                                input#searchID.form-control(type="number", ng-model="searchID")
+                            th.col-md-2(data-title=text.name)
+                                input#searchID.form-control(type="text", ng-model="searchName")
+                            th.col-md-2(data-title=text.last_name)
+                                input#searchLastName.form-control(type="text", ng-model="searchLastName")
+                            th.col-md-2(data-title=text.first_name)
+                                input#searchFirstName.form-control(type="text", ng-model="searchFirstName")
+                            th.col-md-2(data-title=text.afm)
+                                input#searchAFM.form-control(type="text", ng-model="searchAFM")
+                            th.col-md-3.text-center(data-title=text.options)
+                                button#seacrhButton.btn.btn-default(type="button",ng-click="searchMerchant()")
+                                    span.glyphicon.glyphicon-search
+                                button#clearSearch.btn.btn-default(type="button",ng-click="clearSearch()")
+                                    span.glyphicon.glyphicon-refresh
+                        tbody
+                            tr.existingInflowRow(ng-repeat="merchant in currentMerchants")
+                                td.merchantID(data-title="ID") {{merchant.merchant_id}}
+                                td.merchantName(data-title=text.name) {{merchant.name}}
+                                td.merchantLastName(data-title=text.last_name) {{merchant.last_name}}
+                                td.merchantFirstName(data-title=text.first_name) {{merchant.first_name}}
+                                td.merchantAFM(data-title=text.afm) {{merchant.afm}}
+                                td.merchantAction.text-center(data-title=text.action)
+                                    button.btn.btn-default(type="button",ng-click="viewMerchant(merchant)",title=text.merchantDetails)
+                                        span.glyphicon.glyphicon-list
+            pagination.pagination-sm(total-items="currentMerchantsCount",ng-model="currentMerchantsCurrentPage",previous-text!="&lsaquo;", next-text!="&rsaquo;", ng-change="pageChanged()")
+    .hidden {{getMessages(#{JSON.stringify(text.merchantJS)})}}

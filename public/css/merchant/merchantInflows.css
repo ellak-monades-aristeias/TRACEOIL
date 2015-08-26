@@ -1,0 +1,31 @@
+/*New inflow - search form show/hide animations */
+#newInflowPlaceHolder.ng-hide, #searchInflowPlaceHolder.ng-hide, #newInflowContentsPlaceHolder.ng-hide{
+    line-height:0;
+    opacity:0;
+    padding:0;
+}
+
+#newInflowPlaceHolder, #searchInflowPlaceHolder, #newInflowContentsPlaceHolder{
+    -webkit-transition: all linear 0.2s;
+    -moz-transition: all linear 0.2s;
+    -ms-transition: all linear 0.2s;
+    -o-transition: all linear 0.2s;
+    transition: all linear 0.2s;
+}
+
+#newInflowContentTable{
+    width:580px;
+}
+
+#newInflowContentTable td.producerlandOSDE{
+    width:150px;
+}
+
+#newInflowContentTable td.landQuantity{
+    width:100px;
+}
+
+#newInflowContentsPlaceHolder .panel-body{
+    max-height:464px;
+    overflow-y:auto;
+ }

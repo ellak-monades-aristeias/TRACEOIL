@@ -1,0 +1,13 @@
+//get messages for javascrit alerts
+.hidden {{getMessages(#{JSON.stringify(text.pageJS)})}}
+.modal-header
+    h4.modal-title(ng-show="producer_id !== 0") #{text.assignCardToProducerHeader}
+    h4.modal-title(ng-show="producer_id === 0") #{text.searchProducersCardHeader}
+.modal-body
+    .scanCardImg
+        img(align="center" src="/images/scanCard.png", width="70%", height="70%")
+    object(name="smartCardApplet" type="application/x-java-applet", width=0, height=0)
+        param(name="code" value="SmartCardApplet" )
+        param(name="archive" value="jar/SmartCardApplet.jar")
+    p(ng-show="producer_id !== 0") #{text.assignCardToProducerMsg}
+    p(ng-show="producer_id === 0") #{text.searchProducersCardMsg}

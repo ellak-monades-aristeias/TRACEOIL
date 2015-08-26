@@ -1,0 +1,10 @@
+.modal-header
+    h4.modal-title #{text.tankOutflowHeader}
+.modal-body
+    outflow(outflow="outflow",outflow-form="outflowForm",merchant-tanks="merchantTanks")
+.modal-footer
+    .row
+        .col-xs-12
+            button.btn.btn-success(ng-disabled="outflowForm.$invalid",spinner="saveOutflow()") #{text.save}
+            button.btn.btn-danger(ng-click="close()") #{text.cancel}
+.hidden {{getMessages(#{JSON.stringify(text.pageJS)})}}

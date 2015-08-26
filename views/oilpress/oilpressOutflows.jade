@@ -1,0 +1,108 @@
+.container(ng-controller="outflowsCtrl")
+    .row
+        .col-md-12
+            button#newOutflow.btn.btn-success(type="button",new-outflow-button)
+                span.glyphicon.glyphicon-plus
+                |#{text.newOutflow}
+            |&nbsp;
+            button.btn.btn-default(ng-click="toggleSearch()")
+                span.glyphicon.glyphicon-search #{text.search}
+            |&nbsp;
+            button.btn.btn-default(ng-click="restoreOutflows()")
+                span.glyphicon.glyphicon-refresh #{text.reset}
+    .row
+        #searchOutflowSection.col-xs-12.col-md-5(ng-show="searchVisible")
+            .panel
+                .panel-heading
+                    h4.panel-title #{text.search}
+                .panel-body
+                    form#searchInflowForm.form-horizontal(role="form",name="searchInflowForm",novalidate)
+                        .form-group
+                            label.col-md-2.control-label(for="searchID") ID
+                            .col-md-4
+                                input#searchID.form-control(type="number", name="searchID", ng-model="searchID")
+                        .form-group
+                            label.col-md-2.control-label(for="searchFirstName") #{text.name}
+                            .col-md-10
+                                input#searchFirstName.form-control(type="text",name="searchFirstName",ng-model="searchFirstName")
+                        .form-group
+                            label.col-md-2.control-label(for="searchLastName") #{text.surname}
+                            .col-md-10
+                                input#searchLastName.form-control(type="text",name="searchLastName",ng-model="searchLastName")
+                        .form-group
+                            label.col-md-2.control-label(for="searchAFM") #{text.afm}
+                            .col-md-10
+                                input#searchAFM.form-control(type="text",name="searchAFM",ng-model="searchAFM",maxlength=9)
+                        .form-group
+                            label.col-md-2.control-label(for="searchInvoiceNo") #{text.invoice_no}
+                            .col-md-10
+                                input#searchInvoiceNo.form-control(type="text",name="searchInvoiceNo",ng-model="searchInvoiceNo")
+                        //.form-group
+                            label.col-sm-2.control-label(for="searchOSDE") #{text.osde}
+                            .col-sm-10
+                                input#searchOSDE.form-control(type="text",name="searchOSDE",ng-model="searchOSDE", max-length=13)
+                        .form-group
+                            label.col-md-2.control-label(for="searchTank") #{text.tank}
+                            .col-md-10
+                                select#searchTank.form-control(name="searchTank",ng-model="searchTank", ng-options="tank.tank_id as (tank.tank_no+': '+tank.description) for tank in oilpressTanks")
+                        .form-group
+                            label.col-md-2.control-label(for="searchDescription") #{text.description}
+                            .col-md-10
+                                input#searchDescription.form-control(type="text",name="searchDescription",ng-model="searchDescription")
+                        .form-group
+                            label.col-md-2.control-label(for="searchFrom") #{text.fromDate}
+                            .col-md-10
+                                //input#searchFrom.form-control(type="date",name="searchFrom",ng-model="searchFrom")
+                                .input-group
+                                    input.form-control(ng-attr-id="searchFrom",type="text",readonly,is-open="datePopupOpenFrom",datepicker-popup="dd/MM/yyyy",format-month="MM",max-date="maxDate",close-text=text.close,current-text=text.today, clear-text=text.clear, ng-attr-name="searchFrom",ng-model="searchFrom")
+                                    span.input-group-btn
+                                        button.btn.btn-default(type="button",ng-click="openDatePopupFrom($event)")
+                                            i.glyphicon.glyphicon-calendar
+                        .form-group
+                            label.col-md-2.control-label(for="searchTo") #{text.toDate}
+                            .col-md-10
+                                //input#searchTo.form-control(type="date",name="searchTo",ng-model="searchTo")
+                                .input-group
+                                    input.form-control(ng-attr-id="searchTo",type="text",readonly,is-open="datePopupOpenTo",datepicker-popup="dd/MM/yyyy",format-month="MM",max-date="maxDate",close-text=text.close,current-text=text.today, clear-text=text.clear, ng-attr-name="searchTo",ng-model="searchTo")
+                                    span.input-group-btn
+                                        button.btn.btn-default(type="button",ng-click="openDatePopupTo($event)")
+                                            i.glyphicon.glyphicon-calendar
+                .panel-footer
+                    button.btn.btn-default(ng-click="searchOutflows()")
+                        span.glyphicon.glyphicon-search #{text.find}
+                    button.btn.btn-danger(ng-click="toggleSearch(false)")
+                        span.glyphicon.glyphicon-remove #{text.cancel}
+    .row
+        .col-md-12
+            .panel
+                .alert.alert-warning(role="alert",ng-show="currentOutflows.length<=0") #{text.noOutflows}
+                #no-more-tables.panel-body
+                    table.table.table-striped
+                        thead
+                            tr
+                                //th
+                                th ID
+                                th #{text.merchant}
+                                th #{text.quantity} kg
+                                //th #{text.sustainability} %
+                                th #{text.invoice_no}
+                                th #{text.date}
+                                th #{text.options}
+                        tbody
+                            tr(ng-repeat="outflow in currentOutflows")
+                                td.outflowID(data-title='ID') {{outflow.outflow_id}}
+                                td.outflowMerchant(data-title=text.merchant) {{outflow.Merchant?(outflow.Merchant.name+'-'+outflow.Merchant.first_name+' '+outflow.Merchant.last_name):''}}
+                                td.outflowQuabtity(data-title=text.quantity) {{outflow.quantity}} kg
+                                td.outflowInvoiceNo(data-title=text.invoice_no, ng-class="{spillOutflow:!outflow.Merchant}") {{outflow.Merchant?outflow.invoice_no:'#{text.spill}'}}
+                                //td.outflowSustainability(data-title=text.sustainability)
+                                    progressbar.progress-striped.active(value="outflow.sustainability", max="100") {{outflow.sustainability|number:0}}%
+                                td.outflowDate(data-title=text.date) {{outflow.outflow_date | date:'dd/MM/yyyy HH:mm:ss'}}
+                                td.outflowActions(data-title=text.options)
+                                    button.btn.btn-default(type="button",ui-sref="outflows.outflowDetails({outflowID:outflow.outflow_id})",title=text.outflowDetails)
+                                        span.glyphicon.glyphicon-list
+                                    button.btn.btn-default(type="button",ng-click="printOutflow(outflow.outflow_id)",ng-disabled="!outflow.Merchant",title=text.printReport)
+                                        span.glyphicon.glyphicon-print
+                                    button.btn.btn-danger(type="button",spinner="deleteOutflow(outflow.outflow_id)",title=text.deleteOutflow)
+                                        span.glyphicon.glyphicon-remove
+            pagination.pagination-sm(total-items="currentOutflowsCount",ng-model="currentOutflowsCurrentPage",previous-text!="&lsaquo;", next-text!="&rsaquo;", ng-change="pageChanged()")
+            .hidden {{getMessages(#{JSON.stringify(text.pageJS)})}}

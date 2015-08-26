@@ -1,0 +1,163 @@
+.container(ng-controller="merchantOutflowsCtrl")
+    .row
+        .col-xs-12
+            button#newOutflow.btn.btn-success(type="button",ng-click="toggleOutflowChoice()")
+                span.glyphicon.glyphicon-plus
+                |#{text.newOutflow}
+            |&nbsp;
+            button.btn.btn-default(ng-click="toggleSearch()")
+                span.glyphicon.glyphicon-search
+                span #{text.search}
+            |&nbsp;
+            button.btn.btn-default(ng-click="restoreOutflows()")
+                span.glyphicon.glyphicon-refresh
+                span #{text.reset}
+            |&nbsp;
+            //button.btn.btn-default(ng-click="togglePrintOutflow()")
+            //    span.glyphicon.glyphicon-print
+            //    span #{text.printReport}
+    #newOutflowChoise.row(ng-show="outflowChoiseActive")
+        .col-xs-12
+            button#tankOutflow.btn.btn-success(tank-outflow-button, ng-click="directOutflowActive=false")
+                span.glyphicon.glyphicon-plus
+                |#{text.tankOutflow}
+            |&nbsp;
+            button#directOutflow.btn.btn-success(ng-click="toggleNewOutflow()")
+                span.glyphicon.glyphicon-plus
+                span #{text.directOutflow}
+    #directOutflowPlaceHolder.row(ng-show="directOutflowActive")
+        .col-xs-12
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title #{text.directOutflowHeader}
+                .panel-body.table-responsive
+                    #noRemainingOutflowsMessage(ng-show="remainingInflows.length<=0")
+                        alert(type="warning")
+                            b #{text.noRemainingInflows}
+                    #newDirectOutflowDetailsPlaceholder(ng-show="remainingInflows.length>0")
+                        table.table.table-striped
+                            thead
+                                tr
+                                    th #{text.selection}
+                                    th #{text.trader}
+                                    th #{text.trader_type}
+                                    th #{text.invoice_no}
+                                    th #{text.quantity} kg
+                                    th #{text.date}
+                                    //th #{text.validated}
+                            tbody
+                                tr(ng-repeat="inflow in remainingInflows")
+                                    td.text-center
+                                        input(type="checkbox", ng-model="inflow.selected", ng-change="hasChecked()")
+                                    td.inflowTrader {{inflow.trader_name}}
+                                    td.inflowTraderType {{inflow.trader_type_id === 1?'#{text.producer}':'#{text.oilpress}'}}
+                                    td.inflowInvoiceNo {{inflow.invoice_no}}
+                                    td.inflowQuantity {{inflow.quantity}}
+                                    td.inflowDate {{inflow.inflow_date | date : 'dd/MM/yyyy HH:mm:ss'}}
+                        br
+                        form.form-horizontal.col-md-12(name="directOutflowForm")
+                            //.form-group
+                            //    label.col-sm-3(for="oilcompany") #{text.oilcompany}
+                            //    .col-sm-6
+                            //        select#oilcompany.form-control(name="oilcompany",ng-model="newDirectOutflow.oilcompany_user_id",ng-options="oilcompany.oilcompany_user_id as (oilcompany.oilcompany_user_id + ' - ' + oilcompany.first_name +' ' + oilcompany.last_name) for oilcompany in oilcompanies")
+                            .form-group
+                                label.col-md-3(for="invoice_no") #{text.invoice_no}
+                                .col-md-6
+                                    input#invoice_no.form-control(type="text",name="invoice_no", ng-model="newDirectOutflow.invoice_no")
+                            .form-group
+                                label.col-md-3(for="notes") #{text.notes}
+                                .col-md-6
+                                    input#notes.form-control(type="text",name="notes", ng-model="newDirectOutflow.notes")
+                            .form-group
+                                label.col-md-3(for="outflow_date") #{text.outflow_date}
+                                .col-md-6
+                                    date-time-picker(date-model="newDirectOutflow.outflow_date", element-name="outflow_date",date-format="dd/MM/yyyy",max-date="maxDate", time-label-text=text.outflow_time,is-required="true",form-name="directOutflowForm",missing-date-text=text.noDate)
+                .panel-footer.text-right(ng-show="remainingInflows.length>0")
+                    button#newDirectOutflow.btn.btn-success(type="button",spinner="saveNewDirectOutflow()", ng-disabled="!inflowHasChecked")
+                        span.glyphicon.glyphicon-floppy-save
+                        |#{text.save}
+                    button.btn.btn-danger(ng-click="toggleNewOutflow(false)")
+                       span.glyphicon.glyphicon-remove
+                       span #{text.cancel}
+    .row
+        #searchOutflowSection.col-xs-6(ng-show="searchOutflowFormActive || printOutflowActive")
+            .panel
+                .panel-heading
+                    //h4.panel-title(ng-show="printOutflowActive") #{text.printReport}
+                    h4.panel-title(ng-show="searchOutflowFormActive") #{text.search}
+                .panel-body
+                    form#searchOutflowForm.form-horizontal(role="form",name="searchOutflowForm",novalidate)
+                        .form-group
+                            label.col-sm-2.control-label(for="searchID") ID
+                            .col-xs-4.col-sm-4
+                                input#searchID.form-control(type="number", name="searchID", ng-model="searchID")
+                        .form-group
+                            label.col-sm-2.control-label(for="searchInvoiceNo") #{text.invoice_no}
+                            .col-sm-10
+                                input#searchInvoiceNo.form-control(type="text",name="searchInvoiceNo",ng-model="searchInvoiceNo")
+                        .form-group
+                            label.col-sm-2.control-label(for="searchNotes") #{text.notes}
+                            .col-sm-10
+                                input#searchDescription.form-control(type="text",name="searchNotes",ng-model="searchNotes")
+                        .form-group
+                            label.col-sm-2.control-label(for="searchFrom") #{text.fromDate}
+                            .col-sm-10
+                                //input#searchFrom.form-control(type="date",name="searchFrom",ng-model="searchFrom")
+                                .input-group
+                                    input.form-control(ng-attr-id="searchFrom",type="text",readonly,is-open="datePopupOpenFrom",datepicker-popup="dd/MM/yyyy",format-month="MM",max-date="maxDate",close-text=text.close,current-text=text.today, clear-text=text.clear, ng-attr-name="searchFrom",ng-model="searchFrom")
+                                    span.input-group-btn
+                                        button.btn.btn-default(type="button",ng-click="openDatePopupFrom($event)")
+                                            i.glyphicon.glyphicon-calendar
+                        .form-group
+                            label.col-sm-2.control-label(for="searchTo") #{text.toDate}
+                            .col-sm-10
+                                //input#searchTo.form-control(type="date",name="searchTo",ng-model="searchTo")
+                                .input-group
+                                    input.form-control(ng-attr-id="searchTo",type="text",readonly,is-open="datePopupOpenTo",datepicker-popup="dd/MM/yyyy",format-month="MM",max-date="maxDate",close-text=text.close,current-text=text.today, clear-text=text.clear, ng-attr-name="searchTo",datepicker-options="dateOptions",ng-model="searchTo")
+                                    span.input-group-btn
+                                        button.btn.btn-default(type="button",ng-click="openDatePopupTo($event)")
+                                            i.glyphicon.glyphicon-calendar
+                .panel-footer
+                    #searchButtons(ng-show="searchOutflowFormActive")
+                        button.btn.btn-default(ng-click="searchOutflows()")
+                            span.glyphicon.glyphicon-search #{text.search}
+                        button.btn.btn-danger(ng-click="toggleSearch(false)")
+                            span.glyphicon.glyphicon-remove #{text.cancel}
+                    //#printButtons(ng-show="printOutflowActive")
+                    //    button.btn.btn-default(ng-click="printOutflows()")
+                    //        span.glyphicon.glyphicon-eye-open
+                    //        span #{text.preview}
+                    //    button.btn.btn-danger(ng-click="togglePrintOutflow(false)")
+                    //        span.glyphicon.glyphicon-remove
+                    //        span #{text.cancel}
+    .row
+        .col-xs-12
+            .panel.panel-default
+                .alert.alert-success(role ="alert", ng-show="DirectOutflowSaveSuccess") #{text.outflowSaveSuccess}
+                .alert.alert-success(role ="alert", ng-show="successfulDelete") #{text.outflowDeleteSuccess}
+                .alert.alert-warning(role="alert", ng-show="currentOutflows.length<=0") #{text.noOutflows}
+                #no-more-tables.panel-body
+                    table.table.table-striped
+                        thead
+                            tr
+                                th ID
+                                th #{text.invoice_no}
+                                th #{text.date}
+                                th #{text.quantity} kg
+                                th #{text.options}
+                        tbody
+
+                            tr(ng-repeat="outflow in currentOutflows")
+                                td.outflowID(data-title="ID") {{outflow.outflow_id}}
+                                td.outflowInvoiceNo(data-title=text.invoice_no, ng-class="{spillOutflow:!outflow.oilcompany_id}") {{outflow.oilcompany_id?outflow.invoice_no:'#{text.spill}'}}
+                                td.outflowDate(data-title=text.date) {{outflow.outflow_date|date: 'dd/MM/yyyy HH:mm:ss'}}
+                                td.outflowQuantity(data-title=text.quantity) {{outflow.quantity}}
+                                td.outflowActions(data-title=text.options)
+                                    button.btn.btn-default(type="button",title=text.outflowDetails,ui-sref="outflows.outflowDetails({outflowID:outflow.outflow_id})")
+                                        span.glyphicon.glyphicon-list
+                                    button.btn.btn-default(type="button",ng-click="printOutflow(outflow.outflow_id)",ng-disabled="!outflow.oilcompany_id",title=text.printReport)
+                                        span.glyphicon.glyphicon-print
+                                    button.btn.btn-danger(type="button",spinner="deleteOutflow(outflow.outflow_id)",title=text.deleteOutflow)
+                                        span.glyphicon.glyphicon-remove
+            pagination.pagination-sm(total-items="currentOutflowsCount",ng-model="currentOutflowsCurrentPage",previous-text!="&lsaquo;", next-text!="&rsaquo;", ng-change="pageChanged()")
+        .hidden {{getMessages(#{JSON.stringify(text.pageJS)})}}
