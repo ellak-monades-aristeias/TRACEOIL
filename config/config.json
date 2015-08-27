@@ -1,0 +1,5 @@
+{
+  "hostname":"http://localhost",
+  "port":8000,
+  "appPort":8000
+}

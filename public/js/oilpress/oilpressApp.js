@@ -16,7 +16,7 @@ oilpressApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',fu
             templateUrl:'/oilpress/partials/home',
             controller:['$rootScope','$scope',function($rootScope,$scope){
                 $rootScope.emptyPageArrays();
-                $rootScope.nonIEPageCSSArray.push('/libs/responsiveTable.css');
+                $rootScope.nonIEPageCSSArray.push('/bs/css/responsiveTable.css');
                 $rootScope.pageCSSArray.push('/css/oilpress/oilpressHome.css');
                 $scope.format = 'MM/d/yy HH:mm:ss';
                 $rootScope.setTitle('home');//set page header title
@@ -28,7 +28,7 @@ oilpressApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',fu
             controller:['$rootScope',function($rootScope){
                 $rootScope.emptyPageArrays();
                 $rootScope.pageCSSArray.push('/datepicker/css/datepicker3.css','/css/oilpress/oilpressInflow.css');
-                $rootScope.nonIEPageCSSArray.push('/libs/responsiveTable.css');
+                $rootScope.nonIEPageCSSArray.push('/bs/css/responsiveTable.css');
                 $rootScope.setTitle('inflows');//set page header title
             }]
         })
@@ -42,7 +42,7 @@ oilpressApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',fu
             templateUrl:'/oilpress/partials/outflows',
             controller:['$rootScope',function($rootScope){
                 $rootScope.emptyPageArrays();
-                $rootScope.nonIEPageCSSArray.push('/libs/responsiveTable.css');
+                $rootScope.nonIEPageCSSArray.push('/bs/css/responsiveTable.css');
                 $rootScope.pageCSSArray.push('/css/oilpress/oilPressOutflows.css');
                 $rootScope.setTitle('outflows');//set page header title
             }]
@@ -89,7 +89,7 @@ oilpressApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',fu
             templateUrl:'/oilpress/partials/tanks',
             controller:['$rootScope',function($rootScope){
                 $rootScope.emptyPageArrays();
-                $rootScope.nonIEPageCSSArray.push('/libs/responsiveTable.css');
+                $rootScope.nonIEPageCSSArray.push('/bs/css/responsiveTable.css');
                 $rootScope.setTitle('tanks');//set page header title
             }]
         })
@@ -103,7 +103,7 @@ oilpressApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',fu
             },
             controller:['$rootScope','$scope','$stateParams','$state','tankExists',function($rootScope,$scope,$stateParams,$state,tankExists){
                 $rootScope.emptyPageArrays();
-                $rootScope.nonIEPageCSSArray.push('/libs/responsiveTable.css');
+                $rootScope.nonIEPageCSSArray.push('/bs/css/responsiveTable.css');
                 $rootScope.pageCSSArray.push('/css/oilpress/oilPressTankDetails.css');
                 $rootScope.setTitle('tankDetails',$stateParams.tankNo);//set page header title
                 if (tankExists.length !== 1){
@@ -127,7 +127,7 @@ oilpressApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',fu
             templateUrl:'/oilpress/partials/producers',
             controller:['$rootScope',function($rootScope){
                 $rootScope.emptyPageArrays();
-                $rootScope.nonIEPageCSSArray.push('/libs/responsiveTable.css');
+                $rootScope.nonIEPageCSSArray.push('/bs/css/responsiveTable.css');
                 $rootScope.setTitle('producers');//set page header title
             }]
         })
@@ -144,7 +144,7 @@ oilpressApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',fu
             },
             controller:['$rootScope','$scope','$stateParams','$state','producerExists','producerInflows',function($rootScope,$scope,$stateParams,$state,producerExists,producerInflows){
                 $rootScope.emptyPageArrays();
-                $rootScope.nonIEPageCSSArray.push('/libs/responsiveTable.css');
+                $rootScope.nonIEPageCSSArray.push('/bs/css/responsiveTable.css');
                 //$rootScope.pageCSSArray.push('/css/oilpress/oilPressProducerDetails.css');
                 $rootScope.setTitle('producerDetails',$stateParams.producerID);//set page header title
                 if ((producerExists.hasOwnProperty('status') && !producerExists.status) || (producerInflows.hasOwnProperty('status')&&!producerInflows.status)){

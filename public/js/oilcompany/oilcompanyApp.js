@@ -36,7 +36,7 @@ oilcompanyApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',
             templateUrl:'/oilcompany/partials/merchants',
             controller:['$rootScope',function($rootScope){
                 $rootScope.emptyPageArrays();
-                $rootScope.nonIEPageCSSArray.push('/libs/responsiveTable.css');
+                $rootScope.nonIEPageCSSArray.push('/bs/css/responsiveTable.css');
                 $rootScope.setTitle('merchants');//set page header title
             }]
         })
@@ -50,7 +50,7 @@ oilcompanyApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',
             templateUrl:'/oilcompany/partials/inflows',
             controller:['$rootScope',function($rootScope){
                 $rootScope.emptyPageArrays();
-                $rootScope.nonIEPageCSSArray.push('/libs/responsiveTable.css');
+                $rootScope.nonIEPageCSSArray.push('/bs/css/responsiveTable.css');
                 $rootScope.pageCSSArray.push('/css/oilcompany/oilcompanyInflows.css');
                 $rootScope.setTitle('inflows');//set page header title
             }]

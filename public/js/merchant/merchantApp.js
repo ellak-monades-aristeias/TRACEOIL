@@ -51,7 +51,7 @@ merchantApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',fu
             templateUrl:'/merchant/partials/producers',
             controller:['$rootScope',function($rootScope){
                 $rootScope.emptyPageArrays();
-                $rootScope.nonIEPageCSSArray.push('/libs/responsiveTable.css');
+                $rootScope.nonIEPageCSSArray.push('/bs/css/responsiveTable.css');
                 $rootScope.setTitle('producers');//set page header title
             }]
         })
@@ -60,7 +60,7 @@ merchantApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',fu
             templateUrl:'/merchant/partials/oilpresses',
             controller:['$rootScope',function($rootScope){
                 $rootScope.emptyPageArrays();
-                $rootScope.nonIEPageCSSArray.push('/libs/responsiveTable.css');
+                $rootScope.nonIEPageCSSArray.push('/bs/css/responsiveTable.css');
                 $rootScope.setTitle('oilpresses');//set page header title
             }]
         })
@@ -74,7 +74,7 @@ merchantApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',fu
             templateUrl:'/merchant/partials/tanks',
             controller:['$rootScope',function($rootScope){
                 $rootScope.emptyPageArrays();
-                $rootScope.nonIEPageCSSArray.push('/libs/responsiveTable.css');
+                $rootScope.nonIEPageCSSArray.push('/bs/css/responsiveTable.css');
                 $rootScope.setTitle('tanks');//set page header title
             }]
         })
@@ -88,7 +88,7 @@ merchantApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',fu
             },
             controller:['$rootScope','$scope','$stateParams','$state','tankExists',function($rootScope,$scope,$stateParams,$state,tankExists){
                 $rootScope.emptyPageArrays();
-                $rootScope.nonIEPageCSSArray.push('/libs/responsiveTable.css');
+                $rootScope.nonIEPageCSSArray.push('/bs/css/responsiveTable.css');
                 $rootScope.pageCSSArray.push('/css/merchant/merchantTankDetails.css');
                 $rootScope.setTitle('tankDetails',$stateParams.tankNo);//set page header title
                 if (tankExists.length !== 1){
@@ -112,7 +112,7 @@ merchantApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',fu
             templateUrl:'/merchant/partials/inflows',
             controller:['$rootScope',function($rootScope){
                 $rootScope.emptyPageArrays();
-                $rootScope.nonIEPageCSSArray.push('/libs/responsiveTable.css');
+                $rootScope.nonIEPageCSSArray.push('/bs/css/responsiveTable.css');
                 $rootScope.pageCSSArray.push('/css/merchant/merchantInflows.css');
                 $rootScope.setTitle('inflows');//set page header title
             }]
@@ -153,7 +153,7 @@ merchantApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',fu
             templateUrl:'/merchant/partials/outflows',
             controller:['$rootScope',function($rootScope){
                 $rootScope.emptyPageArrays();
-                $rootScope.nonIEPageCSSArray.push('/libs/responsiveTable.css');
+                $rootScope.nonIEPageCSSArray.push('/bs/css/responsiveTable.css');
                 $rootScope.pageCSSArray.push('/css/merchant/merchantOutflows.css');
                 $rootScope.setTitle('outflows');//set page header title
             }]
