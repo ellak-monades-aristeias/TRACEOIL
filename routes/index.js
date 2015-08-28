@@ -8,7 +8,6 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var passport = require('passport');
 var flash = require('connect-flash');
-var models = rootRequire('models');
 var checkRedirect = rootRequire('controllers/shared/checkAndRedirect.js');
 
 // uncomment after placing your favicon in /public
@@ -53,13 +52,13 @@ fs.readdirSync(path.join(__dirname,'../controllers/forRegistered')).forEach(func
     }
 });
 
-fs.readdirSync(path.join(__dirname,'../controllers/api')).forEach(function loadFile(file){ //readdirSync path is relative to main process here app.js
-    if ((file.substr(-3) == '.js')){
-        //Load router file. It must return through module.exports a router object
-        var route = rootRequire('controllers/api/'+file);
-        router.use(route);
-    }
-});
+//fs.readdirSync(path.join(__dirname,'../controllers/api')).forEach(function loadFile(file){ //readdirSync path is relative to main process here app.js
+//    if ((file.substr(-3) == '.js')){
+//        //Load router file. It must return through module.exports a router object
+//        var route = rootRequire('controllers/api/'+file);
+//        router.use(route);
+//    }
+//});
 
 //apply Global routing logic that everything redirects to the correct SPA
 router.get('*',checkRedirect);
