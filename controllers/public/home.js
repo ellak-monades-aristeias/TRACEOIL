@@ -1,6 +1,7 @@
 //load modules for routing
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
 var messages = rootRequire('libs/messaging.js');
 var checkRedirect = rootRequire('controllers/shared/checkAndRedirect.js');
 var api = require('../../libs/api.js');
@@ -28,15 +29,30 @@ router.get('/loginPartial',function(request,response){
 
 
 router.post('/login',function(request,response,next){
-    var body = request.body;
-    api.send('/login', 'POST', null, body)
-        .then(function(result){
+    passport.authenticate('local-login',function(err,user,info){
+        if (err) {
+            return next(err);
+        }
+        if (!user){
+            //false user authentication!
+            var result = {};
+            result.status = false;
+            result.message = info.message;
             response.send(result);
-            next();
-        })
-        .catch(function(err){
+        }
+        else{
+            //user credentials ok! log him in NOW!!!
+            request.logIn(user,function(err){
+                if (err) {
+                    return next(err);
+                }
+                var result = {};
+                result.status = true;
+                response.send(result);
+            });
+        }
 
-        });
+    })(request,response,next);
 });
 
 

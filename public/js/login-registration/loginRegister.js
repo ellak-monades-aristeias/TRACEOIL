@@ -46,9 +46,11 @@ loginApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',funct
                                 loginScope.errorMessage = result.message;
                             }
                             else{
-                                //successfull login
+                                //successful login
                                 //redirect to user home page
+                                $window.localStorage.setItem('traceoilToken',result.token);
                                 $window.location.href='/';
+
                             }
                         })
                         .error(function(error){

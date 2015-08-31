@@ -2,8 +2,8 @@ var LocalStrategy = require('passport-local').Strategy;
 //var models = rootRequire('models2');
 var crypt = rootRequire('libs/crypt.js');
 var messages = rootRequire('libs/messaging.js');
-var models = rootRequire('models');
-
+var api = require('../libs/api.js');
+var jwt = require('jsonwebtoken');
 
 var userCache = [];
 var maxUserCacheNo = 100; //probably more than enough,,, but whatever...
@@ -27,70 +27,36 @@ module.exports = function(passport){
         }
         //not found in cache
         console.log('User '+username+' not found in cache, querying database');
-        var userTable = models['userTable'];
-        userTable.find({where:{username: username}})
-            //here the user should be found with no exceptions since it is just for deserializing from session
-            //If not there, something went quite wrong in the way...
-            .then(function(user){
-                //construct object with needed properties and return it
-                var dsUser={};
-                dsUser.username = user.username;
-                dsUser.type_id = user.type_id;
-                dsUser.id = user.id;
-                return done(null,dsUser);
-            })
-            .catch(function(err){
-                //something wrong with the database querying....
-                console.log(err);
-                return done(err);
-            });
     });
 
     //login policy
     passport.use('local-login',new LocalStrategy(
         function(username,password,done){
             console.log('Trying to login user:'+username);
-            var userTable = models['userTable'];
-            userTable.find({where:{username: username}})
-                .then(function(user){
-                    if (user === null){
-                        //no such user found in db...
-                        console.log('No user '+username+' in db');
-                        return done(null,false,{message: messages.print('login-frontend.notValidUsername')});
+            var body = {};
+            var user = {};
+            body.username = username;
+            body.password = password;
+            api.send('/login', 'POST', null, body)
+                .then(function(result){
+                    if(!result.token){
+                        return done(null,false,{message: messages.print('login-frontend.')});
                     }
-                    else{
-                        //user found check password
-                        if (crypt.validate(password,user.password)){
-                            //check if user is activated and leave if not
-                            if (!user.activated){
-                                return done(null,false,{message: messages.print('login-frontend.notActivated')});
-                            }
-                            //user is activated...
-                            //valid password!
-                            var userObj = {};
-                            userObj.username = user.username;
-                            userObj.type_id = user.type_id;
-                            userObj.id = user.id;
-                            console.log('Adding user '+username+' to cache');
-                            addUserToCache(userObj);//add him to cache for faster serialization and deserialization
-                            console.log('User '+username+' succesfully logged in');
-                            return done(null,userObj);
-                        }
-                        else{
-                            //not valid password!
-                            console.log('Not valid password for user '+username);
-                            return done(null,false,{message:messages.print('login-frontend.notValidPassword')});
-                        }
+                    else{//got token. continue
+                        var decodedToken = jwt.decode(result.token);
+                        user.username = decodedToken.username;
+                        user.type_id = decodedToken.type_id;
+                        user.id = decodedToken.id;
+                        console.log('User '+user.username+' succesfully logged in');
+                        return done(null,user);
                     }
                 })
                 .catch(function(err){
-                    //something wrong with the database querying....
-                    console.log(err);
                     return done(err);
                 });
         }
     ));
-}
+};
 
 function addUserToCache(user){
     //first check if he is already in cache
