@@ -56,4 +56,4 @@ app.use(function(err, req, res, next) {
     });
 });
 
-http.createServer(app).listen(configuration.port,function(){ console.log('Server started listening at port: '+configuration.port)});
+http.createServer(app).listen(configuration.port,function(){ console.log('Server started listening at port '+configuration.port)});

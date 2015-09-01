@@ -32,9 +32,9 @@ module.exports = function(passport){
     //login policy
     passport.use('local-login',new LocalStrategy(
         function(username,password,done){
-            console.log('Trying to login user:'+username);
+            console.log('Trying to login user '+ username);
             var body = {};
-            var user = {};
+            var userObj = {};
             body.username = username;
             body.password = password;
             api.send('/login', 'POST', null, body)
@@ -43,12 +43,15 @@ module.exports = function(passport){
                         return done(null,false,{message: messages.print('login-frontend.')});
                     }
                     else{//got token. continue
+                        //decode the token and get the user in order
                         var decodedToken = jwt.decode(result.token);
-                        user.username = decodedToken.username;
-                        user.type_id = decodedToken.type_id;
-                        user.id = decodedToken.id;
-                        console.log('User '+user.username+' succesfully logged in');
-                        return done(null,user);
+                        userObj.username = decodedToken.username;
+                        userObj.type_id = decodedToken.type_id;
+                        userObj.id = decodedToken.id;
+                        addUserToCache(userObj);
+                        console.log('User '+userObj.username+' successfully logged in');
+                        //pass the user token also in order to send it back
+                        return done(null,userObj, {token: result.token});
                     }
                 })
                 .catch(function(err){

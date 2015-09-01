@@ -8,7 +8,7 @@ var configuration = require('../config/config.js');
 var allowedMethods = ['GET','POST','PUT','DELETE'];
 //set the default options for the api request to the cloud
 var apiRequest = request.defaults({
-    baseUrl: configuration.apiHostname + ':' + configuration.apiPort || 80 + '/',
+    baseUrl: configuration.apiHostname + ':' + configuration.apiPort + '/',
     method: 'GET',
     gzip:true,
     auth:{
@@ -45,7 +45,7 @@ function sendRequest(resource, method, token, data){
         }
         //check if token was provided to enter to authentication details
         if (!!token){
-            requestOptions.auth = {bearer:token};
+            requestOptions.auth = {bearer:token.split(' ')[1]};
         }
         switch (method){
             case 'GET':
@@ -58,7 +58,7 @@ function sendRequest(resource, method, token, data){
                     var err = new Error('No post data provided to save to resource API');
                     return reject(err);
                 }
-                requestOptions.form = data;
+                requestOptions.body = data;
                 requestOptions.json = true;
                 break;
         }

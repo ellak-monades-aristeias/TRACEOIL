@@ -1,4 +1,4 @@
-var merchantApp = angular.module('merchantApp',['ui.router','ui.bootstrap','merchantDirectives','merchantServices','merchantControllers','ngAnimate','sharedDirectives','appModals']);
+var merchantApp = angular.module('merchantApp',['ui.router','ui.bootstrap','merchantDirectives','merchantServices','merchantControllers','ngAnimate','sharedDirectives','appModals', 'angular-jwt']);
 
 merchantApp.run(['$rootScope','$state','SessionExpired',function($rootScope,$state,SessionExpired){
     //Idle.watch();
@@ -19,12 +19,16 @@ merchantApp.run(['$rootScope','$state','SessionExpired',function($rootScope,$sta
 //    }]);
 }]);
 
-merchantApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',function($stateProvider,$urlRouterProvider,$locationProvider){
+merchantApp.config(['$stateProvider','$urlRouterProvider','$locationProvider','jwtInterceptorProvider','$httpProvider',function($stateProvider, $urlRouterProvider, $locationProvider, jwtInterceptorProvider, $httpProvider){
     $locationProvider.html5Mode(true);//remove the hash sign from url
     $urlRouterProvider.otherwise('/');
     //IdleProvider.idle(1800);
     //IdleProvider.timeout(5);
-
+    //create interceptor for assigning token to http requests
+    jwtInterceptorProvider.tokenGetter = function(){
+        return window.localStorage.getItem('traceoilToken');
+    };
+    $httpProvider.interceptors.push('jwtInterceptor');
     $stateProvider
         .state('home',{
             url:'/',

@@ -21,6 +21,7 @@
     "ladda": "~0.9.8",
     "oclazyload": "~1.0.4",
     "angular-bootstrap": "~0.13.3",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "angular-jwt": "~0.0.9"
   }
 }

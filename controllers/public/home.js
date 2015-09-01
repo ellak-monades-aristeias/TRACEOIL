@@ -48,6 +48,8 @@ router.post('/login',function(request,response,next){
                 }
                 var result = {};
                 result.status = true;
+                //get the token from passport login strategy in order to send it back to front end
+                result.token = info.token;
                 response.send(result);
             });
         }

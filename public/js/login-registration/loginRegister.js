@@ -48,8 +48,8 @@ loginApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',funct
                             else{
                                 //successful login
                                 //redirect to user home page
-                                $window.localStorage.setItem('traceoilToken',result.token);
                                 $window.location.href='/';
+                                $window.localStorage.setItem('traceoilToken', result.token);
 
                             }
                         })
@@ -57,7 +57,7 @@ loginApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',funct
                             //server error... log it
                             console.log(error);
                         });
-                }
+                };
                 this.total_sum = getStats.total_sum;
                 this.lastTransaction = getStats.lastTransaction;
             }],
@@ -163,18 +163,6 @@ loginApp.controller('mainController',['$rootScope',function($rootScope){
                                 //TODO: check if autologin wanted or redirect to homepage
                                 $rootScope.loginRegistered = data.message;//assign this so the next state can see we are coming from a successful registration(can't find an other efficient way to pass an object right now)
                                 $state.go('login');
-                                if (false){
-                                    authentication.login(loginData)
-                                        .success(function(result){
-                                            if (result.status){
-                                                //successfull login
-                                                //redirect to user home page
-                                                //$window.location.href='/';
-                                            }
-                                        });
-                                }
-
-
                             }
                             element.attr('disabled',false);//enable the button to avoid re-registering
                         })
