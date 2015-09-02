@@ -11,6 +11,7 @@ var apiRequest = request.defaults({
     baseUrl: configuration.apiHostname + ':' + configuration.apiPort + '/',
     method: 'GET',
     gzip:true,
+    json:true,
     auth:{
         sendImmediately:true
     }
@@ -56,10 +57,11 @@ function sendRequest(resource, method, token, data){
                 //post or put must have body
                 if (!data){
                     var err = new Error('No post data provided to save to resource API');
+                    err.name = 'noDataProvided';
                     return reject(err);
                 }
                 requestOptions.body = data;
-                requestOptions.json = true;
+                //requestOptions.json = true;
                 break;
         }
         requestOptions.method = method;
