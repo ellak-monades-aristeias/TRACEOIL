@@ -1,7 +1,7 @@
 //load modules for routing
 var express = require('express');
 var router = express.Router();
-var util = require('util');
+var log = require('../../config/logConfig.js');
 
 function checkApiPermissions(request,response,next){
     //check if it concerns an api request
@@ -24,8 +24,7 @@ function checkApiPermissions(request,response,next){
 
     if (allowedAction) return next();
     else {
-        util.log('Denied access for user ' + request.user.username);
-        util.log(request);
+        log.info({request:request}, 'Denied access for user ' + request.user.username);
         response.send('Not allowed action');
     }
 }

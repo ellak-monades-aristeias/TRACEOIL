@@ -8,7 +8,7 @@ html(ng-app="oilcompanyApp",ng-controller="mainController")
         title(idle-disabled="true") {{pageTitle}}
         link(rel="stylesheet", type="text/css", href="/bs/css/bootstrap.min.css")
         link(rel="stylesheet", type="text/css", href="/css/oilcompany/oilcompany.css")
-        link(rel="stylesheet", type="text/css", href="/ladda/dist/ladda.min.css")
+        link(rel="stylesheet", type="text/css", href="/ladda/dist/ladda-themeless.min.css")
         link(rel="stylesheet",type="text/css",ng-href="{{pageCSS}}", ng-repeat="pageCSS in pageCSSArray")
         | <!--[if !IE]><!-->
         link(rel="stylesheet",type="text/css",ng-href="{{nonIEPageCSS}}", ng-repeat="nonIEPageCSS in nonIEPageCSSArray")
@@ -27,7 +27,6 @@ html(ng-app="oilcompanyApp",ng-controller="mainController")
     script(type="text/javascript", src="/js/oilcompany/oilcompanyServices.js")
     script(type="text/javascript", src="/js/shared/modals.js")
     script(type="text/javascript", src="/js/shared/sharedDirectives.js")
-    script(type="text/javascript", src="/ladda/dist/ladda.min.js")
     //script(type="text/javascript", src="/libs/angular-idle.js")
     //page scripts
     script(type="text/javascript",ng-src="{{pageScript}}" ng-repeat="pageScript in pageJSArray")

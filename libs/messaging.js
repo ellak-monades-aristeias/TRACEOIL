@@ -1,5 +1,5 @@
 var fs = require('fs');//to read the file with the messages
-//TODO: clear the reloading of the file in each read after it is production ready
+var log = require('../config/logConfig.js');
 
 var selectedLanguage = 'el';
 var messages ;
@@ -11,7 +11,7 @@ function loadMessagesFile(){
         messages = JSON.parse(fs.readFileSync(__dirname+'/../languages/'+selectedLanguage+'.json','utf8'));
     }
     catch(err){
-        console.error('Language file incorrect. Please check file structure and retry.');
+        log.error({err:err}, 'Language file incorrect. Please check file structure and retry.');
         //process.exit(1);
         messages = {};//not tu crash the program, just assign empty objecet to messages object
     }
@@ -33,7 +33,7 @@ function print(selectedMessage){
 
     if (notExist) {
 
-        console.log('Requested not existing message');
+        log.info('Requested not existing message');
         return null;
     }
     else{

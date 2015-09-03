@@ -8,7 +8,7 @@ html(ng-app="merchantApp",ng-controller="mainController")
         title(idle-disabled="true") {{pageTitle}}
         link(rel="stylesheet", type="text/css", href="/bs/css/bootstrap.min.css")
         link(rel="stylesheet", type="text/css", href="/css/merchant/merchant.css")
-        link(rel="stylesheet", type="text/css", href="/ladda/dist/ladda.min.css")
+        link(rel="stylesheet", type="text/css", href="/ladda/dist/ladda-themeless.min.css")
         link(rel="stylesheet",type="text/css",ng-href="{{pageCSS}}", ng-repeat="pageCSS in pageCSSArray")
         | <!--[if !IE]><!-->
         link(rel="stylesheet",type="text/css",ng-href="{{nonIEPageCSS}}", ng-repeat="nonIEPageCSS in nonIEPageCSSArray")
@@ -28,8 +28,6 @@ html(ng-app="merchantApp",ng-controller="mainController")
     script(type="text/javascript", src="/js/merchant/merchantServices.js")
     script(type="text/javascript", src="/js/shared/modals.js")
     script(type="text/javascript", src="/js/shared/sharedDirectives.js")
-    script(type="text/javascript", src="/bs/js/ladda.js")
-    script(type="text/javascript", src="/angular-jwt/dist/angular-jwt.min.js")
 
     //page scripts
     script(type="text/javascript",ng-src="{{pageScript}}" ng-repeat="pageScript in pageJSArray")

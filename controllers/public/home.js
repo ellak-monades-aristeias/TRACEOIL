@@ -5,20 +5,24 @@ var passport = require('passport');
 var messages = rootRequire('libs/messaging.js');
 var checkRedirect = rootRequire('controllers/shared/checkAndRedirect.js');
 var api = require('../../libs/api.js');
-//var token = require('../../config/jwt.js');
+var log = require('../../config/logConfig.js');
 router.get('/',checkRedirect);
 
 router.get('/login',function(request,response){
-    //response.render('login',{text:messages.getSection('login-frontend'),error:request.flash('error')});
     response.render('login-register/index',{text:messages.getSection('login-frontend')});
 });
 
 
 //get last transaction date and total oil quantity transferred in system in order to display them at login page
 router.get('/getStats', function(request, response){
+    log.info('Trying to get stats');
     api.send(request.originalUrl, request.method, null, null)
         .then(function(stats){
             response.send(stats);
+        })
+        .catch(function(err){
+            log.error({request:request, err:err}, 'Error while trying to sending request to API\n ERROR:' + err.name);
+            response.send({status:false, message:err.name});
         });
 });
 

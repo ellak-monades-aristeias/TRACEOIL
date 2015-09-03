@@ -8,7 +8,7 @@ var express = require('express');
 var path = require('path');
 var routes = require('./routes/index');
 var configuration = require('./config/config.js');
-
+var log = require('./config/logConfig.js');
 //servers setup
 var http = require('http');
 
@@ -56,4 +56,6 @@ app.use(function(err, req, res, next) {
     });
 });
 
-http.createServer(app).listen(configuration.port,function(){ console.log('Server started listening at port '+configuration.port)});
+http.createServer(app).listen(configuration.port, function(){
+    log.info('Server started listening at port ' + configuration.port);
+});

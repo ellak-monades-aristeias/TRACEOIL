@@ -69,7 +69,7 @@ oilpressDir.directive('newOutflowButton',['oilpressOutflowModal','$rootScope',fu
                     })
                     .catch(function(err){
                         //something went wrong, show error
-                        console.error('Error while trying to create outflow\nERROR: '+JSON.stringify(err));
+                        console.log('Error while trying to create outflow\nERROR: '+JSON.stringify(err));
                     });
             }
 
@@ -93,7 +93,7 @@ oilpressDir.directive('newTankButton',['oilpressTankModal','$rootScope',function
                     })
                     .catch(function(err){
                         //something went wrong....
-                        console.error('Error while trying to create new Tank\nERROR: '+JSON.stringify(err));
+                        console.log('Error while trying to create new Tank\nERROR: '+JSON.stringify(err));
                     });
             }
             //bind function run to button click

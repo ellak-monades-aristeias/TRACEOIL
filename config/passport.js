@@ -1,9 +1,9 @@
 var LocalStrategy = require('passport-local').Strategy;
 //var models = rootRequire('models2');
-var crypt = rootRequire('libs/crypt.js');
 var messages = rootRequire('libs/messaging.js');
 var api = require('../libs/api.js');
 var jwt = require('jsonwebtoken');
+var log = require('./logConfig.js');
 
 var userCache = [];
 var maxUserCacheNo = 100; //probably more than enough,,, but whatever...
@@ -18,21 +18,21 @@ module.exports = function(passport){
     //deserialize user for session
     passport.deserializeUser(function(username,done){
         //first check in cached memory to find the user...
-        console.log('Searching for user '+username+' in login cache...');
+        log.info('Searching for user '+username+' in login cache...');
         for (var i = 0, len = userCache.length; i<len ; i++){
             if (userCache[i].username === username){
-                console.log('User '+username+' found in cache...');
+                log.info('User '+username+' found in cache...');
                 return done(null,userCache[i]);
             }
         }
         //not found in cache
-        console.log('User '+username+' not found in cache, querying database');
+        log.info('User '+username+' not found in cache, querying database');
     });
 
     //login policy
     passport.use('local-login',new LocalStrategy(
         function(username,password,done){
-            console.log('Trying to login user '+ username);
+            log.info('Trying to login user '+ username);
             var body = {};
             var userObj = {};
             body.username = username;
@@ -49,7 +49,7 @@ module.exports = function(passport){
                         userObj.type_id = decodedToken.type_id;
                         userObj.id = decodedToken.id;
                         addUserToCache(userObj);
-                        console.log('User '+userObj.username+' successfully logged in');
+                        log.info('User '+userObj.username+' successfully logged in');
                         //pass the user token also in order to send it back
                         return done(null,userObj, {token: result.token});
                     }
