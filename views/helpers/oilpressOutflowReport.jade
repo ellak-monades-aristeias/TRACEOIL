@@ -24,7 +24,7 @@ html
             .col-xs-12
                 i
                     p.text-left #{text.oilpress}: #{results.oilpress_name} <span class="created-at"> #{text.createdAt}: #{results.request_date} </span>
-        each outflow in results
+        each outflow in results.data
             .row
                 .panel.panel-default
                     .panel-heading
@@ -33,7 +33,7 @@ html
                         .col-xs-7.col-md-6
                             .row
                                 label.col-xs-5(for="merchant_name") #{text.merchant_name}:
-                                p#merchant_name.col-xs-7 #{outflow.dataValues.merchant_name}
+                                p#merchant_name.col-xs-7 #{outflow.merchant_name}
                             .row
                                 label.col-xs-5(for="notes") #{text.notes}:
                                 p#notes.col-xs-7 #{outflow.notes}
@@ -50,16 +50,16 @@ html
                                     p#tank.col-xs-7 #{outflow.OilPress_Tank.tank_no + (outflow.OilPress_Tank.description?' - '+outflow.OilPress_Tank.description:'')}
                             .row
                                 label.col-xs-5(for="quantity") #{text.quantity}:
-                                p#totalQuantity.col-xs-7 #{outflow.dataValues.quantity?outflow.dataValues.quantity.toFixed(2):0} kg
+                                p#totalQuantity.col-xs-7 #{outflow.quantity?outflow.quantity.toFixed(2):0} kg
                             if(outflow.createdBy == 'oilpress')
                                 .row
                                     label.col-xs-5(for="acidity") #{text.acidity}:
-                                    p#totalAcidity.col-xs-7 #{outflow.dataValues.acidity?outflow.dataValues.acidity.toFixed(2):0} %
+                                    p#totalAcidity.col-xs-7 #{outflow.acidity?outflow.acidity.toFixed(2):0} %
                                 .row
                                     label.col-xs-5(for="sustainability") #{text.sustainability}:
-                                    p#totalSustainability.col-xs-7 #{outflow.dataValues.sustainability?outflow.dataValues.sustainability.toFixed(2):0} %
+                                    p#totalSustainability.col-xs-7 #{outflow.sustainability?outflow.sustainability.toFixed(2):0} %
             .row
-                if(outflow.dataValues.contents.count>0)
+                if(outflow.contents.count>0)
                     .col-xs-12.col-md-12
                         .panel.panel-default
                             .panel-heading
@@ -72,7 +72,7 @@ html
                                             th #{text.land}
                                             th #{text.quantity} kg
                                     tbody
-                                        each producer in outflow.dataValues.contents.rows
+                                        each producer in outflow.contents.rows
                                             tr
                                                 td.producerName #{producer.Producer.first_name} #{producer.Producer.last_name}
                                                 td.landOSDE #{producer.Producer_Land?producer.Producer_Land.osde:''}

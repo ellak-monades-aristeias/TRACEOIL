@@ -393,6 +393,7 @@ oilpressCtrls.controller('currentOilPressTanksCtrl',['$scope','Tanks','$window',
                     if (result.status){
                         //successful tank update
                         $window.alert($scope.messages.emptySuccessful);
+                        $scope.refreshTanks();
                     }
                     else {
                         $window.alert(result.messages.undefinedError);
@@ -490,6 +491,8 @@ oilpressCtrls.controller('tankDetailCtrl',['$rootScope','$scope','Tanks','produc
                         //successful tank update
                         $scope.showSuccess = true;
                         $scope.getStatus();
+                        $scope.getTankContents();
+                        $scope.getTankActions();
                     }
                     else {
                         if (result.message === 'tankWithNoExists'){
@@ -559,7 +562,7 @@ oilpressCtrls.controller('tankDetailCtrl',['$rootScope','$scope','Tanks','produc
                         console.log('Successful modal operation');
                     })
                     .catch(function(err){
-                        console.error(JSON.stringify(err));
+                        console.log(JSON.stringify(err));
                     });
             })
             .catch(function(err){

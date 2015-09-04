@@ -23,7 +23,7 @@ html
             .col-xs-12
                 i
                     p #{text.merchant}: #{results.merchant_name}<span class="created-at"> #{text.createdAt}: #{results.request_date} </span>
-        each outflow in results
+        each outflow in results.data
             .row
                 .panel.panel-default
                     .panel-heading
@@ -46,20 +46,20 @@ html
                                     p#tank.col-xs-7 #{outflow.Merchant_Tank.tank_no + (outflow.Merchant_Tank.description?' - '+outflow.Merchant_Tank.description:'')}
                             .row
                                 label.col-xs-5(for="quantity") #{text.quantity}:
-                                p#totalQuantity.col-xs-7 #{outflow.dataValues.quantity?outflow.dataValues.quantity.toFixed(2):0} kg
+                                p#totalQuantity.col-xs-7 #{outflow.quantity?outflow.quantity.toFixed(2):0} kg
                             .row
                                 label.col-xs-5(for="acidity") #{text.acidity}:
-                                p#totalAcidity.col-xs-7 #{outflow.dataValues.acidity?outflow.dataValues.acidity.toFixed(2):0} %
+                                p#totalAcidity.col-xs-7 #{outflow.acidity?outflow.acidity.toFixed(2):0} %
                             .row
                                 label.col-xs-5(for="sustainability") #{text.sustainability}:
-                                p#totalSustainability.col-xs-7 #{outflow.dataValues.sustainability?outflow.dataValues.sustainability.toFixed(2):0} %
+                                p#totalSustainability.col-xs-7 #{outflow.sustainability?outflow.sustainability.toFixed(2):0} %
             .row
                 .col-xs-12.col-md-12
                     .panel.panel-default
                         .panel-heading
                             h4.panel-title #{text.outflowContentsHeader}
                         .panel-body
-                            each oilpress in outflow.dataValues.contents
+                            each oilpress in outflow.contents
                                 .panel.panel-default
                                     .panel-heading
                                         if(oilpress.name)

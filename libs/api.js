@@ -46,7 +46,7 @@ function sendRequest(resource, method, token, data){
         }
         //check if token was provided to enter to authentication details
         if (!!token){
-            requestOptions.auth = {bearer:token.split(' ')[1]};
+            requestOptions.auth = {bearer:token};
         }
         switch (method){
             case 'GET':

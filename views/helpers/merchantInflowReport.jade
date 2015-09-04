@@ -22,7 +22,7 @@ html
             .col-xs-12
                 i
                     p #{text.merchant}: #{results.merchant_name}<span class="created-at"> #{text.createdAt}: #{results.request_date} </span>
-        each inflow in results
+        each inflow in results.data
             .row
                 .panel.panel-default
                     .panel-heading
@@ -57,17 +57,17 @@ html
                                     p#tank_id.col-xs-6 #{inflow.Merchant_Tank.tank_no + (inflow.Merchant_Tank.description?' - '+inflow.Merchant_Tank.description:'')}
                             .row
                                 label.col-xs-6(for="totalQuantity") #{text.quantity}:
-                                p#totalQuantity.col-xs-6 #{inflow.dataValues.quantity?inflow.dataValues.quantity.toFixed(2):0} kg
+                                p#totalQuantity.col-xs-6 #{inflow.quantity?inflow.quantity.toFixed(2):0} kg
                             .row
                                 label.col-xs-6(for="totalAcidity") #{text.acidity}:
-                                p#totalAcidity.col-xs-6 #{inflow.dataValues.acidity?inflow.dataValues.acidity.toFixed(2):0} %
+                                p#totalAcidity.col-xs-6 #{inflow.acidity?inflow.acidity.toFixed(2):0} %
                             .row
                                 label.col-xs-6(for="totalSustainability") #{text.sustainability}:
-                                p#totalSustainability.col-xs-6 #{inflow.dataValues.sustainability?inflow.dataValues.sustainability.toFixed(2):0} %
-                            if(inflow.trader_type_id == 1 && inflow.dataValues.contents.rows[0].Producer_Land != null)
+                                p#totalSustainability.col-xs-6 #{inflow.sustainability?inflow.sustainability.toFixed(2):0} %
+                            if(inflow.trader_type_id == 1 && inflow.contents.rows[0].Producer_Land != null)
                                 .row
                                     label.col-xs-6(for="land") #{text.land}:
-                                    p#land.col-xs-6 #{inflow.dataValues.contents.rows[0].Producer_Land.osde}
+                                    p#land.col-xs-6 #{inflow.contents.rows[0].Producer_Land.osde}
             .row
                 if(inflow.trader_type_id !== 1)
                     .col-xs-12.col-md-12
@@ -75,7 +75,7 @@ html
                             .panel-heading
                                 h4.panel-title #{text.inflowContentsHeader}
                             .panel-body
-                                if(inflow.dataValues.contents.count > 0)
+                                if(inflow.contents.count > 0)
                                     .table-responsive
                                         table#producersTable.table.table-striped
                                             thead
@@ -84,7 +84,7 @@ html
                                                     th #{text.land}
                                                     th #{text.quantity} kg
                                             tbody
-                                                each producer in inflow.dataValues.contents.rows
+                                                each producer in inflow.contents.rows
                                                     tr
                                                         td.producerName #{(!producer.Producer.first_name && !producer.Producer.last_name)?text.unknownProducer:((producer.Producer.first_name?producer.Producer.first_name:'') + ' ' + (producer.Producer.last_name?producer.Producer.last_name:''))}
                                                         td.landOSDE #{producer.Producer_Land?producer.Producer_Land.osde:''}

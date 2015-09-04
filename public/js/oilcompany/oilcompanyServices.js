@@ -57,6 +57,15 @@ oilcompanyServices.factory('Reports',['$window','$location',function($window,$lo
         $location.search(queryData);
         var windowUrl = $location.url();//get new constructed url
         $location.url(initialUrl);//restore initial window url
-        $window.open(windowUrl,"_blank", "width=1000, height=1000, left=300, top=200, resizable=0, scrollbars=1");
+        var popup = $window.open('',"_blank", "width=1000, height=1000, left=300, top=200, resizable=0, scrollbars=1");
+        $http.get(windowUrl)
+            .then(function(responseHTML){
+                popup.document.write(responseHTML.data);
+                popup.history.pushState(null, null, windowUrl);
+            }, function(err){
+                console.error('Error with HTTP request');
+                console.error(err);
+                popup.close();//close the popup on failure
+            });
     }
 }]);

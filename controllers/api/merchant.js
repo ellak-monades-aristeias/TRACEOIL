@@ -11,35 +11,34 @@ var pdf = require('html-pdf');
 var jade = require('jade');
 var moment = require('moment');
 
-//OILPRESS API
-//parameters validation
-router.param('oilpressID',function(req,res,next,oilpressID){
-    if (isNaN(oilpressID)) res.end('Wrong Request');//not interested in non numeric ids...
+router.param('merchantID',function(req,res,next,merchantID){
+    if (isNaN(merchantID)) res.send('Wrong Request');
     else next();
 });
-router.route('/api/oilpresses/:oilpressID?')
+
+router.route('/api/merchants/:merchantID?')
     .all(function(request, response){
         //initialize data and info message
         var data = {};
         var infoMessage = '';
-        //get the oilpressID
-        var oilpressID = request.params.oilpressID;
+        //get the merchantID
+        var merchantID = request.params.merchantID;
         //check requested method and get the appropriate data and info message
         switch(request.method){
             case 'GET':
-                infoMessage = !!oilpressID?('Trying to get oilpress with id ' + oilpressID):'Trying to get oilpressses list';
+                infoMessage = !!merchantID?('Trying to get merchant with id ' + merchantID):'Trying to get merchants list';
                 data = request.query;
                 break;
             case 'PUT':
-                infoMessage = 'Trying to update oilpress with id ' + oilpressID;
+                infoMessage = 'Trying to update merchant with id ' + merchantID;
                 data = request.body;
                 break;
             case 'POST':
-                infoMessage = 'Trying to create oilpress';
+                infoMessage = 'Trying to create merchant';
                 data = request.body;
                 break;
             case 'DELETE':
-                infoMessage = 'Trying to delete oilpress with id ' + oilpressID;
+                infoMessage = 'Trying to delete merchant with id ' + merchantID;
                 break;
             default:
                 infoMessage = 'Unknown request method';
@@ -57,107 +56,14 @@ router.route('/api/oilpresses/:oilpressID?')
             });
     });
 
-//OILPRESS OUTFLOWS
-//parameters validation
-router.param('outflowID',function(req,res,next,outflowID){
-    if (isNaN(outflowID)) res.end('Wrong Request');//not interested in non numeric ids...
-    else next();
-});
-router.route('/api/oilpress/outflows/:outflowID?')
-    .all(function(request, response){
-        //initialize data and info message
-        var data = {};
-        var infoMessage = '';
-        //get the outflowID
-        var outflowID = request.params.outflowID;
-        //check requested method and get the appropriate data and info message
-        switch(request.method){
-            case 'GET':
-                infoMessage = !!outflowID?('Trying to get oilpress outflow with id ' + outflowID):'Trying to get oilpress outflows list';
-                data = request.query;
-                break;
-            case 'PUT':
-                infoMessage = 'Trying to update oilpress outflow with id ' + outflowID;
-                data = request.body;
-                break;
-            case 'POST':
-                infoMessage = 'Trying to create oilpress outflow';
-                data = request.body;
-                break;
-            case 'DELETE':
-                infoMessage = 'Trying to delete oilpress outflow with id ' + outflowID;
-                break;
-            default:
-                infoMessage = 'Unknown request method';
-                break;
-        }
-        log.info(infoMessage);
-        //do the call to data api with the requested url, method, data and authorization
-        api.send(request.originalUrl, request.method ,request.user.token, data)
-            .then(function(result){
-                response.send(result);
-            })
-            .catch(function(err){
-                log.error({request:request, err:err}, 'Error while trying to sending request to API\n ERROR:' + err.name);
-                response.send({status:false, message:err.name});
-            });
-    });
-
-//OILPRESS INFLOWS
-//parameters validation
-router.param('inflowID',function(req,res,next,inflowID){
-    if (isNaN(inflowID)) res.end('Wrong Request');
-    else next();
-});
-
-router.route('/api/oilpress/inflows/:inflowID?')
-.all(function(request, response){
-        //initialize data and info message
-        var data = {};
-        var infoMessage = '';
-        //get the inflowID
-        var inflowID = request.params.inflowID;
-        //check requested method and get the appropriate data and info message
-        switch(request.method){
-            case 'GET':
-                infoMessage = !!inflowID?('Trying to get oilpress inflow with id ' + inflowID):'Trying to get oilpress inflows list';
-                data = request.query;
-                break;
-            case 'PUT':
-                infoMessage = 'Trying to update oilpress inflow with id ' + inflowID;
-                data = request.body;
-                break;
-            case 'POST':
-                infoMessage = 'Trying to create oilpress inflow';
-                data = request.body;
-                break;
-            case 'DELETE':
-                infoMessage = 'Trying to delete oilpress inflow with id ' + inflowID;
-                break;
-            default:
-                infoMessage = 'Unknown request method';
-                break;
-        }
-        log.info(infoMessage);
-        //do the call to data api with the requested url, method, data and authorization
-        api.send(request.originalUrl, request.method ,request.user.token, data)
-            .then(function(result){
-                response.send(result);
-            })
-            .catch(function(err){
-                log.error({request:request, err:err}, 'Error while trying to sending request to API\n ERROR:' + err.name);
-                response.send({status:false, message:err.name});
-            });
-    });
-
-//OILPRESS TANKS
+//MERCHANT TANKS
 //parameters validation
 router.param('tankID',function(req,res,next,tankID){
     if (isNaN(tankID)) res.send('WrongRequest');
     else next();
 });
 
-router.route('/api/oilpress/tanks/:tankID?')
+router.route('/api/merchant/tanks/:tankID?')
     .all(function(request, response){
         //initialize data and info message
         var data = {};
@@ -167,19 +73,19 @@ router.route('/api/oilpress/tanks/:tankID?')
         //check requested method and get the appropriate data and info message
         switch(request.method){
             case 'GET':
-                infoMessage = !!tankID?('Trying to get oilpress tank with id ' + tankID):'Trying to get oilpress tanks list';
+                infoMessage = !!tankID?('Trying to get merchants tank with id ' + tankID):'Trying to get merchants tanks list';
                 data = request.query;
                 break;
             case 'PUT':
-                infoMessage = 'Trying to update oilpress tank with id ' + tankID;
+                infoMessage = 'Trying to update merchants tank with id ' + tankID;
                 data = request.body;
                 break;
             case 'POST':
-                infoMessage = 'Trying to create oilpress tank';
+                infoMessage = 'Trying to create merchants tank';
                 data = request.body;
                 break;
             case 'DELETE':
-                infoMessage = 'Trying to delete oilpress tank with id ' + tankID;
+                infoMessage = 'Trying to delete merchants tank with id ' + tankID;
                 break;
             default:
                 infoMessage = 'Unknown request method';
@@ -197,57 +103,145 @@ router.route('/api/oilpress/tanks/:tankID?')
             });
     });
 
-//TANK TOTALS
-router.get('/api/oilpress/tankTotals/:tankID?', function(request, response){
-    log.info('Trying to get tank totals ');
-    //do the call to data api with the requested url, method, query and authorization
-    api.send(request.originalUrl, request.method, request.user.token, request.query)
-        .then(function(result){
-            response.send(result);
-        })
-        .catch(function(err){
-            log.error({request:request, err:err}, 'Error while trying to sending request to API\n ERROR:' + err.name);
-            response.send({status:false, message:err.name});
-        });
+//MERCHANT INFLOWS
+//parameters validation
+router.param('merchantInflowID',function(req,res,next,merchantInflowID){
+    //the merchantInflowID should be of the form traderTypeID - traderID - traderOutflowID
+    var re = new RegExp('[0-9]{1,}-[0-9]{1,}-[0-9]{1,}');
+    if (merchantInflowID.search(re) === -1){
+        //not matched...
+        res.send('Wrong Request');
+    }
+    else next();
+});
+router.route('/api/merchant/inflows/:merchantInflowID?')
+    .all(function(request, response){
+        //initialize data and info message
+        var data = {};
+        var infoMessage = '';
+        //get the merchantInflowID
+        var merchantInflowID = request.params.merchantInflowID;
+        //check requested method and get the appropriate data and info message
+        switch(request.method){
+            case 'GET':
+                infoMessage = !!merchantInflowID?('Trying to get merchants inflow with id ' + merchantInflowID):'Trying to get merchants inflows list';
+                data = request.query;
+                break;
+            case 'PUT':
+                infoMessage = 'Trying to update merchants inflow with id ' + merchantInflowID;
+                data = request.body;
+                break;
+            case 'POST':
+                infoMessage = 'Trying to create merchants inflow';
+                data = request.body;
+                break;
+            case 'DELETE':
+                infoMessage = 'Trying to delete merchants inflow with id ' + merchantInflowID;
+                break;
+            default:
+                infoMessage = 'Unknown request method';
+                break;
+        }
+        log.info(infoMessage);
+        //do the call to data api with the requested url, method, data and authorization
+        api.send(request.originalUrl, request.method ,request.user.token, data)
+            .then(function(result){
+                response.send(result);
+            })
+            .catch(function(err){
+                log.error({request:request, err:err}, 'Error while trying to sending request to API\n ERROR:' + err.name);
+                response.send({status:false, message:err.name});
+            });
+    });
+
+//MERCHANT OUTFLOWS
+//parameters validation
+router.param('merchantOutflowID',function(req,res,next,merchantOutflowID){
+    if (isNaN(merchantOutflowID)) res.send('Wrong Request');
+    else next();
 });
 
-//TANK ACTIONS
-router.get('/api/oilpress/tankActions/:tankID?', function(request, response){
-    log.info('Trying to get tank actions');
-    //do the call to data api with the requested url, method, query and authorization
-    api.send(request.originalUrl, request.method, request.user.token, request.query)
-        .then(function(result){
-            response.send(result);
-        })
-        .catch(function(err){
-            log.error({request:request, err:err}, 'Error while trying to sending request to API\n ERROR:' + err.name);
-            response.send({status:false, message:err.name});
-        });
-});
+router.route('/api/merchant/outflows/:merchantOutflowID?')
+    .all(function(request, response){
+        //initialize data and info message
+        var data = {};
+        var infoMessage = '';
+        //get the merchantOutflowID
+        var merchantOutflowID = request.params.merchantOutflowID;
+        //check requested method and get the appropriate data and info message
+        switch(request.method){
+            case 'GET':
+                infoMessage = !!merchantOutflowID?('Trying to get merchants outflow with id ' + merchantOutflowID):'Trying to get merchants outflows list';
+                data = request.query;
+                break;
+            case 'PUT':
+                infoMessage = 'Trying to update merchants outflow with id ' + merchantOutflowID;
+                data = request.body;
+                break;
+            case 'POST':
+                infoMessage = 'Trying to create merchants outflow';
+                data = request.body;
+                break;
+            case 'DELETE':
+                infoMessage = 'Trying to delete merchants outflow with id ' + merchantOutflowID;
+                break;
+            default:
+                infoMessage = 'Unknown request method';
+                break;
+        }
+        log.info(infoMessage);
+        //do the call to data api with the requested url, method, data and authorization
+        api.send(request.originalUrl, request.method ,request.user.token, data)
+            .then(function(result){
+                response.send(result);
+            })
+            .catch(function(err){
+                log.error({request:request, err:err}, 'Error while trying to sending request to API\n ERROR:' + err.name);
+                response.send({status:false, message:err.name});
+            });
+    });
 
-router.get('/api/oilpress/report', function(request, response){
-    log.info('Trying to get oilpress report');
-    var oilpressID = request.user.id;
+router.get('/api/merchant/report/:reportType', function(request, response){
+    log.info('Trying to get merchant report');
+    //Get the merchantID and the type of the report requested(inflow, outflow)
+    var responseJade;
+    var responseJadeText;
+    var renderedJade;
+    var merchantID = request.user.id;
+    var reportType = request.params.reportType;
     //do the call to data api with the requested url, method, query and authorization
+    switch (reportType){
+        case 'inflow':
+            responseJade = 'helpers/merchantInflowReport';
+            responseJadeText = 'merchantInflowReport';
+            renderedJade = 'views/helpers/merchantInflowReport.jade';
+            break;
+        case 'outflow':
+            responseJade = 'helpers/merchantOutflowReport';
+            responseJadeText = 'merchantOutflowReport';
+            renderedJade = 'views/helpers/merchantOutflowReport.jade';
+            break;
+    }
     api.send(request.originalUrl, request.method, request.user.token, request.query)
         .then(function(results){
             var printRequested = (typeof request.query.print === 'undefined')?false:request.query.print;
-            if (printRequested){//request to download pdf file
+            if (printRequested){//requested donwload of pdf file
                 var promisifiedFS = Promise.promisifyAll(fs);
-                var fileName = 'oilpress_' + oilpressID + '_' + moment().format('DD-MM-YYYY_HH:mm:ss') + '_outflow.pdf';
+                var fileName = 'merchant_' + merchantID + '_' + moment().format('DD-MM-YYYY_HH:mm:ss') + '_' + reportType + '.pdf';
                 promisifiedFS.mkdirAsync('./reports')
                     .catch(function(err){
                         if (err.cause.code === 'EEXIST') return true;
                         else return Promise.reject(err);
                     })
                     .then(function(){
-                        var html = jade.renderFile('views/helpers/oilpressOutflowReport.jade', {text:messages.getSection('oilpressOutflowReport'), results:results, print:true});
-                        var options = { filename: './reports/' + fileName, format: 'A4' };
+                        var html = jade.renderFile(renderedJade, {text:messages.getSection(responseJadeText), results:results, print:true});
+
+                        var options = { filename: './reports/' + fileName, format:'A4'};
 
                         pdf.create(html, options).toFile(function(err, res) {
                             if (err) return console.error(err);
                             response.download('./reports/'+fileName,fileName,function(err){
-                                if (err) log.error({request:request, err:err}, 'Error while trying to send the file to user. ');
+                                if (err) console.error('Error while trying to send the file to user. '+err);
                                 fs.unlink('./reports/'+fileName);
                             });
 
@@ -255,13 +249,13 @@ router.get('/api/oilpress/report', function(request, response){
 
                     })
                     .catch(function(err){
-                        log.error({request:request, err:err}, 'Error while producing pdf file for download. ');
+                        console.error('Error while producing pdf file for download. '+err);
                         response.send('Error while processing pdf');
                     });
 
             }
             else{//request
-                response.render('helpers/oilpressOutflowReport',{text:messages.getSection('oilpressOutflowReport'), results:results});
+                response.render(responseJade,{text:messages.getSection(responseJadeText), results:results});
             }
         })
         .catch(function(err){
@@ -271,4 +265,3 @@ router.get('/api/oilpress/report', function(request, response){
 
 });
 module.exports = router;
-

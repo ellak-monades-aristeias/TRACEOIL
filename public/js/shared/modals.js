@@ -202,7 +202,7 @@ appModals.controller('oilpressModalCtrl',['$scope','entries','$modalInstance','O
                 }
                 else{
                     //error with save
-                    console.error('Error saving oilpress');
+                    console.log('Error saving oilpress');
                     if (result.hasOwnProperty('message') && result.message){
                         //check for predefined message existence
                         var message = $scope.messages.hasOwnProperty(result.message)?$scope.messages[result.message]:$scope.messages['unknownError'];

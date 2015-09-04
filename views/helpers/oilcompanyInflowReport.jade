@@ -23,7 +23,7 @@ html
             .col-xs-12
                 i
                     p #{text.oilcompany_user}: #{results.oilcompany_user_name}<span class="created-at"> #{text.createdAt}: #{results.request_date} </span>
-        each inflow in results
+        each inflow in results.data
             .row
                 .panel.panel-default
                     .panel-heading

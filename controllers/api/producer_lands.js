@@ -13,7 +13,7 @@ router.param('landID',function(req,res,next,landID){
 router.get('/api/producer_lands/:landID?', function(request, response){
     log.info('Trying to get list of lands');
     //do the call to data api with the requested url, method, query and authorization
-    api.send(request.originalUrl, request.method, request.headers.authorization, request.query)
+    api.send(request.originalUrl, request.method, request.user.token, request.query)
         .then(function(result){
             response.send(result);
         })

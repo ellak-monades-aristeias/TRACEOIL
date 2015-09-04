@@ -33,7 +33,7 @@ router.get('/loginPartial',function(request,response){
 
 
 router.post('/login',function(request,response,next){
-    passport.authenticate('local-login',function(err,user,info){
+    passport.authenticate('local-login',function(err,user){
         if (err) {
             return next(err);
         }
@@ -53,7 +53,7 @@ router.post('/login',function(request,response,next){
                 var result = {};
                 result.status = true;
                 //get the token from passport login strategy in order to send it back to front end
-                result.token = info.token;
+                result.token = user.token;
                 response.send(result);
             });
         }
