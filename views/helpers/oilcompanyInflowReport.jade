@@ -51,20 +51,20 @@ html
                                 p#oilcompany_lot.col-xs-7 #{inflow.oilcompany_lot}
                             .row
                                 label.col-xs-5(for="quantity") #{text.quantity}:
-                                p#totalQuantity.col-xs-7 #{inflow.dataValues.quantity?inflow.dataValues.quantity.toFixed(2):0} kg
+                                p#totalQuantity.col-xs-7 #{inflow.quantity?inflow.quantity.toFixed(2):0} kg
                             .row
                                 label.col-xs-5(for="acidity") #{text.acidity}:
-                                p#totalAcidity.col-xs-7 #{inflow.dataValues.acidity?inflow.dataValues.acidity.toFixed(2):0} %
+                                p#totalAcidity.col-xs-7 #{inflow.acidity?inflow.acidity.toFixed(2):0} %
                             .row
                                 label.col-xs-5(for="sustainability") #{text.sustainability}:
-                                p#totalSustainability.col-xs-7 #{inflow.dataValues.sustainability?inflow.dataValues.sustainability.toFixed(2):0} %
+                                p#totalSustainability.col-xs-7 #{inflow.sustainability?inflow.sustainability.toFixed(2):0} %
             .row
                 .col-xs-12.col-md-12
                     .panel.panel-default
                         .panel-heading
                             h4.panel-title #{text.inflowContentsHeader}
                         .panel-body
-                            each oilpress in inflow.dataValues.contents
+                            each oilpress in inflow.contents
                                 .panel.panel-default
                                     .panel-heading
                                         if(oilpress.name)

@@ -18,7 +18,14 @@ router.get('/registerMerchantPartial',function(request,response){
 });
 
 router.get('/registerOilcompanyPartial',function(request,response){
-    response.render('login-register/registerOilcompanyPartial',{text:messages.getSection('register-frontend'),oilCompanies:[]});
+    api.send('/getOilcompanies', 'GET', null, null)
+        .then(function(result){
+            response.render('login-register/registerOilcompanyPartial',{text:messages.getSection('register-frontend'),oilCompanies:result.oilCompanies});
+        })
+        .catch(function(err){
+
+        });
+
 });
 
 router.post('/register',function(request,response){

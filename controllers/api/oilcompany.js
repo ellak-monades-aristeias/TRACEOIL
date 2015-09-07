@@ -63,9 +63,9 @@ router.route('/api/oilcompany/inflows/:inflowID?')
     //update oilcompany inflow
     .put(function(request, response){
         var inflowID = request.params.inflowID;
-        log.info('Trying to get update inflow with id ' + inflowID);
-        //do the call to data api with the requested url, method, query and authorization
-        api.send(request.originalUrl, request.method ,request.user.token, request.query)
+        log.info('Trying to update inflow with id ' + inflowID);
+        //do the call to data api with the requested url, method, body and authorization
+        api.send(request.originalUrl, request.method ,request.user.token, request.body)
             .then(function(result){
                 response.send(result);
             })
@@ -74,4 +74,49 @@ router.route('/api/oilcompany/inflows/:inflowID?')
                 response.send({status:false, message:err.name});
             });
     });
+
+router.get('/api/oilcompany/report', function(request, response){
+    log.info('Trying to get report for oilcompany user with id '+ request.user.id);
+    api.send(request.originalUrl, request.method, request.user.token, request.query)
+        .then(function(results){
+            var printRequested = (typeof request.query.print === 'undefined')?false:request.query.print;
+            if (printRequested){//requested download of pdf file
+                var promisifiedFS = Promise.promisifyAll(fs);
+                var fileName = 'oilcompany_' + moment().format('DD-MM-YYYY_HH:mm:ss') + '_inflow.pdf';
+                promisifiedFS.mkdirAsync('./reports')
+                    .catch(function(err){
+                        if (err.cause.code === 'EEXIST') return true;
+                        else return Promise.reject(err);
+                    })
+                    .then(function(){
+                        var html = jade.renderFile('views/helpers/oilcompanyInflowReport.jade', {text:messages.getSection('oilcompanyInflowReport'), results:results, print:true});
+
+                        var options = { filename: './reports/' + fileName, format: 'A4' };
+
+                        pdf.create(html, options).toFile(function(err, res) {
+                            if (err) return console.error(err);
+                            response.download('./reports/'+fileName,fileName,function(err){
+                                if (err) console.error('Error while trying to send the file to user. '+err);
+                                fs.unlink('./reports/'+fileName);
+                            });
+
+                        });
+
+                    })
+                    .catch(function(err){
+                        console.error('Error while producing pdf file for download. '+err);
+                        response.send('Error while processing pdf');
+                    });
+
+            }
+            else{//request
+                response.render('helpers/oilcompanyInflowReport',{text:messages.getSection('oilcompanyInflowReport'), results:results});
+            }
+        })
+        .catch(function(err){
+            log.error({request:request, err:err}, 'Error while trying to sending request to API\n ERROR:' + err.name);
+            response.send({status:false, message:err.name});
+        });
+
+});
 module.exports = router;

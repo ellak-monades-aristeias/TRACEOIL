@@ -152,7 +152,7 @@
                                 td.inflowActions(data-title=text.options)
                                     button.btn.btn-default(type="button",title=text.inflowDetails,ui-sref="inflows.inflowDetails({inflowID:inflow.trader_type_id+'-'+inflow.trader_id+'-'+inflow.inflow_id})")
                                         span.glyphicon.glyphicon-list
-                                    button.btn.btn-default(type="button",title=text.printReport, ng-click="printInflows(inflow.inflow_id)")
+                                    button.btn.btn-default(type="button",title=text.printReport, ng-click="printInflows(inflow.trader_type_id+'-'+inflow.trader_id+'-'+inflow.inflow_id)")
                                         span.glyphicon.glyphicon-print
                                     button.btn.btn-danger(type="button",spinner="deleteInflow([inflow.trader_type_id,inflow.trader_id,inflow.inflow_id].join('-'))",title=text.deleteΙnflow)
                                         span.glyphicon.glyphicon-remove

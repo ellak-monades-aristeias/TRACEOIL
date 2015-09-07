@@ -471,9 +471,9 @@ merchantCtrls.controller('inflowsCtrl',['$scope','$rootScope','Merchant_Inflows'
         $scope.searchInflowFormActive = false;
     };
 
-    $scope.printInflows = function(inflow_id){
+    $scope.printInflows = function(merchantInflowID){
         //fillQueryData();
-        $scope.queryData.inflow_id = inflow_id;
+        $scope.queryData.merchantInflowID = merchantInflowID;
         Reports('inflow',$scope.queryData);
     };
 

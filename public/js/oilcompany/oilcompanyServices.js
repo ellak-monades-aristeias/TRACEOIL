@@ -50,7 +50,7 @@ oilcompanyServices.factory('ProducersSustainability',['$resource',function($reso
     return $resource('/api/producers-sustainability');
 }]);
 
-oilcompanyServices.factory('Reports',['$window','$location',function($window,$location){
+oilcompanyServices.factory('Reports',['$window','$location','$http',function($window,$location, $http){
     return function(queryData){
         var initialUrl = $location.url();//store initial url for later restore
         $location.path('/api/oilcompany/report');//use $location service to properly construct url string

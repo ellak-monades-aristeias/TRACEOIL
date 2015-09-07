@@ -91,7 +91,7 @@
                                 td.inflowActions(data-title=text.options)
                                     button.btn.btn-default(type="button",title=text.inflowDetails,ui-sref="inflows.inflowDetails({inflowID:inflow.merchant_id + '-' + inflow.inflow_id})")
                                         span.glyphicon.glyphicon-list
-                                    button.btn.btn-default(type="button",title=text.printReport,ng-click="printInflow(inflow.inflow_id)")
+                                    button.btn.btn-default(type="button",title=text.printReport,ng-click="printInflow(inflow.merchant_id + '-' + inflow.inflow_id)")
                                         span.glyphicon.glyphicon-print
             pagination.pagination-sm(total-items="currentInflowsCount",ng-model="currentInflowsCurrentPage",previous-text!="&lsaquo;", next-text!="&rsaquo;", ng-change="pageChanged()")
         .hidden {{getMessages(#{JSON.stringify(text.pageJS)})}}

@@ -201,8 +201,8 @@ oilcompanyCtrls.controller('inflowsCtrl', ['$scope', '$rootScope', 'Oilcompany_I
         $scope.queryData = {};
         $scope.getInflows();
     };
-    $scope.printInflow = function(inflow_id){
-        $scope.queryData.inflow_id = inflow_id;
+    $scope.printInflow = function(inflowID){
+        $scope.queryData.inflowID = inflowID;
         Reports($scope.queryData);
 
     };

@@ -41,7 +41,7 @@ router.post('/login',function(request,response,next){
             //false user authentication!
             var result = {};
             result.status = false;
-            result.message = info.message;
+            result.message = err.message;
             response.send(result);
         }
         else{
