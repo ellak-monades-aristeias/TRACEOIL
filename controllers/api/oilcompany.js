@@ -53,7 +53,47 @@ router.route('/api/oilcompany/inflows/:inflowID?')
         //do the call to data api with the requested url, method, query and authorization
         api.send(request.originalUrl, request.method ,request.user.token, request.query)
             .then(function(result){
-                response.send(result);
+                if(!!request.query.export){//export to CSV file requested
+                    var csvLine = '';
+                    var fileName = 'oilcompany_' + moment().format('DD-MM-YYYY_HH:mm:ss') + '_inflows.csv';
+                    var filePath = './reports/';
+                    var promisifiedFS = Promise.promisifyAll(fs);
+                    var text = messages.getSection('oilcompanyinflows');
+                    var output = text.merchant_company_name + ',' + text.merchant + ',' + text.invoice_no + ',' + text.oilcompany_lot + ',' + text.date + ',' + text.quantity + '\n';
+                    for(var i= 0, len=result.rows.length; i<len; i++){
+                        var inflow = result.rows[i];
+                        csvLine = (inflow.Merchant.name||'') + ',' + (inflow.Merchant.first_name||'') + ' ' +(inflow.Merchant.last_name||'') + ',' + (inflow.invoice_no||'') + ',' +(inflow.oilcompany_lot||'') + ',' + moment(inflow.inflow_date).format('DD-MM-YYYY_HH:mm:ss') + ',' + inflow.quantity + '\n';
+                        output += csvLine;
+                    }
+
+                    promisifiedFS.mkdirAsync('./reports')
+                        .catch(function(err){
+                            if (err.cause.code === 'EEXIST') return true;
+                            else return Promise.reject(err);
+                        })
+                        .then(function(){
+                            return promisifiedFS.writeFileAsync(filePath +fileName,output,{encoding:'utf8'});
+                        })
+                        .then(function(){
+                            //file created.. send file
+                            log.info('Sending csv file for oilcompany inflows');
+                            response.download(filePath+fileName,fileName,function(err){
+                                if (err){
+                                    log.error({request:request, err:err}, 'Error in sending file to user ');
+                                    response.send('Error in sending file');
+                                }
+                                fs.unlink(filePath+fileName);
+                            });
+                        })
+                        .catch(function(err){
+                            var message = 'Error while trying to create csv to send back to user...';
+                            log.error({request:request, err:err}, message);
+                            response.send(message);
+                        });
+                }
+                else{
+                    response.send(result);
+                }
             })
             .catch(function(err){
                 log.error({request:request, err:err}, 'Error while trying to sending request to API\n ERROR:' + err.name);
@@ -94,9 +134,9 @@ router.get('/api/oilcompany/report', function(request, response){
                         var options = { filename: './reports/' + fileName, format: 'A4' };
 
                         pdf.create(html, options).toFile(function(err, res) {
-                            if (err) return console.error(err);
+                            if (err) return log.error({request:request, err:err}, 'Error while trying to create pdf');
                             response.download('./reports/'+fileName,fileName,function(err){
-                                if (err) console.error('Error while trying to send the file to user. '+err);
+                                if (err) log.error({request:request, err:err}, 'Error while trying to send the file to user. ');
                                 fs.unlink('./reports/'+fileName);
                             });
 
@@ -104,7 +144,7 @@ router.get('/api/oilcompany/report', function(request, response){
 
                     })
                     .catch(function(err){
-                        console.error('Error while producing pdf file for download. '+err);
+                        log.error({request:request, err:err}, 'Error while producing pdf file for download. ');
                         response.send('Error while processing pdf');
                     });
 

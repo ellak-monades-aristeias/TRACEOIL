@@ -245,7 +245,7 @@ router.get('/api/oilpress/report', function(request, response){
                         var options = { filename: './reports/' + fileName, format: 'A4' };
 
                         pdf.create(html, options).toFile(function(err, res) {
-                            if (err) return console.error(err);
+                            if (err) return log.error({request:request, err:err}, 'Error while trying to create pdf');
                             response.download('./reports/'+fileName,fileName,function(err){
                                 if (err) log.error({request:request, err:err}, 'Error while trying to send the file to user. ');
                                 fs.unlink('./reports/'+fileName);
