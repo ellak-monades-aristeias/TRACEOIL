@@ -1,3 +1,4 @@
+.hidden {{login.getMessages(#{JSON.stringify(text.errorMessages)})}}
 .container
     .row
         p.totalTradeMsg #{text.totalTradeQuantity} <span class="totalTradeQuantity">{{login.total_sum | number}}</span> kg
@@ -11,7 +12,7 @@
             button.close(type="button", data-dismiss="alert")
                 span(aria-hidden="true") &times;
                 span.sr-only #{text.close}
-            strong {{login.errorMessage}}
+            strong {{login.messages[login.errorMessage]}}
     .row
         form.credentials-form(role="form", ng-submit="login.submitLogin()",name="loginForm", novalidate)
             input#username.form-control(type="text", name="username",placeholder="Username", ng-model="login.username", required)

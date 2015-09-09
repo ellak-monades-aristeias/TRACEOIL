@@ -1015,7 +1015,7 @@ merchantCtrls.controller('tankDetailCtrl',['$rootScope','$scope','Tanks','produc
                         console.log('Successful modal operation');
                     })
                     .catch(function(err){
-                        console.error(JSON.stringify(err));
+                        console.log(JSON.stringify(err));
                     });
             })
             .catch(function(err){
@@ -1156,7 +1156,7 @@ merchantCtrls.controller('currentProducersCtrl',['$scope','Producers','$window',
             })
             .catch(function(err){
                 //error in modal function
-                console.error(JSON.stringify(err));
+                console.log(JSON.stringify(err));
             });
     };
     $scope.searchProducer = function(offset, limit){

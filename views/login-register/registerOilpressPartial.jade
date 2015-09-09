@@ -1,25 +1,14 @@
-
-//script
-//    |var messages = {};
-//    each val,head in text.pageJS
-//        |messages.#{head} = '#{val}';
-//each val,head in text.pageJS
-  //  |{messages.#{head} = '#{val}'}
 .hidden {{register.getMessages(#{JSON.stringify(text.pageJS)})}}
+.hidden {{register.getMessages(#{JSON.stringify(text.errorMessages)})}}
 .container
     h1 #{text.h1Header}
     #registrationFormContainer.panel.panel-default
         .panel-heading
             h3.panel-title #{text.h3Header}
-
         .panel-body
             .alert.alert-warning(role="alert",ng-show="register.registrationError")
-                //button.close(type="button", data-dismiss="alert")
-                    //span(aria-hidden="true") &times;
-                    //span.sr-only #{text.close}
-                strong {{register.errorMessage}}
+                strong {{register.messages[register.errorMessage]}}
             form#registrationForm.credentials-form.form-horizontal(role="form",name="registrationForm", novalidate)
-                //input#userType(type="hidden", name="userType", value="oilpress")
                 fieldset#userDetails
                     legend #{text.userDetailsLegend}
                     .help-block #{text.requiredFieldsWarning}

@@ -1,14 +1,4 @@
 {
-    "registration": {
-        "noRegistrationType": "Δεν έχει οριστεί τύπος χρήστη για εγγραφή.",
-        "noUserType": "Δεν έχει οριστεί τύπος χρήστη για την εγγραφή",
-        "usernameExists": "Το όνομα χρήστη υπάρχει ήδη",
-        "emailExists": "Το email είναι ήδη καταχωρημένο",
-        "afmExists": "Το ΑΦΜ είναι ήδη καταχωρημένο",
-        "notValidUserType": "Ο τύπος χρήστη που επιλέξατε δεν ταιριάζει με τον δηλωμένο",
-        "emailAlreadyRegistered": "Υπάρχει ήδη εγγεγραμμένος χρήστης με αυτό το email",
-        "registrationError": "Σφάλμα κατά την εγγραφή"
-    },
     "login-frontend":{
         "pageTitle": "TraceOil-Είσοδος",
         "formHeader2": "Καλώς ήρθατε στο TraceOil",
@@ -25,7 +15,10 @@
         "close": "Κλείσιμο",
         "loginRegistered": "Παρακαλώ κάντε login με τα στοιχεία εγγραφής σας",
         "totalTradeQuantity": "Συνολική Ποσότητα Ελαιολάδου στο Σύστημα:",
-        "lastTransaction": "Τελευταία Συναλλαγη του Συστήματος:"
+        "lastTransaction": "Τελευταία Συναλλαγη του Συστήματος:",
+        "errorMessages": {
+            "AccessDenied": "Λανθασμένο όνομα χρήστη ή κωδικός"
+        }
     },
     "register-frontend":{
         "merchantHeader": "Εγγραφή νέου εμπόρου",
@@ -59,6 +52,16 @@
         "enterValidAFM": "Παρακαλώ εισάγετε έγκυρο ΑΦΜ",
         "passwordMismatch": "Οι κωδικοί πρόσβασης δεν ταιριάζουν",
         "oilcompany": "Εταιρία",
+        "errorMessages":{
+            "noRegistrationType": "Δεν έχει οριστεί τύπος χρήστη για εγγραφή.",
+            "noUserType": "Δεν έχει οριστεί τύπος χρήστη για την εγγραφή",
+            "usernameExists": "Το όνομα χρήστη υπάρχει ήδη",
+            "emailExists": "Το email είναι ήδη καταχωρημένο",
+            "afmExists": "Το ΑΦΜ είναι ήδη καταχωρημένο",
+            "notValidUserType": "Ο τύπος χρήστη που επιλέξατε δεν ταιριάζει με τον δηλωμένο",
+            "emailAlreadyRegistered": "Υπάρχει ήδη εγγεγραμμένος χρήστης με αυτό το email",
+            "registrationError": "Σφάλμα κατά την εγγραφή"
+        },
         "pageJS":{
             "undefinedError": "Μη αναμενόμενο σφάλμα",
             "warning": "Προσοχή",

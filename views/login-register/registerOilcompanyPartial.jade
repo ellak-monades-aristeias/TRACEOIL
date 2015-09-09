@@ -1,4 +1,5 @@
 .hidden {{register.getMessages(#{JSON.stringify(text.pageJS)})}}
+.hidden {{register.getMessages(#{JSON.stringify(text.errorMessages)})}}
 .container
     .row
         h1 #{text.oilcompanyHeader}
@@ -7,7 +8,7 @@
                 h3.panel-title #{text.oilcompanyPanelHeader}
             .panel-body
                 .alert.alert-warning(role="alert",ng-show="register.registrationError")
-                    strong {{register.errorMessage}}
+                    strong {{register.messages[register.errorMessage]}}
                 form#registrationForm.credentials-form.form-horizontal(role="form",name="registrationForm", novalidate)
                     fieldset#userDetails
                         legend #{text.userDetailsLegend}
@@ -43,7 +44,7 @@
                                 .col-sm-10
                                     -var type = ((personalFields[i].hasOwnProperty('type'))?personalFields[i].type:'text');
                                     input.form-control(id="#{personalFields[i].id}",name="#{personalFields[i].id}", type="#{type}", ng-model="register.formData.#{personalFields[i].id}")
-                        .form-group
+                        .form-group.has-warning
                             label.col-sm-2.control-label(for="oilcompany") #{text.oilcompany}
                             .col-sm-10
                                 select#oilcompany.form-control(ng-model="register.formData.oilcompany_id", required)

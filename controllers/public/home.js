@@ -34,21 +34,15 @@ router.get('/loginPartial',function(request,response){
 
 router.post('/login',function(request,response,next){
     passport.authenticate('local-login',function(err,user){
-        if (err) {
-            return next(err);
-        }
-        if (!user){
-            //false user authentication!
-            var result = {};
-            result.status = false;
-            result.message = err.message;
-            response.send(result);
+        if (err || !user){
+            //false user authentication or error occurred
+            response.send({status:false, message:err.name});
         }
         else{
             //user credentials ok! log him in NOW!!!
             request.logIn(user,function(err){
                 if (err) {
-                    return next(err);
+                    response.send({status:false, message:err.name});
                 }
                 var result = {};
                 result.status = true;

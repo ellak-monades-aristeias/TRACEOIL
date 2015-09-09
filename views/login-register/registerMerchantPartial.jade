@@ -1,4 +1,5 @@
 .hidden {{register.getMessages(#{JSON.stringify(text.pageJS)})}}
+.hidden {{register.getMessages(#{JSON.stringify(text.errorMessages)})}}
 .container
     .row
         h1 #{text.merchantHeader}
@@ -7,7 +8,7 @@
                 h3.panel-title #{text.merchantPanelHeader}
             .panel-body
                 .alert.alert-warning(role="alert",ng-show="register.registrationError")
-                    strong {{register.errorMessage}}
+                    strong {{register.messages[register.errorMessage]}}
                 form#registrationForm.credentials-form.form-horizontal(role="form",name="registrationForm", novalidate)
                     fieldset#userDetails
                         legend #{text.userDetailsLegend}

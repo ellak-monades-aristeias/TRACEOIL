@@ -29,6 +29,13 @@ loginApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',funct
                 this.username='';
                 this.password='';
                 this.showRegisterOptions = false;
+                this.messages = {};
+                this.getMessages = function(messages){
+                    this.messages = {};
+                    for (var head in messages){
+                        this.messages[head] = messages[head];
+                    }
+                };
                 this.toggleRegisterOptions = function(){
                     this.showRegisterOptions = !this.showRegisterOptions;
                 };

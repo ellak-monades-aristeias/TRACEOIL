@@ -36,7 +36,7 @@ function apiLogin(body,callback){
     api.send('/login', 'POST', null, body)
         .then(function(result){
             if(!result.token){
-                return done(null,false,{message: messages.print('login-frontend.')});
+                return done(null,false);
             }
             else{//got token. continue
                 //decode the token and get the user in order
