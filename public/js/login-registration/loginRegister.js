@@ -2,7 +2,6 @@ var loginApp = angular.module('loginRegister',['ui.router','authenticate','ngRes
 
 loginApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',function($stateProvider,$urlRouterProvider,$locationProvider){
     $locationProvider.html5Mode(true);//remove the hash sign from url
-
     $urlRouterProvider.otherwise('/login');
 
     $stateProvider
