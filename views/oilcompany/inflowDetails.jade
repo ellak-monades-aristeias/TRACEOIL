@@ -108,7 +108,7 @@
                                                 td.producerName
                                                     a(href="#",ng-click="viewProducer(producer.producer_id)") {{(producer.producer_name==="null null" || producer.producer_name==='')?'#{text.unknownProducer}':producer.producer_name.replace("null","")}}
                                                 td.producerSustainability
-                                                    progressbar(animate="false", value="producer.producerSustainability", max=100, type="success")
+                                                    progressbar(animate="false", value="!!producer.producerSustainability?producer.producerSustainability:0", max=100, type="success")
                                                         b {{producer.producerSustainability | number:0}}%
                                                 td.landOSDE {{producer.osde}}
                                                 td.landQuantity {{producer.quantity.toFixed(2)}} kg

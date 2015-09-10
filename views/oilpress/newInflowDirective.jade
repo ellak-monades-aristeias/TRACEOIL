@@ -67,7 +67,7 @@
                     .input-group
                         input#newInflowSustainability.form-control(type="number", name="sustainability",min=0,max=100, ng-model="newInflow.sustainability")
                         span.input-group-addon %
-                    progressbar.progress-striped.active(value="newInflow.sustainability", max="100") {{newInflow.sustainability}}%
+                    progressbar.progress-striped.active(value="!!newInflow.sustainability?newInflow.sustainability:0", max="100") {{newInflow.sustainability}}%
             .form-group
                 label(for="newInflowAcidity").col-sm-3.control-label #{text.acidity}
                 .col-sm-9

@@ -61,7 +61,7 @@ form.form-horizontal(name="merchantInflowForm",role="form",novalidate)
         label.col-sm-3.control-label(for="sustainability") #{text.sustainability}
         .col-sm-9
             input#sustainability.form-control(type="number",ng-model="inflow.sustainability",min=0)
-            progressbar.progress-striped.active(value="inflow.sustainability", max="100", type="success") {{inflow.sustainability}}%
+            progressbar.progress-striped.active(value="!!inflow.sustainability?inflow.sustainability:0", max="100", type="success") {{inflow.sustainability}}%
     .form-group(ng-show="inflow.trader_type_id === 1")
         label.col-sm-3.control-label(for="acidity") #{text.acidity}
         .col-sm-9

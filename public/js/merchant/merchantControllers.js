@@ -271,8 +271,11 @@ merchantCtrls.controller('inflowsCtrl',['$scope','$rootScope','Merchant_Inflows'
             case 'deleteSuccess':
                 selectedAlert = 'successfulDelete';
                 break;
-            case 'notCreatedByMe':
+            case 'notCreatedByMerchant':
                 selectedAlert = 'notCreatedByMerchant';
+                break;
+            case 'inflowHasOutflows':
+                selectedAlert = 'inflowHasOutflows';
                 break;
             case 'undefinedError':
                 selectedAlert = 'undefinedError';
@@ -323,9 +326,8 @@ merchantCtrls.controller('inflowsCtrl',['$scope','$rootScope','Merchant_Inflows'
                     }
                     else{
                         //error
-                        if (result.message === 'notCreatedByMerchant' ){
-                            showAlert('notCreatedByMe');
-                        }
+                        if (result.message === 'notCreatedByMerchant' ) showAlert('notCreatedByMerchant');
+                        else if(result.message === 'inflowHasOutflows') showAlert('inflowHasOutflows');
                         else showAlert('undefinedError');
                     }
                 }
