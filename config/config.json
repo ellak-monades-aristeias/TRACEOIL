@@ -1,5 +1,5 @@
 {
-  "apiHostname":"http://localhost",
-  "apiPort":8000,
+  "apiHostname":"https://data.farmer.gr",
+  "apiPort":80,
   "port":8002
 }
