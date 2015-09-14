@@ -21,11 +21,11 @@
 Πλατφόρμα Υλοποίησης
 ====================
 Η εφαρμογή έχει αναπτυχθεί σε [MEAN Stack](https://en.wikipedia.org/wiki/MEAN_(software_bundle))(MongoDB, ExpressJS, AngularJS, NodeJS) το οποίο αποτελεί Full WEb Stack βασισμένο εξ ολοκλήρου σε javascript.
-Το θεμέλιο του stack είναι το NodeJS (https://nodejs.org/), το οποίο βασίζεται στην javascript Engine της Google για δημιουργία server-side applications.
-Για δίαφορες λειτουργίες στο back-end χρησιμοποιούνται modules τα οποία εγκαθίστανται με την βοήθεια του NPM (https://www.npmjs.com/) το οποίο είναι package manager.
-Το ExpressJS (http://expressjs.com/) είναι web framework του NodeJS για εύκολη δημιουργία APIs.
-Η MongoDB (https://www.mongodb.org/) είναι scalable βάση δεδομένων βασισμένη σε JSON.
-H AngularJS (https://docs.angularjs.org) είναι library της javascript για front-end εφαρμογές.
+* Το θεμέλιο του stack είναι το NodeJS (https://nodejs.org/), το οποίο βασίζεται στην javascript Engine της Google για δημιουργία server-side applications.
+* Για δίαφορες λειτουργίες στο back-end χρησιμοποιούνται modules τα οποία εγκαθίστανται με την βοήθεια του NPM (https://www.npmjs.com/) το οποίο είναι package manager.
+* Το ExpressJS (http://expressjs.com/) είναι web framework του NodeJS για εύκολη δημιουργία APIs.
+* Η MongoDB (https://www.mongodb.org/) είναι scalable βάση δεδομένων βασισμένη σε JSON.
+* H AngularJS (https://docs.angularjs.org) είναι library της javascript για front-end εφαρμογές.
 
 Απαιτήσεις
 ==========
