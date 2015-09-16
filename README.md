@@ -25,11 +25,12 @@
 * Για δίαφορες λειτουργίες στο back-end χρησιμοποιούνται modules τα οποία εγκαθίστανται με την βοήθεια του NPM (https://www.npmjs.com/) το οποίο είναι package manager.
 * Το ExpressJS (http://expressjs.com/) είναι web framework του NodeJS για εύκολη δημιουργία APIs.
 * Η MongoDB (https://www.mongodb.org/) είναι scalable βάση δεδομένων βασισμένη σε JSON.
-* H AngularJS (https://docs.angularjs.org) είναι library της javascript για front-end εφαρμογές.
+* H AngularJS (https://angularjs.org/) είναι library της javascript για front-end εφαρμογές.
 
 Απαιτήσεις
 ==========
 Για την εκτέλεση της εφαρμογής πρέπει να έχει εγκατασταθεί το [NodeJS](https://nodejs.org/en/). Η εφαρμογή έχει αναπτυχθεί βασισμένη στην τρέχουσα τελευταία NodeJS έκδοση(v4.0.0).
+Επίσης για την εγκατάσταση των components που απαιτεί η Front-End εφαρμογή χρειάζεται εγκατάσταση του node module **bower** μέσω του npm εκτελώντας την εντολή *$npm install -g bower*.
 
 Εγκατάσταση
 ===========
