@@ -8,7 +8,7 @@ var configuration = require('../config/config.js');
 var allowedMethods = ['GET','POST','PUT','DELETE'];
 //set the default options for the api request to the cloud
 var apiRequest = request.defaults({
-    baseUrl: configuration.apiHostname + ':' + configuration.apiPort + '/',
+    baseUrl: configuration.apiHostname,
     method: 'GET',
     gzip:true,
     json:true,
