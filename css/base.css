@@ -43,6 +43,24 @@ hr.gradient-line {
     white-space: normal;
     line-height: 85px;
 }
+.scrollToTop{
+    width:50px;
+    height:50px;
+    padding:10px;
+    text-align:center;
+    font-weight: bold;
+    color: #444;
+    text-decoration: none;
+    position:fixed;
+    bottom:70px;
+    right:20px;
+    display:block;
+    background: url('../images/arrowUp.png') no-repeat right top;
+    background-size: 51px 51px;
+}
+.scrollToTop:hover{
+    text-decoration:none;
+}
 #traceoilHeaders{
     margin-bottom: 100px;
 }
@@ -178,24 +196,9 @@ hr.gradient-line {
     .arrow{
         transform:rotate(90deg);
     }
+    body{
+        padding-top: 95px;
+    }
 }
 
-.scrollToTop{
-    width:50px;
-    height:50px;
-    padding:10px;
-    text-align:center;
-    font-weight: bold;
-    color: #444;
-    text-decoration: none;
-    position:fixed;
-    bottom:70px;
-    right:20px;
-    display:block;
-    background: url('../images/arrowUp.png') no-repeat right top;
-    background-size: 51px 51px;
-}
-.scrollToTop:hover{
-    text-decoration:none;
-}
 
