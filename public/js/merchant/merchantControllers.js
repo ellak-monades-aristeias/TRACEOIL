@@ -1,13 +1,6 @@
 var merchantCtrls = angular.module('merchantControllers',[]);
 
 merchantCtrls.controller('mainController',['$rootScope','$scope',function($rootScope, $scope){
-    //$scope.showTimer = false;
-    //$scope.$on('IdleTimeout', function() {
-    //    $window.location.assign('/logout');
-    //});
-    //$scope.$watch(function(scope) { return  $document[0].cookie},
-    //    function() {$window.location.assign('/logout');}
-    //);
 
     $scope.showContactWarning = true;
     $rootScope.pageCSSArray = [];
@@ -516,16 +509,7 @@ merchantCtrls.controller('inflowDetailsCtrl',['$scope','Merchant_Inflows','$time
     };
     //scope variables initialization to pass to inflow directive
     $scope.inflowForm = {};//variable to keep track of the form status in the infow directive
-    //$scope.getInflowDetails = function(offset,limit){
-    //    Merchant_Inflows.getDetails({inflowID:inflowID}).$promise
-    //        .then(function(inflowDetails){
-    //            //TODO: implement request to get requested set of contents
-    //        })
-    //        .catch(function(err){
-    //            console.error('Error with request to get inflow details.ERROR: '+JSON.stringify(err));
-    //        });
-    //};
-   //$scope.getInflowDetails();//make the call to get the details
+
     //alert variables
     $scope.getMessages = function(messages){
         $rootScope.getScopeMessages($scope,messages);
@@ -559,18 +543,6 @@ merchantCtrls.controller('inflowDetailsCtrl',['$scope','Merchant_Inflows','$time
     }
 
     $scope.saveInflow = function(){
-        //check inflows total quantity to match with the sum of inflows contents quantity
-        //if($scope.inflow.trader_type_id===2 && $scope.inflow.contents && $scope.inflow.contents.count>0){
-        //    for(var i= 0, len=$scope.inflow.contents.rows.length; i<len; i++){
-        //        $scope.inflowContentsQuantity += $scope.inflow.contents.rows[i].quantity;
-        //    }
-        //    if($scope.inflow.quantity !== $scope.inflowContentsQuantity){
-        //        $window.alert($scope.messages['contentsQuantityNotMatchingOverall']);
-        //        $scope.refreshInflow();
-        //        return $q.reject();
-        //    }
-        //}
-
         //update the outflow if possible
         return Merchant_Inflows.update({inflowID:inflowID},$scope.inflow).$promise
             .then(function(result){
