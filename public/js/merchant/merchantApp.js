@@ -1,29 +1,12 @@
 var merchantApp = angular.module('merchantApp',['ui.router','ui.bootstrap','merchantDirectives','merchantServices','merchantControllers','ngAnimate','sharedDirectives','appModals', 'angular-jwt']);
 
 merchantApp.run(['$rootScope','$state','SessionExpired',function($rootScope,$state,SessionExpired){
-    //Idle.watch();
     $rootScope.$state = $state;
-    //load shared dependencies
-//    $ocLazyLoad.load([{
-//        name: 'spinnerDirective',
-//        files: ['/js/shared/spinner.js','/libs/ladda.js','/libs/ladda.css']
-//    },{
-//        name: 'afmUniqueDirective',
-//        files:['/js/shared/afmUnique.js']
-//    },{
-//        name: 'afmExistsDirective',
-//        files:['/js/shared/afmExists.js']
-//    },{
-//        name: 'dateTimePicker',
-//        files: ['/js/shared/dateTimePicker.js']
-//    }]);
 }]);
 
 merchantApp.config(['$stateProvider','$urlRouterProvider','$locationProvider','jwtInterceptorProvider','$httpProvider',function($stateProvider, $urlRouterProvider, $locationProvider, jwtInterceptorProvider, $httpProvider){
     $locationProvider.html5Mode(true);//remove the hash sign from url
     $urlRouterProvider.otherwise('/');
-    //IdleProvider.idle(1800);
-    //IdleProvider.timeout(5);
     //create interceptor for assigning token to http requests
     jwtInterceptorProvider.tokenGetter = function(){
         return window.localStorage.getItem('traceoilToken');

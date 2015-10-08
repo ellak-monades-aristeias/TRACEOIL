@@ -8,8 +8,6 @@ oilpressApp.run(['$rootScope','$state','SessionExpired',function($rootScope,$sta
 oilpressApp.config(['$stateProvider','$urlRouterProvider','$locationProvider', 'jwtInterceptorProvider','$httpProvider',function($stateProvider,$urlRouterProvider,$locationProvider, jwtInterceptorProvider, $httpProvider){
     $locationProvider.html5Mode(true);//remove the hash sign from url
     $urlRouterProvider.otherwise('/');
-    //IdleProvider.idle(1600);
-    //IdleProvider.timeout(5);
     jwtInterceptorProvider.tokenGetter = function(){
         return window.localStorage.getItem('traceoilToken');
     };

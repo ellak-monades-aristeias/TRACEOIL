@@ -8,9 +8,6 @@ oilcompanyApp.run(['$rootScope','$state','SessionExpired',function($rootScope,$s
 oilcompanyApp.config(['$stateProvider','$urlRouterProvider','$locationProvider',function($stateProvider,$urlRouterProvider,$locationProvider){
     $locationProvider.html5Mode(true);//remove the hash sign from url
     $urlRouterProvider.otherwise('/');
-    //IdleProvider.idle(5);
-    //IdleProvider.timeout(5);
-
     $stateProvider
         .state('home',{
             url:'/',

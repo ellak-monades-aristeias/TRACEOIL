@@ -522,17 +522,6 @@ appModals.controller('merchantOutflowModalCtrl',['$rootScope','$scope','entries'
     };
     $scope.getMerchantTank();//actually make the call to get tank totals
 
-    //$scope.getOilcompanies = function(){
-    //    Oilcompanies.query().$promise
-    //        .then(function(oilcompanies){
-    //            $scope.oilCompanies = oilcompanies;
-    //        })
-    //        .catch(function(err){
-    //            console.error('Error while trying to get oilcompanies' + err);
-    //        });
-    //};
-    //$scope.getOilcompanies();
-    //save - close functions
     $scope.close = function(){
         $modalInstance.dismiss('cancel');
     };
