@@ -24,12 +24,12 @@ function sendRequest(resource, method, token, data){
      as application/x-www-form-urlencoded
      */
     return new Promise(function(resolve, reject){
+        //initialize request options object for library
         var requestOptions = {
             auth:{
                 bearer:null
             }
-        };//initialize request options object for library
-        //initial declarations
+        };
         if(!resource){//no resource provided
             var err = new Error('No resource provided');
             return reject(err);
