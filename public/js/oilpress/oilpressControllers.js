@@ -68,7 +68,6 @@ oilpressCtrls.controller('currentProducersCtrl',['$scope','Producers','$window',
         });
     };
     $scope.pageChanged = function(){
-        //$scope.getProducers(10*($scope.currentProducersCurrentPage-1), undefined, $scope.queryData);
         $scope.searchProducer(10*($scope.currentProducersCurrentPage-1), undefined);
     };
     $scope.$on('refreshProducers',$scope.getProducers);//listen for refresh request
@@ -241,7 +240,7 @@ oilpressCtrls.controller('inflowsCtrl',['$scope','$rootScope','$window','$q','pr
         $scope.newInflowFormActive = state;
     };
     $scope.inflowDatePopupOpen = false;//initiate control for showing date popup
-    $scope.openInflowDatePopup = function($event){//fucntion to open date popup
+    $scope.openInflowDatePopup = function($event){//function to open date popup
         $event.preventDefault();
         $event.stopPropagation();
         $scope.inflowDatePopupOpen = true;
@@ -306,7 +305,7 @@ oilpressCtrls.controller('inflowsCtrl',['$scope','$rootScope','$window','$q','pr
             });
     };
 
-    //helper variables and fucntions for date picker
+    //helper variables and functions for date picker
     $scope.datePopupOpenFrom = false;
     $scope.datePopupOpenTo = false;
     $scope.openDatePopupFrom = function($event){
@@ -672,11 +671,9 @@ oilpressCtrls.controller('outflowsCtrl',['$scope','Outflows','$window', 'Tanks',
         //fillQueryData();
         $scope.queryData.outflow_id = outflow_id;
         Reports($scope.queryData);
-        //$window.open("/outflowReport/" + outflow_id,"_blank", "width=1000, height=1000, left=200, top=200");
-
     };
 
-    //helper variables and fucntions for date picker
+    //helper variables and functions for date picker
     $scope.datePopupOpenFrom = false;
     $scope.datePopupOpenTo = false;
     $scope.openDatePopupFrom = function($event){
@@ -823,7 +820,7 @@ oilpressCtrls.controller('myAccountCtrl',['$scope','User','$timeout',function($s
             .then(function(result){
                 if (result.hasOwnProperty('status')){
                     if (result.status){
-                        //succesful password change
+                        //successful password change
                         showAlert('passwordSuccess');
                         $scope.changePass = {};//reset password Form
                         $scope.toggleChangePassword(false);

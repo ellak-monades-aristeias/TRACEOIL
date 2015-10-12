@@ -2,7 +2,6 @@ var oilpressApp = angular.module('oilpressApp',['ui.router','ui.bootstrap','oilp
 
 oilpressApp.run(['$rootScope','$state','SessionExpired',function($rootScope,$state,SessionExpired){
     $rootScope.$state = $state;
-    //Idle.watch();
 }]);
 
 oilpressApp.config(['$stateProvider','$urlRouterProvider','$locationProvider', 'jwtInterceptorProvider','$httpProvider',function($stateProvider,$urlRouterProvider,$locationProvider, jwtInterceptorProvider, $httpProvider){
