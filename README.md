@@ -18,8 +18,29 @@
 
 5.  Πιθανοί εξωτερικοί χρήστες και το ευρύ κοινό
 
-## Σε ποιους απευθύνεται - Κοινότητες Χρηστών - Προγραμματιστών(Developers) ##
-...εδώ περιγράφετε τους δυνητικούς τελικούς χρήστες του έργου σας και τις κοινότητες χρηστών/developers που θα ενδιαφερόντουσαν να επεκτείνουν το έργο σας. ...
+
+Overview
+========
+
+TRACEOIL app is responsible for the management of information related to the traceability of olive oil spanned through its production
+line, starting from the primary sector and expanding to bottling and sale to the consumer. The current system is
+based on a hierarchic chain of interconnected roles, therefore the origin of the product can be traced from top
+to bottom of the above mentioned chain. Specifically the roles are:
+
+1. Olive producer
+
+2. Oil press
+
+3. Merchant
+
+4. Bottling Company
+
+
+Σε ποιους απευθύνεται
+=====================
+
+Οι δυνιτικοί χρήστες του συστήματος είναι τα ελαιοτριβεία, οι εμπόροι ελαιολάδου και οι εταιρίες εμφιαλώσεως που συνεργάζονται
+μεταξύ τους. Επιπλέον, πιθανοί προγραμματιστές οι οποίοι ενδίαφέρονται να εξελίξουν/διορθώσουν τον ήδη υπάρχων κώδικα.
 
 Πλατφόρμα Υλοποίησης
 ====================
